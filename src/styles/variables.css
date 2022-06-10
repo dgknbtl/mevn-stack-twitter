@@ -1,0 +1,17 @@
+:root {
+   /* font sizes */
+   --fs-lg: 20px;
+   --fs-md: 15px;
+   --fs-sm: 13px;
+
+   --c-primary: 29, 161, 242;
+   --c-dark: 20, 23, 26;
+   --c-gray: 101, 119, 134;
+   --c-gray-2: 170, 184, 194;
+   --c-light: 225, 232, 237;
+   --c-light-2: 245, 248, 250;
+   --c-white: 255, 255, 255;
+
+   /* colors */
+   --c-red: red;
+}
