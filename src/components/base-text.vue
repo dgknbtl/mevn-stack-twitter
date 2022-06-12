@@ -8,21 +8,21 @@ export default {
       size: {
          default: 'medium',
          validator: function (value) {
-            return ['large', 'medium', 'small'].indexOf(value) !== -1
+            return ['fs-large', 'fs-medium', 'fs-small'].indexOf(value) !== -1
          },
       },
       weight: {
-         default: '400',
+         default: 'normal',
          validator: function (value) {
             return (
                [
-                  'light',
-                  'regular',
-                  'medium',
-                  'semibold',
-                  'bold',
-                  'extrabold',
-                  'black',
+                  'fw-light',
+                  'fw-regular',
+                  'fw-medium',
+                  'fw-semibold',
+                  'fw-bold',
+                  'fw-extrabold',
+                  'fw-black',
                ].indexOf(value) !== -1
             )
          },
@@ -37,32 +37,32 @@ component(:is="tag" :class="[size, weight]")
 </template>
 
 <style lang="postcss" scoped>
-.large {
+.fs-large {
    font-size: var(--fs-lg);
 }
-.medium {
+.fs-medium {
    font-size: var(--fs-md);
 }
-.small {
+.fs-small {
    font-size: var(--fs-sm);
 }
 
-.light {
+.fw-light {
    font-weight: 300;
 }
-.regular {
+.fw-regular {
    font-weight: 400;
 }
-.medium {
+.fw-medium {
    font-weight: 500;
 }
-.semibold {
+.fw-semibold {
    font-weight: 600;
 }
-.bold {
+.fw-bold {
    font-weight: 700;
 }
-.extrabold {
+.fw-extrabold {
    font-weight: 800;
 }
 </style>

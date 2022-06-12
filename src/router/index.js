@@ -40,34 +40,42 @@ const routes = [
          import(/* webpackChunkName: "lists" */ '../views/sub-pages/lists.vue'),
    },
    {
-      path: '/profile',
+      path: '/:username',
       name: 'profile',
       component: () =>
          import(/* webpackChunkName: "profile" */ '../views/profile/index.vue'),
       children: [
          {
             path: '',
-            name: 'ProfileTweets',
+            name: 'profile-tweets',
             component: () =>
-               import(/* webpackChunkName: "replies" */ '../views/profile/tweets.vue'),
+               import(
+                  /* webpackChunkName: "profile-tweets" */ '../views/profile/tweets.vue'
+               ),
          },
          {
             path: 'replies',
-            name: 'ProfileReplies',
+            name: 'profile-replies',
             component: () =>
-               import(/* webpackChunkName: "replies" */ '../views/profile/replies.vue'),
+               import(
+                  /* webpackChunkName: "profile-replies" */ '../views/profile/replies.vue'
+               ),
          },
          {
             path: 'media',
-            name: 'ProfileMedia',
+            name: 'profile-media',
             component: () =>
-               import(/* webpackChunkName: "media" */ '../views/profile/media.vue'),
+               import(
+                  /* webpackChunkName: "profile-media" */ '../views/profile/media.vue'
+               ),
          },
          {
             path: 'likes',
-            name: 'ProfileLikes',
+            name: 'profile-likes',
             component: () =>
-               import(/* webpackChunkName: "likes" */ '../views/profile/likes.vue'),
+               import(
+                  /* webpackChunkName: "profile-likes" */ '../views/profile/likes.vue'
+               ),
          },
       ],
    },

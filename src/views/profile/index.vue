@@ -6,10 +6,10 @@ export default {
 
 <template lang="pug">
 div
-   h5 Profile view
+   h3 Dogukan Batal
+   h6 @dogukanbatal
    
    <nav>
-      <router-link to="/profile">Profile</router-link> |
       <router-link to="/profile/replies">replies</router-link> |
       <router-link to="/profile/media">media</router-link> |
       <router-link to="/profile/likes">likes</router-link> |

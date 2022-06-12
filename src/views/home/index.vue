@@ -15,15 +15,14 @@ export default {
 div
    BaseText(tag="p" size="small") Hello
    BaseText(class="primary" tag="p" size="large" weight="bold") Hello
-   
-   InlineSvg(:src="require('@/icons/home.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/explore.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/notification.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/message.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/bookmark.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/list.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/profile.svg')" width="24" fill="black")
-   InlineSvg(:src="require('@/icons/more.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/home.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/explore.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/notification.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/message.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/bookmark.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/list.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/profile.svg')" width="24" fill="black")
+   InlineSvg(:src="require('@/assets/icons/more.svg')" width="24" fill="black")
 </template>
 
 <style lang="postcss" scoped>
