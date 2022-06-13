@@ -34,12 +34,16 @@ div.heading
 
 <style lang="postcss" scoped>
 .heading {
+   position: sticky;
+   top: 0;
+   background-color: rgba(var(--c-white), 0.8);
    padding-left: var(--gap-1);
    padding-right: var(--gap-1);
    height: 52px;
    display: flex;
    align-items: center;
    justify-content: space-between;
+   backdrop-filter: blur(10px);
    &-icon {
       width: 36px;
       height: 36px;
