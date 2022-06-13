@@ -79,6 +79,12 @@ const routes = [
          },
       ],
    },
+   {
+      path: '/more',
+      name: 'more',
+      component: () =>
+         import(/* webpackChunkName: "more" */ '../views/sub-pages/more.vue'),
+   },
 ]
 
 const router = createRouter({
