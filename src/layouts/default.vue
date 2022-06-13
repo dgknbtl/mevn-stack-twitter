@@ -26,6 +26,7 @@ BaseContainer
 .layout {
    display: grid;
    grid-template-columns: 260px 1fr 348px;
+   height: inherit;
    &-middle {
       border-left: 1px solid rgb(var(--c-light));
       border-right: 1px solid rgb(var(--c-light));

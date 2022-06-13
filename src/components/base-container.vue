@@ -15,5 +15,6 @@ div.container
    width: 100%;
    margin-left: auto;
    margin-right: auto;
+   height: 100vh;
 }
 </style>
