@@ -50,7 +50,7 @@ component(:is="tag" :class="[size, color]" class="btn")
       padding-left: calc(var(--gap-1) * 2);
       padding-right: calc(var(--gap-1) * 2);
       span {
-         font-size: var(--fs-lg);
+         font-size: var(--fs-md-2);
       }
    }
    &-medium {

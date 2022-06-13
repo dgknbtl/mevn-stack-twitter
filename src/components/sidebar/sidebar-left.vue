@@ -69,7 +69,6 @@ div.sidebar
 
 <style lang="postcss" scoped>
 .sidebar{
-   padding-left: var(--gap-1);
    padding-right: var(--gap-1);
    &-logo{
       width:50px;

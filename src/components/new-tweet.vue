@@ -10,6 +10,15 @@ export default {
          tweetContent: '',
       }
    },
+   mounted() {
+      this.resize()
+   },
+   methods: {
+      resize() {
+         const {textarea} = this.$refs
+         textarea.style.height = textarea.scrollHeight - 10 + 'px'
+      },
+   },
    components: {
       InlineSvg,
       BaseAvatar,
@@ -24,7 +33,7 @@ div.tweet
       .tweet-avatar
          a(href="/profile"): BaseAvatar(size="large" src="https://pbs.twimg.com/profile_images/1534871110856081410/ihb2cTGs_400x400.jpg")
       .tweet-content
-         textarea(v-model="tweetContent" class="tweet-control" name="tweet-content" maxlength="140" minlength="1" placeholder="What's happening?" resize="none")
+         textarea(v-model="tweetContent" class="tweet-control" name="tweet-content" maxlength="140" minlength="1" placeholder="What's happening?" resize="none"   ref="textarea" rows="1"  @focus="resize"   @keyup="resize")
          .tweet-footer
             .tweet-actions
                .tweet-action: InlineSvg(:src="require('@/assets/icons/media.svg')" width="20")
@@ -33,7 +42,7 @@ div.tweet
                .tweet-action: InlineSvg(:src="require('@/assets/icons/emoji.svg')" width="20")
                .tweet-action: InlineSvg(:src="require('@/assets/icons/schedule.svg')" width="20")
                
-            BaseButton(tag="button" type="submit" size="btn-medium" disabled) Tweet
+            BaseButton(tag="button" type="submit" size="btn-medium" :disabled="tweetContent === ''") Tweet
          
 </template>
 
@@ -41,6 +50,7 @@ div.tweet
 .tweet {
    padding-top: 4px;
    padding-bottom: 4px;
+   border-bottom: 1px solid rgb(var(--c-light-2));
    &-box {
       padding-left: var(--gap-1);
       padding-right: var(--gap-1);
@@ -60,7 +70,8 @@ div.tweet
       height: 50px;
       padding-top: 10px;
       padding-bottom: 10px;
-      min-height: 55px;
+      overflow: hidden;
+      min-height: 45px;
       &:focus {
          outline: none;
       }
@@ -70,8 +81,7 @@ div.tweet
       align-items: center;
       justify-content: space-between;
       margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgb(var(--c-light-2));
+      padding-bottom: 12px;
    }
    &-actions {
       display: flex;

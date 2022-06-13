@@ -8,7 +8,9 @@
 
    /* font sizes */
    --fs-lg: 20px;
+   --fs-md-2: 17px;
    --fs-md: 15px;
+   --fs-sm-2: 15px;
    --fs-sm: 13px;
 
    --c-primary: 29, 161, 242;
