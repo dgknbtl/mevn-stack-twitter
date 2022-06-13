@@ -13,6 +13,9 @@ export default {
          type: String,
          default: 'Latest Tweets',
       },
+      subTitle: {
+         type: String,
+      },
       icon: {
          type: String,
          default: 'star',
@@ -23,7 +26,9 @@ export default {
 
 <template lang="pug">
 div.heading
-   .heading-title: BaseText(tag="span" weight="fw-bold" size="fs-large")  {{title}}
+   .heading-group
+      .heading-title: BaseText(tag="span" weight="fw-bold" size="fs-large")  {{title}}
+      .heading-subtitle: BaseText(tag="span" weight="fw-medium" size="fs-small")  {{subTitle}}
    .heading-icon(@click="$emit('icon-action')"): InlineSvg(:src="require(`@/assets/icons/${icon}.svg`)" width="20" fill="black")
 </template>
 
@@ -46,6 +51,12 @@ div.heading
       &:hover {
          background-color: rgb(var(--c-light));
       }
+   }
+   &-subtitle {
+      color: rgb(var(--c-gray));
+   }
+   &-group {
+      line-height: 18px;
    }
 }
 </style>
