@@ -1,12 +1,14 @@
 <script>
 import BaseHeading from '@/components/base-heading'
 import BaseText from '@/components/base-text'
+import NewTweet from '@/components/new-tweet'
 
 export default {
    name: 'HomeView',
    components: {
       BaseHeading,
       BaseText,
+      NewTweet,
    },
    methods: {
       someEvent() {
@@ -19,12 +21,7 @@ export default {
 <template lang="pug">
 div
    BaseHeading(title="Latest Tweets" icon="star" @icon-action="someEvent")
-      
-   p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+   NewTweet
 </template>
 
-<style lang="postcss" scoped>
-.primary {
-   color: rgb(var(--c-primary));
-}
-</style>
+<style lang="postcss" scoped></style>

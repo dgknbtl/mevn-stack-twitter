@@ -1,12 +1,18 @@
 :root {
    --gap-1: 16px;
 
+   --avatar-sm: 32px;
+   --avatar-md: 40px;
+   --avatar-lg: 48px;
+   --avatar-xlg: 140px;
+
    /* font sizes */
    --fs-lg: 20px;
    --fs-md: 15px;
    --fs-sm: 13px;
 
    --c-primary: 29, 161, 242;
+   --c-primary-2: 26, 140, 216;
    --c-dark: 20, 23, 26;
    --c-gray: 101, 119, 134;
    --c-gray-2: 170, 184, 194;

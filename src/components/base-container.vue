@@ -11,7 +11,7 @@ div.container
 
 <style lang="postcss" scoped>
 .container {
-   max-width: 1370px;
+   max-width: 1250px;
    width: 100%;
    margin-left: auto;
    margin-right: auto;
