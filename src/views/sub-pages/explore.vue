@@ -1,12 +1,17 @@
 <script>
+import BaseHeading from '@/components/base-heading'
+
 export default {
    name: 'ExploreView',
+   components: {
+      BaseHeading,
+   },
 }
 </script>
 
 <template lang="pug">
 div
- h5 Explore view
+   BaseHeading(title="Latest Tweets" icon="star" @icon-action="someEvent")
 </template>
 
 <style lang="postcss" scoped></style>
