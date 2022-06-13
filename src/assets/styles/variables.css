@@ -1,4 +1,6 @@
 :root {
+   --gap-1: 16px;
+
    /* font sizes */
    --fs-lg: 20px;
    --fs-md: 15px;
