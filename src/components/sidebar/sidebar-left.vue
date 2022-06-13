@@ -88,7 +88,7 @@ div.sidebar
       margin-top:4px;
       margin-bottom:4px;
       &:hover {
-         background-color: rgb(var(--c-light));
+         background-color: rgb(var(--c-light-2));
       }
       span {
          margin: 0 20px;
