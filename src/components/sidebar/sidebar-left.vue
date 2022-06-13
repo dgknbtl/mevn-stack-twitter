@@ -1,12 +1,14 @@
 <script>
 import InlineSvg from 'vue-inline-svg'
 import BaseText from '@/components/base-text.vue'
+import BaseButton from '@/components/base-button.vue'
 
 export default {
    name: 'SidebarLeft',
    components: {
       InlineSvg,
       BaseText,
+      BaseButton,
    },
    data() {
       return {
@@ -58,10 +60,17 @@ div.sidebar
       RouterLink(tag="a" class="sidebarNav-link" to="/more")
          InlineSvg(:src="require('@/assets/icons/more.svg')" width="26")
          BaseText(tag="span" size="fs-large") More
+
+         
+      div: BaseButton(tag="a" href="/create/tweet") Tweet
+
+      
 </template>
 
 <style lang="postcss" scoped>
 .sidebar{
+   padding-left: var(--gap-1);
+   padding-right: var(--gap-1);
    &-logo{
       width:50px;
       height:50px;
@@ -102,5 +111,7 @@ div.sidebar
          fill: rgb(var(--c-black)));
       }
    }
+
+   .btn{display: flex; width:95%; margin-top:var(--gap-1); margin-bottom:var(--gap-1);  box-shadow: rgb(0 0 0 / 8%) 0px 8px 28px;}
 }
 </style>
