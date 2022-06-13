@@ -78,6 +78,7 @@ export default {
 <template lang="pug">
 div
    BaseHeading(title="Latest Tweets" icon="star" @icon-action="someEvent")
+   
    NewTweet
    div(v-for="(tweet,index) in exampleData" key="index")
       BaseTweet(:tweetData="tweet")

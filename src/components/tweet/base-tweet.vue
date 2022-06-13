@@ -34,7 +34,7 @@ div.tweet
             RouterLink(:to="{ path: `/${tweetData.handle}/status/AGFGFB` }" tag="a")
                BaseText(class="tweet-time") {{tweetData.creaatedAt}}
          
-         .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="20")
+         .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
       .tweet-content
          BaseText(tag="p") {{tweetData.content}}
          figure.tweet-image(v-if="tweetData.media")
@@ -50,7 +50,7 @@ div.tweet
                .action-icon: InlineSvg(:src="require('@/assets/icons/like.svg')" width="18")
                BaseText(size="fs-small") {{tweetData.likes}}
             .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="16")
+               .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
                
 
 </template>
@@ -69,25 +69,27 @@ div.tweet
       margin-right: 12px;
    }
    &-header {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      line-height: 14px;
       a:hover {
          text-decoration: underline;
       }
    }
    &-more {
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 999px;
       display: flex;
       align-items: center;
       justify-content: center;
       &:hover {
+         background-color: rgba(var(--c-primary), 0.1);
          svg {
             fill: rgb(var(--c-primary));
          }
-         background-color: rgba(var(--c-primary), 0.1);
       }
    }
    span {
