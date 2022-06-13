@@ -18,6 +18,8 @@ html {
    font-size: 1rem;
    box-sizing: border-box;
    height: 100vh;
+   overflow: scroll;
+   overflow-x: hidden;
 }
 
 body {
@@ -36,4 +38,8 @@ img {
    width: 100%;
    height: auto;
    vertical-align: middle;
+}
+
+ul li {
+   list-style: none;
 }

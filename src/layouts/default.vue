@@ -24,15 +24,25 @@ BaseContainer
 
 <style lang="postcss" scoped>
 .layout {
+   position: relative;
    display: grid;
-   grid-template-columns: 260px 1fr 348px;
+   grid-template-columns: 275px 1fr 348px;
    height: inherit;
+   &-left {
+      position: relative;
+      width: 100%;
+      max-width: 275px;
+   }
    &-middle {
       border-left: 1px solid rgb(var(--c-light));
       border-right: 1px solid rgb(var(--c-light));
    }
    &-right {
       margin-left: 30px;
+   }
+   &-left,
+   &-middle,
+   &-right {
    }
 }
 </style>
