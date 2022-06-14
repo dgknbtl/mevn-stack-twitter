@@ -2,7 +2,7 @@
 import InlineSvg from 'vue-inline-svg'
 import BaseText from '@/components/base-text.vue'
 import BaseButton from '@/components/base-button.vue'
-import SidebarMore from '@/components/sidebar/sidebar-more.vue'
+import SidebarProfile from '@/components/sidebar/sidebar-profile.vue'
 
 export default {
    name: 'SidebarLeft',
@@ -10,7 +10,7 @@ export default {
       InlineSvg,
       BaseText,
       BaseButton,
-      SidebarMore,
+      SidebarProfile,
    },
    data() {
       return {
@@ -68,7 +68,7 @@ div.sidebar-wrapper
                
             div: BaseButton(tag="a" href="/create/tweet") Tweet
 
-      div: SidebarMore
+      div: SidebarProfile
          
 </template>
 
@@ -107,7 +107,7 @@ div.sidebar-wrapper
    &-link {
       padding: 12px;
       border-radius: 999px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       margin-top:4px;
       margin-bottom:4px;

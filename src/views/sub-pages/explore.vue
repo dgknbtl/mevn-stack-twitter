@@ -1,10 +1,11 @@
 <script>
 import BaseHeading from '@/components/base-heading'
-
+import BaseDropdown from '@/components/base-dropdown'
 export default {
    name: 'ExploreView',
    components: {
       BaseHeading,
+      BaseDropdown,
    },
 }
 </script>
