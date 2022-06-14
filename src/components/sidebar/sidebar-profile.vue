@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template lang="pug">
-BaseDropdown(position="top")
+BaseDropdown(position="top"  alignment="left")
    template(#dropdown-toggle) 
       .more
          .more-avatar: BaseAvatar

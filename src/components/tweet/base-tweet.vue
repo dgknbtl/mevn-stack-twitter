@@ -1,14 +1,16 @@
 <script>
+import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseText from '@/components/base-text.vue'
-import InlineSvg from 'vue-inline-svg'
+import BaseDropdown from '@/components/base-dropdown.vue'
 
 export default {
    name: 'BaseTweet',
    components: {
+      InlineSvg,
       BaseAvatar,
       BaseText,
-      InlineSvg,
+      BaseDropdown,
    },
    props: {
       tweetData: {
@@ -34,7 +36,21 @@ div.tweet
             RouterLink(:to="{ path: `/${tweetData.handle}/status/AGFGFB` }" tag="a")
                BaseText(class="tweet-time") {{tweetData.creaatedAt}}
          
-         .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
+         
+         
+         BaseDropdown(position="bottom" alignment="right")
+            template(#dropdown-toggle) 
+               .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
+            template(#dropdown-nav)
+               a(href="#" class="dropdown-item") Unfollow @username
+               a(href="#" class="dropdown-item") Add/remove @username from lists
+               a(href="#" class="dropdown-item") Mute @username 
+               a(href="#" class="dropdown-item") Block @username 
+               a(href="#" class="dropdown-item") Embed Tweet 
+               a(href="#" class="dropdown-item") Report Tweet 
+
+
+
       .tweet-content
          BaseText(tag="p") {{tweetData.content}}
          figure.tweet-image(v-if="tweetData.media")

@@ -14,9 +14,19 @@ export default {
    props: {
       position: {
          type: String,
-         required: true,
+         default: 'bottom',
          validator: function (value) {
             if (['top', 'bottom'].indexOf(value) === -1)
+               throw new Error(
+                  `"${value}" is invalid prop: custom validator check failed`
+               )
+         },
+      },
+      alignment: {
+         type: String,
+         default: 'left',
+         validator: function (value) {
+            if (['left', 'right'].indexOf(value) === -1)
                throw new Error(
                   `"${value}" is invalid prop: custom validator check failed`
                )
@@ -32,7 +42,7 @@ export default {
 </script>
 
 <template lang="pug">
-.dropdown(:class="position")
+.dropdown(:class="[position,alignment]")
    .dropdown-toggle(@click="toggleDropdown"): slot(name="dropdown-toggle")
    .dropdown-menu(v-if="isDropdownShow")
       .dropdown-nav
@@ -55,7 +65,6 @@ export default {
          content: '';
          position: absolute;
          top: -8px;
-         left: var(--gap-1);
          display: inline-block;
          width: 0;
          height: 0;
@@ -64,6 +73,22 @@ export default {
          border-color: transparent transparent #fff transparent;
          -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.15));
          filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.15));
+      }
+   }
+   &.left {
+      .dropdown-menu {
+         left: 12px;
+         &::after {
+            left: var(--gap-1);
+         }
+      }
+   }
+   &.right {
+      .dropdown-menu {
+         right: -12px;
+         &::after {
+            right: var(--gap-1);
+         }
       }
    }
    &.bottom {
@@ -92,6 +117,7 @@ export default {
    &::v-deep {
       .dropdown-nav {
          .dropdown-item {
+            text-decoration: none;
             &:first-child {
                border-top-left-radius: 15px;
                border-top-right-radius: 15px;
