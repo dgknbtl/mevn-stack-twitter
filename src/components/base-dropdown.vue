@@ -1,0 +1,115 @@
+<script>
+import BaseText from '@/components/base-text'
+
+export default {
+   name: 'BaseDropdown',
+   components: {
+      BaseText,
+   },
+   data() {
+      return {
+         isDropdownShow: false,
+      }
+   },
+   props: {
+      position: {
+         type: String,
+         required: true,
+         validator: function (value) {
+            if (['top', 'bottom'].indexOf(value) === -1)
+               throw new Error(
+                  `"${value}" is invalid prop: custom validator check failed`
+               )
+         },
+      },
+   },
+   methods: {
+      toggleDropdown() {
+         this.isDropdownShow = !this.isDropdownShow
+      },
+   },
+}
+</script>
+
+<template lang="pug">
+.dropdown(:class="position")
+   .dropdown-toggle(@click="toggleDropdown"): slot(name="dropdown-toggle")
+   .dropdown-menu(v-if="isDropdownShow")
+      .dropdown-nav
+         slot(name="dropdown-nav")
+</template>
+
+<style lang="postcss" scoped>
+.dropdown {
+   position: relative;
+   &-menu {
+      position: absolute;
+      box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
+         rgb(101 119 134 / 15%) 0px 0px 3px 1px;
+      width: 290px;
+      background-color: #fff;
+      min-height: 100px;
+      border-radius: 15px;
+      z-index: 90;
+      &::after {
+         content: '';
+         position: absolute;
+         top: -8px;
+         left: var(--gap-1);
+         display: inline-block;
+         width: 0;
+         height: 0;
+         border-style: solid;
+         border-width: 0 6px 8px 6px;
+         border-color: transparent transparent #fff transparent;
+         -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.15));
+         filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.15));
+      }
+   }
+   &.bottom {
+      .dropdown-menu {
+         top: 100%;
+         margin-top: var(--gap-1);
+      }
+   }
+
+   &.top {
+      .dropdown-menu {
+         bottom: 100%;
+         margin-bottom: var(--gap-1);
+         &::after {
+            transform: rotateX(180deg);
+            top: auto;
+            bottom: -8px;
+         }
+      }
+   }
+   .dropdown-nav {
+      display: flex;
+      flex-direction: column;
+   }
+
+   &::v-deep {
+      .dropdown-nav {
+         .dropdown-item {
+            &:first-child {
+               border-top-left-radius: 15px;
+               border-top-right-radius: 15px;
+            }
+            &:last-child {
+               border-bottom-left-radius: 15px;
+               border-bottom-right-radius: 15px;
+            }
+            display: flex;
+            align-items: center;
+            height: 50px;
+            padding-left: var(--gap-1);
+            padding-right: var(--gap-1);
+            &:hover {
+               background-color: rgb(var(--c-light-2));
+            }
+         }
+      }
+   }
+}
+</style>
