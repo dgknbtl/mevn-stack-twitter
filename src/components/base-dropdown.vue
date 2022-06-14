@@ -37,6 +37,18 @@ export default {
       toggleDropdown() {
          this.isDropdownShow = !this.isDropdownShow
       },
+      closeDropdown(e) {
+         if (!this.$el.contains(e.target)) {
+            this.isDropdownShow = false
+         }
+      },
+   },
+
+   mounted() {
+      document.addEventListener('click', this.closeDropdown)
+   },
+   beforeUnmount() {
+      document.removeEventListener('click', this.closeDropdown)
    },
 }
 </script>
