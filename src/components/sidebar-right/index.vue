@@ -1,10 +1,12 @@
 <script>
 import SidebarSearch from '@/components/sidebar-right/search.vue'
+import SidebarTrends from '@/components/sidebar-right/trends.vue'
 
 export default {
    name: 'SidebarRight',
    components: {
       SidebarSearch,
+      SidebarTrends,
    },
 }
 </script>
@@ -13,6 +15,7 @@ export default {
 div.sidebar
    .sidebar-inner
       SidebarSearch(placeholder="Search Twitter")
+      SidebarTrends
 </template>
 
 <style lang="postcss" scoped>
@@ -24,7 +27,6 @@ div.sidebar
       padding-right: var(--gap-1);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       height: 100vh;
    }
 }

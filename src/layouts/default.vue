@@ -45,9 +45,5 @@ BaseContainer
       width: 100%;
       max-width: 348px;
    }
-   &-left,
-   &-middle,
-   &-right {
-   }
 }
 </style>

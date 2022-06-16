@@ -18,6 +18,7 @@ div.search
 <style lang="postcss" scoped>
 .search {
    margin-top: 12px;
+   margin-bottom: 12px;
    &-form {
       position: relative;
    }
