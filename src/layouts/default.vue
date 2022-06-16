@@ -1,12 +1,14 @@
 <script>
 import BaseContainer from '@/components/base-container.vue'
 import SidebarLeft from '@/components/sidebar-left/index.vue'
+import SidebarRight from '@/components/sidebar-right/index.vue'
 
 export default {
    name: 'DefaultLayout',
    components: {
-      SidebarLeft,
       BaseContainer,
+      SidebarLeft,
+      SidebarRight,
    },
 }
 </script>
@@ -19,7 +21,7 @@ BaseContainer
       .layout-middle
          RouterView
       .layout-right
-         p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        SidebarRight
 </template>
 
 <style lang="postcss" scoped>
@@ -39,6 +41,9 @@ BaseContainer
    }
    &-right {
       margin-left: 30px;
+      position: relative;
+      width: 100%;
+      max-width: 348px;
    }
    &-left,
    &-middle,
