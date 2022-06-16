@@ -1,6 +1,6 @@
 <script>
 import BaseContainer from '@/components/base-container.vue'
-import SidebarLeft from '@/components/sidebar/sidebar-left.vue'
+import SidebarLeft from '@/components/sidebar-left/index.vue'
 
 export default {
    name: 'DefaultLayout',
