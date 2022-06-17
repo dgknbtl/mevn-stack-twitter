@@ -22,7 +22,9 @@ export default {
       color: {
          default: 'btn-primary',
          validator: function (value) {
-            return ['btn-primary', 'btn-gray', 'btn-light'].indexOf(value) !== -1
+            return (
+               ['btn-primary', 'btn-gray', 'btn-light', 'btn-dark'].indexOf(value) !== -1
+            )
          },
       },
    },
@@ -92,6 +94,11 @@ component(:is="tag" :class="[size, color]" class="btn")
    &-light {
       color: #fff;
       background-color: rgb(var(--c-light));
+   }
+
+   &-dark {
+      color: #fff;
+      background-color: rgb(var(--c-dark));
    }
 
    &[disabled] {
