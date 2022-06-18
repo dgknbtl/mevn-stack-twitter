@@ -89,7 +89,7 @@ export default {
    }
    &.left {
       .dropdown-menu {
-         left: 12px;
+         left: 0;
          &::after {
             left: var(--gap-1);
          }
@@ -130,6 +130,8 @@ export default {
       .dropdown-nav {
          .dropdown-item {
             text-decoration: none;
+            display: flex;
+            align-items: center;
             &:first-child {
                border-top-left-radius: 15px;
                border-top-right-radius: 15px;
@@ -145,6 +147,11 @@ export default {
             padding-right: var(--gap-1);
             &:hover {
                background-color: rgb(var(--c-light-2));
+            }
+            svg {
+               width: 18px;
+               fill: rgb(var(--c-dark));
+               margin-right: 6px;
             }
          }
       }

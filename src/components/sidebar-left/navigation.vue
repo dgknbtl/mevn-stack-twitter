@@ -2,6 +2,7 @@
 import InlineSvg from 'vue-inline-svg'
 import BaseText from '@/components/base-text.vue'
 import BaseButton from '@/components/base-button.vue'
+import BaseDropdown from '@/components/base-dropdown.vue'
 
 export default {
    name: 'SidebarNav',
@@ -9,6 +10,7 @@ export default {
       InlineSvg,
       BaseText,
       BaseButton,
+      BaseDropdown,
    },
    data() {
       return {
@@ -53,12 +55,28 @@ div
 
       RouterLink(tag="a" class="sidebarNav-link" :to="{ path: `/${username}` }")
          InlineSvg(:src="require('@/assets/icons/profile-fill.svg')" class="a" width="26" v-if="$route.name === 'profile-tweets' || $route.name === 'profile-replies' || $route.name === 'profile-likes' || $route.name === 'profile-media'   ")
-         InlineSvg(:src="require('@/assets/icons/profile.svg')" class="b" width="26" v-else)
+         InlineSvg(:src="require('@/assets/icons/profile.svg')" width="26" v-else)
          BaseText(tag="span" size="fs-large") Profile
          
-      RouterLink(tag="a" class="sidebarNav-link" to="/more")
-         InlineSvg(:src="require('@/assets/icons/more.svg')" width="26")
-         BaseText(tag="span" size="fs-large") More
+      
+      BaseDropdown(position="top"  alignment="left")
+         template(#dropdown-toggle) 
+            div.sidebarNav-link
+               InlineSvg(:src="require('@/assets/icons/more.svg')" width="26")
+               BaseText(tag="span" size="fs-large") More
+         template(#dropdown-nav)
+            a(href="/" class="dropdown-item")
+               InlineSvg(:src="require('@/assets/icons/setting.svg')" width="18")
+               span Add an existing account
+            a(href="/" class="dropdown-item")
+               InlineSvg(:src="require('@/assets/icons/help.svg')" width="18")
+               span Help Center
+            a(href="/" class="dropdown-item")
+               InlineSvg(:src="require('@/assets/icons/display.svg')" width="18")
+               span Display
+            a(href="/" class="dropdown-item")
+               InlineSvg(:src="require('@/assets/icons/shortcut.svg')" width="18")
+               span Keyboard Shortcuts
 
          
       div: BaseButton(tag="a" href="/create/tweet") Tweet
