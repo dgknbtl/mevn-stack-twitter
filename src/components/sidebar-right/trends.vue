@@ -68,7 +68,6 @@ export default {
 .trends {
    background-color: rgb(var(--c-light-2));
    border-radius: 12px;
-   overflow: hidden;
    &-title {
       padding-left: var(--gap-1);
       padding-right: var(--gap-1);
@@ -118,6 +117,8 @@ export default {
             padding-top: 12px;
             padding-bottom: 12px;
             color: rgb(var(--c-primary));
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
             &:hover {
                background-color: rgba(var(--c-light), 0.3);
             }
