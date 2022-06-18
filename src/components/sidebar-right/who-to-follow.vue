@@ -33,8 +33,8 @@ export default {
    .followCard-item
       .avatar: BaseAvatar(size="large" src="https://pbs.twimg.com/profile_images/1448413506936639491/2mvOrPuF_400x400.jpg")
       div
-         .user: BaseText(tag="a" weight="fw-bold" size="fs-medium") Forbes
-         .handle: BaseText(tag="a" size="fs-medium") @Forbes
+         .user: BaseText(tag="a" href="#" weight="fw-bold" size="fs-medium") Forbes
+         .handle: BaseText(tag="a" href="#" size="fs-medium") @Forbes
       BaseButton(color="btn-dark" size="btn-small" tag="a" href="#") Follow 
    .followCard-show
       BaseText(tag="a" href="#" size="fs-medium" weight="fw-normal") Show More
@@ -62,6 +62,12 @@ export default {
       padding-right: var(--gap-1);
       &:hover {
          background-color: rgba(var(--c-light), 0.3);
+         cursor: pointer;
+      }
+      .user {
+         &:hover {
+            text-decoration: underline;
+         }
       }
       .avatar {
          margin-right: 6px;
