@@ -48,9 +48,10 @@ export default {
 .trends
    .trends-title:  BaseText(tag="span" weight="fw-bold" size="fs-large") Trends For You
    .trend(v-for="trend in trendData" :key="trend")
-      .trend-subTitle: BaseText(tag="span" size="fs-small") {{trend.subTitle}}
-      .trend-title: BaseText(tag="span" size="fs-medium" weight="fw-medium") {{trend.title}}
-      .trend-count: BaseText(tag="span" size="fs-small") {{trend.count}}
+      BaseText(tag="a" href="#")
+         .trend-subTitle: BaseText(tag="span" size="fs-small") {{trend.subTitle}}
+         .trend-title: BaseText(tag="span" size="fs-medium" weight="fw-medium") {{trend.title}}
+         .trend-count: BaseText(tag="span" size="fs-small") {{trend.count}}
       
       BaseDropdown(position="bottom" alignment="right")
          template(#dropdown-toggle) 
