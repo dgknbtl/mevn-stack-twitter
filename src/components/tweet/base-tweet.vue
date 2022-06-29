@@ -119,6 +119,7 @@ div.tweet
       padding-left: 4px;
    }
    &-content {
+      flex: 1;
       line-height: 20px;
    }
    &-image {
