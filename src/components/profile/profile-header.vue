@@ -33,18 +33,12 @@ export default {
             InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
             BaseText(tag="span") Joined January 2014
       div.user-stats
-         BaseText(tag="a" size="fs-small") 
+         BaseText(tag="a" size="fs-medium") 
             strong 83 
             span Following
-         BaseText(tag="a" size="fs-small") 
+         BaseText(tag="a" size="fs-medium") 
             strong 145 
             span Followers
-      
-      
-   br
-   br
-   br
-   br
 </template>
 
 <style lang="postcss" scoped>
