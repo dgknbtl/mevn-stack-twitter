@@ -1,10 +1,12 @@
 <script>
 import ProfileHeader from '@/components/profile/profile-header.vue'
+import ProfileNav from '@/components/profile/profile-nav.vue'
 
 export default {
    name: 'ProfileView',
    components: {
       ProfileHeader,
+      ProfileNav,
    },
 }
 </script>
@@ -12,11 +14,7 @@ export default {
 <template lang="pug">
 div
    ProfileHeader
-   <nav>
-      <router-link to="/profile/replies">replies</router-link> |
-      <router-link to="/profile/media">media</router-link> |
-      <router-link to="/profile/likes">likes</router-link> |
-   </nav>
+   ProfileNav
    <router-view />
 </template>
 
