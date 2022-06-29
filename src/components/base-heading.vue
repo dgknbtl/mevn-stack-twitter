@@ -20,12 +20,22 @@ export default {
          type: String,
          default: 'star',
       },
+      iconPosition: {
+         type: String,
+         default: 'right',
+         validator: function (value) {
+            if (['left', 'right'].indexOf(value) === -1)
+               throw new Error(
+                  `"${value}" is invalid prop: custom validator check failed`
+               )
+         },
+      },
    },
 }
 </script>
 
 <template lang="pug">
-div.heading
+div.heading(:class="iconPosition")
    .heading-group
       .heading-title: BaseText(tag="span" weight="fw-bold" size="fs-large")  {{title}}
       .heading-subtitle: BaseText(tag="span" weight="fw-medium" size="fs-small")  {{subTitle}}
@@ -44,6 +54,16 @@ div.heading
    align-items: center;
    justify-content: space-between;
    backdrop-filter: blur(10px);
+   &.left {
+      flex-direction: row-reverse;
+      .heading {
+         &-group {
+            padding-left: var(--gap-1);
+            margin-left: 0;
+            margin-right: auto;
+         }
+      }
+   }
    &-icon {
       width: 36px;
       height: 36px;

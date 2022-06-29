@@ -2,6 +2,7 @@
 import InlineSvg from 'vue-inline-svg'
 import BaseText from '@/components/base-text.vue'
 import BaseAvatar from '@/components/base-avatar.vue'
+import BaseHeading from '@/components/base-heading.vue'
 
 export default {
    name: 'ProfileHeader',
@@ -9,12 +10,14 @@ export default {
       InlineSvg,
       BaseText,
       BaseAvatar,
+      BaseHeading,
    },
 }
 </script>
 
 <template lang="pug">
 .profileHeader
+   RouterLink(tag="a" to="/"): BaseHeading(title="Doğukan Batal" subTitle="700 Tweets" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1534871110856081410/ihb2cTGs_400x400.jpg")
