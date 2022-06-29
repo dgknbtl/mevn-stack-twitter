@@ -64,6 +64,9 @@ export default {
 <style lang="postcss" scoped>
 .dropdown {
    position: relative;
+   &-toggle {
+      cursor: pointer;
+   }
    &-menu {
       position: absolute;
       box-shadow: rgb(101 119 134 / 20%) 0px 0px 15px,
