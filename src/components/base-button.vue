@@ -23,7 +23,13 @@ export default {
          default: 'btn-primary',
          validator: function (value) {
             return (
-               ['btn-primary', 'btn-gray', 'btn-light', 'btn-dark'].indexOf(value) !== -1
+               [
+                  'btn-primary',
+                  'btn-gray',
+                  'btn-light',
+                  'btn-dark',
+                  'btn-outline',
+               ].indexOf(value) !== -1
             )
          },
       },
@@ -44,6 +50,7 @@ component(:is="tag" :class="[size, color]" class="btn")
    justify-content: center;
    flex-shrink: 0;
    cursor: pointer;
+   border: 1px solid transparent;
    span {
       line-height: 1.5;
    }
@@ -60,6 +67,7 @@ component(:is="tag" :class="[size, color]" class="btn")
       padding-left: calc(var(--gap-1) * 1.2);
       padding-right: calc(var(--gap-1) * 1.2);
       span {
+         font-weight: 600;
          font-size: var(--fs-md);
       }
    }
@@ -99,6 +107,13 @@ component(:is="tag" :class="[size, color]" class="btn")
    &-dark {
       color: #fff;
       background-color: rgb(var(--c-dark));
+   }
+
+   &-outline {
+      border-color: rgb(var(--c-light));
+      &:hover {
+         background-color: rgba(var(--c-light), 0.2);
+      }
    }
 
    &[disabled] {

@@ -3,6 +3,7 @@ import InlineSvg from 'vue-inline-svg'
 import BaseText from '@/components/base-text.vue'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseHeading from '@/components/base-heading.vue'
+import BaseButton from '@/components/base-button.vue'
 
 export default {
    name: 'ProfileHeader',
@@ -11,6 +12,7 @@ export default {
       BaseText,
       BaseAvatar,
       BaseHeading,
+      BaseButton,
    },
 }
 </script>
@@ -21,6 +23,7 @@ export default {
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1534871110856081410/ihb2cTGs_400x400.jpg")
+      div(class="edit-profile"): BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/create/tweet") Edit Profile
       div.user-name
          BaseText(tag="div" size="fs-large" weight="fw-bold") Doğukan Batal
          BaseText(tag="div" size="fs-medium" class="handle") @dogukanbatal
@@ -50,6 +53,7 @@ export default {
    }
 
    &-content {
+      position: relative;
       padding: var(--gap-1);
       margin-top: -15%;
       .user-avatar {
@@ -100,6 +104,13 @@ export default {
       .handle {
          color: rgb(var(--c-gray));
       }
+   }
+
+   .edit-profile {
+      position: absolute;
+      top: var(--gap-1);
+      right: var(--gap-1);
+      margin-top: 15%;
    }
 }
 </style>
