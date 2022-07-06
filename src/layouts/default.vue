@@ -31,28 +31,41 @@ BaseContainer
    grid-template-columns: 275px 1fr 348px;
    height: inherit;
    @media (--d-lg) {
-      grid-template-columns: 88px 1fr 348px;
+      grid-template-columns: 82px 1fr 348px;
       flex-grow: 1;
-      padding-left: var(--gap-1);
-      padding-right: var(--gap-1);
+   }
+   @media (--t-lg) {
+      grid-template-columns: 82px 1fr;
+   }
+   @media (--m) {
+      grid-template-columns: 1fr;
    }
    &-left {
       position: relative;
       width: 100%;
       max-width: 275px;
       @media (--d-lg) {
-         max-width: 88px;
+         max-width: 82px;
+      }
+      @media (--m) {
+         display: none;
       }
    }
    &-middle {
       border-left: 1px solid rgb(var(--c-light));
       border-right: 1px solid rgb(var(--c-light));
+      @media (--t-lg) {
+         width: 100%;
+      }
    }
    &-right {
       margin-left: 30px;
       position: relative;
       width: 100%;
       max-width: 348px;
+      @media (--t-lg) {
+         display: none;
+      }
    }
 }
 </style>

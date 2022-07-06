@@ -30,6 +30,9 @@ div.sidebar-wrapper
       position: fixed;
       width: 100%;
       max-width: inherit;
+      @media (--m) {
+         display: none;
+      }
    }
    &-inner {
       padding-right: var(--gap-1);

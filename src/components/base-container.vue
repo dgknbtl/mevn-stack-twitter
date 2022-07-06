@@ -16,5 +16,11 @@ div.container
    margin-left: auto;
    margin-right: auto;
    height: 100vh;
+   @media (--d-lg) {
+      max-width: 1050px;
+   }
+   @media (--t-lg) {
+      max-width: 700px;
+   }
 }
 </style>
