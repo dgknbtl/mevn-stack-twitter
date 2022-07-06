@@ -30,10 +30,19 @@ BaseContainer
    display: grid;
    grid-template-columns: 275px 1fr 348px;
    height: inherit;
+   @media (--d-lg) {
+      grid-template-columns: 88px 1fr 348px;
+      flex-grow: 1;
+      padding-left: var(--gap-1);
+      padding-right: var(--gap-1);
+   }
    &-left {
       position: relative;
       width: 100%;
       max-width: 275px;
+      @media (--d-lg) {
+         max-width: 88px;
+      }
    }
    &-middle {
       border-left: 1px solid rgb(var(--c-light));

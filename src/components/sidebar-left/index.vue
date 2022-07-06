@@ -37,6 +37,9 @@ div.sidebar-wrapper
       flex-direction: column;
       justify-content: space-between;
       height: 100vh;
+      @media (--d-lg) {
+         align-items: flex-end;
+      }
    }
    &-logo {
       width: 50px;

@@ -79,7 +79,10 @@ div
                span Keyboard Shortcuts
 
          
-      div: BaseButton(tag="a" href="/create/tweet") Tweet
+      div
+         BaseButton(tag="a" href="/create/tweet") 
+            span Tweet
+            InlineSvg(:src="require('@/assets/icons/create-tweet.svg')" width="20")
 </template>
 
 <style lang="postcss" scoped>
@@ -102,9 +105,40 @@ div
          stroke: 1;
          fill: rgb(var(--c-black)));
       }
+      @media (--d-lg){
+         display: flex;
+         width:50px;
+         height:50px;
+         span{
+            display:none;
+         }
+
+      }
    }
 
-   .btn{display: flex; width:95%; margin-top:var(--gap-1); margin-bottom:var(--gap-1);  box-shadow: rgb(0 0 0 / 8%) 0px 8px 28px;}
+   .btn{
+      display: flex;
+      align-items:center;
+      justify-content:center;
+      width:95%;
+      margin-top:var(--gap-1);
+      margin-bottom:var(--gap-1);
+      box-shadow: rgb(0 0 0 / 8%) 0px 8px 28px;
+      svg{
+         fill:#fff;
+         display:none;
+      }
+
+      @media (--d-lg){
+         width: 50px;
+         height:50px;
+         padding:0;
+         svg{
+            display:block;
+         }
+         span{display:none;}
+      }
+   }
 }
 .router-link-active, .router-link-exact-active{
    font-weight: 700;
