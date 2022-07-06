@@ -20,7 +20,7 @@ BaseDropdown(position="top"  alignment="left")
    template(#dropdown-toggle) 
       .more
          .more-avatar: BaseAvatar
-         div
+         div.more-text
             BaseText(class="more-user" weight="fw-bold") Doğukan Batal
             .more-handle @dogukanbatal
          InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
@@ -49,6 +49,17 @@ BaseDropdown(position="top"  alignment="left")
    svg {
       margin-left: auto;
       margin-right: 0;
+   }
+
+   @media (--d-lg) {
+      padding: 0;
+      &-text,
+      svg {
+         display: none;
+      }
+      &-avatar {
+         margin-right: 0;
+      }
    }
 }
 </style>
