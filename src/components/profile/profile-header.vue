@@ -22,7 +22,7 @@ export default {
    RouterLink(tag="a" to="/"): BaseHeading(title="Doğukan Batal" subTitle="700 Tweets" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
-      BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1534871110856081410/ihb2cTGs_400x400.jpg")
+      BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
       div(class="edit-profile"): BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/create/tweet") Edit Profile
       div.user-name
          BaseText(tag="div" size="fs-large" weight="fw-bold") Doğukan Batal

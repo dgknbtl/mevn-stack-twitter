@@ -11,7 +11,7 @@ export default {
          exampleData: [
             {
                avatar:
-                  'https://pbs.twimg.com/profile_images/1534871110856081410/ihb2cTGs_400x400.jpg',
+                  'https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg',
                author: 'Doğukan Batal',
                handle: 'dogukanbatal',
                creaatedAt: '11h',

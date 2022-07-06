@@ -31,7 +31,7 @@ export default {
 div.tweet
    form.tweet-box
       .tweet-avatar
-         a(href="/profile"): BaseAvatar(size="large" src="https://pbs.twimg.com/profile_images/1534871110856081410/ihb2cTGs_400x400.jpg")
+         a(href="/profile"): BaseAvatar(size="large" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
       .tweet-content
          textarea(v-model="tweetContent" class="tweet-control" name="tweet-content" maxlength="140" minlength="1" placeholder="What's happening?" resize="none"   ref="textarea" rows="1"  @focus="resize"   @keyup="resize")
          .tweet-footer
