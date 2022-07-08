@@ -1,0 +1,21 @@
+
+POST http://localhost:3000/users/register HTTP/1.1
+content-type: application/json
+
+{"name": "Doğukan Batal", "email": "hi@dogu.dev", "password":"123456+", "confirmPassword":"123456+" }
+
+###
+
+# authenticate a user
+POST http://localhost:3000/users/login HTTP/1.1
+content-type: application/json
+
+{ "email": "hi@dogu.dev", "password":"123456+"}
+
+###
+# logout a user
+GET http://localhost:3000/users/logout HTTP/1.1
+
+###
+# check logged in 
+GET http://localhost:3000/users/login HTTP/1.1
