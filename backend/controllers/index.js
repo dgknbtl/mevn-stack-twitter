@@ -1,3 +1,4 @@
 const UserController = require('./user')
+const TweetController = require('./tweet')
 
-module.exports = {UserController}
+module.exports = {UserController, TweetController}

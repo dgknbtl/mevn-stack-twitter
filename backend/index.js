@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const indexRouter = require('./routes/index')
 const userRouter = require('./routes/users')
+const tweetRouter = require('./routes/tweets')
 
 const config = require('./config/index')
 const methodOverride = require('method-override')
@@ -59,6 +60,7 @@ app.use(function (req, res, next) {
 app.use(methodOverride('_method'))
 app.use('/', indexRouter)
 app.use('/users', userRouter)
+app.use('/tweets', tweetRouter)
 
 app.listen(config.port, () => {
    console.log(`Express now listening on port ${config.port}`)
