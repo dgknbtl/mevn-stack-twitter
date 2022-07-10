@@ -12,7 +12,6 @@ async function createUser(req, res, next) {
    let messages = []
    try {
       const {name, email, password, confirmPassword} = req.body
-      console.log(req.body)
       if (!(name && email && password && confirmPassword)) {
          messages.push({body: 'All fields is required.'})
       }
@@ -32,7 +31,7 @@ async function createUser(req, res, next) {
       if (!user.length) {
          await UserService.insert(req.body)
          return res
-            .send('You are registered successfully and can now log in.')
+            .send({message: 'You are registered successfully and can now log in.'})
             .status(200)
       }
       messages.push({body: 'This email is already in use.'})
@@ -63,5 +62,5 @@ async function authenticateUser(req, res, next) {
 // logout the user
 async function logout(req, res) {
    req.logout()
-   res.status(200).send(`You are logged out.`)
+   res.status(200).send({message: `You are logged out.`})
 }

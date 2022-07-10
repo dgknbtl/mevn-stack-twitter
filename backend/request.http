@@ -2,7 +2,8 @@
 POST http://localhost:3000/users/register HTTP/1.1
 content-type: application/json
 
-{"name": "Doğukan Batal", "email": "hi@dogu.dev", "password":"123456+", "confirmPassword":"123456+" }
+# {"name": "Doğukan", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456" }
+{"name": "Batuhan Batal", "email": "batuhan@gmail.com", "password":"1234561", "confirmPassword":"1234561" }
 
 ###
 
@@ -10,7 +11,8 @@ content-type: application/json
 POST http://localhost:3000/users/login HTTP/1.1
 content-type: application/json
 
-{ "email": "hi@dogu.dev", "password":"123456+"}
+# { "email": "hi@dogu.dev", "password":"123456"}
+{ "email": "batuhan@gmail.com", "password":"1234561"}
 
 ###
 # logout a user
