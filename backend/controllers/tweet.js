@@ -3,6 +3,7 @@ const {UserService, TweetService} = require('../services')
 module.exports = {
    createTweet,
    removeTweet,
+   likeTweet,
 }
 
 // create a new tweet
@@ -28,6 +29,23 @@ async function removeTweet(req, res) {
 
       await UserService.removeTweet(req.user, tweet._id)
       res.send({message: 'Tweet was removed.'})
+   } catch (error) {
+      res.status(404).send(`Tweet is not found!, ${error}`)
+   }
+}
+
+// like a tweet
+async function likeTweet(req, res) {
+   try {
+      const tweet = await TweetService.find(req.params.tweetId)
+
+      if (!tweet) return res.send({message: 'Tweet is not found'})
+      if (req.user.likes.some((x) => x.id == tweet._id))
+         return res.send('Tweet already liked')
+
+      await UserService.likeTweet(req.user, tweet._id)
+
+      res.send({message: 'You liked the tweet.'})
    } catch (error) {
       res.status(404).send(`Tweet is not found!, ${error}`)
    }

@@ -23,6 +23,16 @@ class UserService extends MongooseService {
          throw new Error(error)
       }
    }
+
+   async likeTweet(user, tweetId) {
+      const tweet = await TweetService.find(tweetId)
+
+      user.likes.push(tweet)
+      tweet.likes.push(user)
+
+      await user.save()
+      await tweet.save()
+   }
 }
 
 module.exports = new UserService(UserModel)

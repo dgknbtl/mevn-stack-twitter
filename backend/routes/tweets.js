@@ -6,4 +6,6 @@ router.post('/new', loggedIn, TweetController.createTweet)
 
 router.delete('/:tweetId', loggedIn, TweetController.removeTweet)
 
+router.patch('/:tweetId/like', loggedIn, TweetController.likeTweet)
+
 module.exports = router

@@ -25,14 +25,18 @@ GET http://localhost:3000/users/login HTTP/1.1
 
 ###############################################
 
-###
 # create a new tweet
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "Merhaba World."}
+{"content": "Fuck Peace"}
 
 ###
 
 # remove a tweet
-DELETE http://localhost:3000/tweets/62cc652575266e7236b64ed0 HTTP/1.1
+DELETE http://localhost:3000/tweets/62cc652975266e7236b64eda HTTP/1.1
+
+###
+
+# like a tweet
+PATCH http://localhost:3000/tweets/62cc7a4d0596c4601a0b4dc0/like HTTP/1.1
