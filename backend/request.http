@@ -39,12 +39,12 @@ DELETE http://localhost:3000/tweets/62cc652975266e7236b64eda HTTP/1.1
 ###
 
 # like a tweet
-PATCH http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5/like HTTP/1.1
-
+PATCH http://localhost:3000/tweets/62cc9e93db2c3212af5e7a4f/like HTTP/1.1
+   
 ###
 
 # retweet
-POST http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5/retweet HTTP/1.1
+POST http://localhost:3000/tweets/62cc94b84155c1c28a9df1d8/retweet HTTP/1.1
 content-type: application/json
 
-{"content": "This is a retweet"}
+{"content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. !"}

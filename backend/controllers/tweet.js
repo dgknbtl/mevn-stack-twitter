@@ -41,7 +41,7 @@ async function likeTweet(req, res) {
       const tweet = await TweetService.find(req.params.tweetId)
 
       if (!tweet) return res.send({message: 'Tweet is not found'})
-      if (req.user.likes.some((tweet) => tweet.id == tweet._id))
+      if (req.user.likes.some((t) => t.id == tweet._id))
          return res.send('Tweet already liked')
 
       await UserService.likeTweet(req.user, tweet._id)
@@ -61,12 +61,12 @@ async function reTweet(req, res) {
       const tweet = await TweetService.find(req.params.tweetId)
 
       if (!tweet) return res.send({message: 'Tweet is not found'})
-      if (req.user.retweets.some((tweet) => tweet.id == tweet._id))
-         return res.send('Tweet has already been retweeted.')
 
-      if (!content) messages.push({body: 'Tweet message is required!'})
       if (content.length > 140)
          messages.push({body: 'Tweet message should not be more than 140 characters.'})
+
+      if (req.user.retweets.some((t) => t.id == tweet._id))
+         return res.send({message: 'Tweet has already been retweeted.'})
 
       if (messages.length) return res.send({messages})
 
