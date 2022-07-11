@@ -5,6 +5,8 @@ module.exports = {
    removeTweet,
    likeTweet,
    reTweet,
+   getTweet,
+   getAllTweets,
 }
 
 // create a new tweet
@@ -76,4 +78,22 @@ async function reTweet(req, res) {
    } catch (error) {
       res.status(404).send(`Tweet is not found!, ${error}`)
    }
+}
+
+// get a tweet
+async function getTweet(req, res) {
+   const tweet = await TweetService.find(req.params.tweetId)
+
+   if (!tweet) return res.send({message: 'Tweet is not found'})
+
+   res.send(tweet)
+}
+
+// get all tweets
+async function getAllTweets(req, res) {
+   const {name, tweets} = req.user
+
+   if (!req.user) return res.send({message: 'Please log in!'})
+
+   res.send({name, tweets})
 }
