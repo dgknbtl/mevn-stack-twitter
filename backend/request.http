@@ -2,8 +2,8 @@
 POST http://localhost:3000/users/register HTTP/1.1
 content-type: application/json
 
-# {"name": "Doğukan", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456" }
-{"name": "Batuhan Batal", "email": "batuhan@gmail.com", "password":"1234561", "confirmPassword":"1234561" }
+# {"name": "Batuhan Batal", "email": "batuhan@gmail.com", "password":"1234561", "confirmPassword":"1234561" }
+{"name": "Doğukan", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456" }
 
 ###
 
@@ -11,8 +11,8 @@ content-type: application/json
 POST http://localhost:3000/users/login HTTP/1.1
 content-type: application/json
 
-# { "email": "hi@dogu.dev", "password":"123456"}
-{ "email": "batuhan@gmail.com", "password":"1234561"}
+# { "email": "batuhan@gmail.com", "password":"1234561"}
+{ "email": "hi@dogu.dev", "password":"123456"}
 
 ###
 # logout a user
@@ -29,7 +29,7 @@ GET http://localhost:3000/users/login HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "Fuck Peace"}
+{"content": "I was here yesterday too."}
 
 ###
 
@@ -39,4 +39,12 @@ DELETE http://localhost:3000/tweets/62cc652975266e7236b64eda HTTP/1.1
 ###
 
 # like a tweet
-PATCH http://localhost:3000/tweets/62cc7a4d0596c4601a0b4dc0/like HTTP/1.1
+PATCH http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5/like HTTP/1.1
+
+###
+
+# retweet
+POST http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5/retweet HTTP/1.1
+content-type: application/json
+
+{"content": "This is a retweet"}

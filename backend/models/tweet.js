@@ -16,7 +16,15 @@ const TweetSchema = new mongoose.Schema(
             maxDepth: 1,
          },
       },
-      originalTweet: String,
+      originalTweet: [
+         {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Tweet',
+            autopopulate: {
+               maxDepth: 2,
+            },
+         },
+      ],
       replies: [
          {
             type: mongoose.Schema.Types.ObjectId,

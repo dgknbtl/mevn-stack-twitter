@@ -33,6 +33,24 @@ class UserService extends MongooseService {
       await user.save()
       await tweet.save()
    }
+
+   async reTweet(user, tweetId, content) {
+      const retweet = await TweetService.insert({
+         author: user,
+         content: content,
+      })
+
+      const originalTweet = await TweetService.find(tweetId)
+      retweet.originalTweet = originalTweet
+
+      user.tweets.push(retweet)
+      user.retweets.push(originalTweet)
+      originalTweet.retweets.push(retweet)
+
+      await retweet.save()
+      await originalTweet.save()
+      await user.save()
+   }
 }
 
 module.exports = new UserService(UserModel)
