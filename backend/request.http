@@ -11,8 +11,8 @@ content-type: application/json
 POST http://localhost:3000/users/login HTTP/1.1
 content-type: application/json
 
-# { "email": "batuhan@gmail.com", "password":"1234561"}
-{ "email": "hi@dogu.dev", "password":"123456"}
+# { "email": "hi@dogu.dev", "password":"123456"}
+{ "email": "batuhan@gmail.com", "password":"1234561"}
 
 ###
 # logout a user
@@ -30,5 +30,9 @@ GET http://localhost:3000/users/login HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "2Vitae nemo ullam hic minima, corporis necessitatibus fuga architecto? Quis?"}
+{"content": "Merhaba World."}
 
+###
+
+# remove a tweet
+DELETE http://localhost:3000/tweets/62cc652575266e7236b64ed0 HTTP/1.1

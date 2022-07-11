@@ -13,7 +13,7 @@ const TweetSchema = new mongoose.Schema(
          ref: 'User',
          required: true,
          autopopulate: {
-            maxDepth: 2,
+            maxDepth: 1,
          },
       },
       originalTweet: String,

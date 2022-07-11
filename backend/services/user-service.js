@@ -12,6 +12,17 @@ class UserService extends MongooseService {
       await user.save()
       return tweet
    }
+
+   async removeTweet(user, tweetId) {
+      try {
+         await TweetService.removeOne('_id', tweetId)
+         const filteredTweets = await user.tweets.filter((tweet) => tweet.id != tweetId)
+         user.tweets = filteredTweets
+         await user.save()
+      } catch (error) {
+         throw new Error(error)
+      }
+   }
 }
 
 module.exports = new UserService(UserModel)

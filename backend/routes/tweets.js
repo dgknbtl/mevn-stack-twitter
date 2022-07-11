@@ -4,4 +4,6 @@ const {loggedIn} = require('../middlewares/auth')
 
 router.post('/new', loggedIn, TweetController.createTweet)
 
+router.delete('/:tweetId', loggedIn, TweetController.removeTweet)
+
 module.exports = router
