@@ -59,6 +59,21 @@ class UserService extends MongooseService {
       await user.save()
       await userToFollow.save()
    }
+
+   async unfollow(user, userToUnFollow) {
+      const filteredFollowing = await user.following.filter(
+         (u) => u.id !== userToUnFollow.id
+      )
+      const filteredFollowers = await userToUnFollow.followers.filter(
+         (u) => u.id !== user.id
+      )
+
+      user.following = filteredFollowing
+      userToUnFollow.followers = filteredFollowers
+
+      await user.save()
+      await userToUnFollow.save()
+   }
 }
 
 module.exports = new UserService(UserModel)

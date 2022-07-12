@@ -3,7 +3,8 @@ POST http://localhost:3000/users/register HTTP/1.1
 content-type: application/json
 
 # {"name": "Batuhan Batal", "email": "batuhan@gmail.com", "password":"1234561", "confirmPassword":"1234561" }
-{"name": "Doğukan", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456" }
+# {"name": "Doğukan", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456" }
+# {"name": "Dilara", "email": "dilara@gmail.com", "password":"123456", "confirmPassword":"123456" }
 
 ###
 
@@ -25,7 +26,13 @@ GET http://localhost:3000/users/login HTTP/1.1
 ###
 
 # follow a user
-GET http://localhost:3000/users/62cc942c4155c1c28a9df19f/follow HTTP/1.1
+GET http://localhost:3000/users/62cd5ff064c58db028b1d160/follow HTTP/1.1
+
+###
+
+# unfollow a user
+GET http://localhost:3000/users/62cd5ff064c58db028b1d160/unfollow HTTP/1.1
+
 
 
 ###############################################

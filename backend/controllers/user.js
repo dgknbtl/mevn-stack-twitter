@@ -6,6 +6,7 @@ module.exports = {
    authenticateUser,
    logout,
    follow,
+   unFollow,
 }
 
 // create a new user
@@ -77,6 +78,22 @@ async function follow(req, res) {
 
       await UserService.follow(req.user, userToFollow)
       res.send({message: `You followed ${userToFollow.name}`})
+   } catch (error) {
+      res.status(404).send(`The user not found!, ${error}`)
+   }
+}
+
+// unfollow a user
+async function unFollow(req, res) {
+   try {
+      const userToUnFollow = await UserService.find(req.params.userId)
+
+      if (!userToUnFollow || !req.user) return res.send({message: 'The user not found.'})
+      // if (req.user.following.some((u) => u.id == userToUnFollow._id))
+      //    return res.send({message: `You are already following ${userToUnFollow.name}`})
+
+      await UserService.unfollow(req.user, userToUnFollow)
+      res.send({message: `You unfollowed ${userToUnFollow.name}`})
    } catch (error) {
       res.status(404).send(`The user not found!, ${error}`)
    }
