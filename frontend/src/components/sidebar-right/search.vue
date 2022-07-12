@@ -12,7 +12,7 @@ export default {
 <template lang="pug">
 div.search
    form.search-form
-      BaseInput(placeholder="Search Tweets")  
+      BaseInput(placeholder="Search Tweets" icon="search")  
 </template>
 
 <style lang="postcss" scoped>
