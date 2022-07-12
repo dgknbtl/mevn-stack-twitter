@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 1,
             },
          },
       ],
@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 1,
             },
          },
       ],
@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Tweet',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 1,
             },
          },
       ],
@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Tweet',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 1,
             },
          },
       ],
@@ -68,7 +68,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Tweet',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 1,
             },
          },
       ],

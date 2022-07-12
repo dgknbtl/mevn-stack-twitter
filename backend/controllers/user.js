@@ -5,6 +5,7 @@ module.exports = {
    createUser,
    authenticateUser,
    logout,
+   follow,
 }
 
 // create a new user
@@ -63,4 +64,20 @@ async function authenticateUser(req, res, next) {
 async function logout(req, res) {
    req.logout()
    res.status(200).send({message: `You are logged out.`})
+}
+
+// follow a user
+async function follow(req, res) {
+   try {
+      const userToFollow = await UserService.find(req.params.userId)
+
+      if (!userToFollow || !req.user) return res.send({message: 'The user not found.'})
+      if (req.user.following.some((u) => u.id == userToFollow._id))
+         return res.send({message: `You are already following ${userToFollow.name}`})
+
+      await UserService.follow(req.user, userToFollow)
+      res.send({message: `You followed ${userToFollow.name}`})
+   } catch (error) {
+      res.status(404).send(`The user not found!, ${error}`)
+   }
 }

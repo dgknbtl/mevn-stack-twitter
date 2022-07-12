@@ -51,6 +51,14 @@ class UserService extends MongooseService {
       await originalTweet.save()
       await user.save()
    }
+
+   async follow(user, userToFollow) {
+      user.following.push(userToFollow._id)
+      userToFollow.followers.push(user._id)
+
+      await user.save()
+      await userToFollow.save()
+   }
 }
 
 module.exports = new UserService(UserModel)

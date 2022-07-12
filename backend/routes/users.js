@@ -18,4 +18,7 @@ router.post('/register', UserController.createUser)
 // logout
 router.get('/logout', UserController.logout)
 
+// follow a user
+router.get('/:userId/follow', UserController.follow)
+
 module.exports = router
