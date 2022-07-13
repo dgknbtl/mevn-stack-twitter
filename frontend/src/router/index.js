@@ -1,5 +1,14 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/home/index.vue'
+import store from '../store/index'
+
+// function guardMyroute(to, from, next) {
+//    if (store.state.isLoggedIn) {
+//       next() // allow to enter route
+//    } else {
+//       next('/login') // go to '/login';
+//    }
+// }
 
 const routes = [
    {
@@ -66,6 +75,7 @@ const routes = [
       meta: {layout: 'Default'},
       component: () =>
          import(/* webpackChunkName: "profile" */ '../views/profile/index.vue'),
+
       children: [
          {
             path: '',
@@ -113,6 +123,19 @@ const routes = [
 const router = createRouter({
    history: createWebHistory(process.env.BASE_URL),
    routes,
+})
+
+router.beforeEach((to, from, next) => {
+   // redirect to login page if not logged in and trying to access a restricted page
+   const publicPages = ['/login', '/register']
+   const authRequired = !publicPages.includes(to.path)
+   const loggedIn = store.state.isLoggedIn
+
+   if (authRequired && !loggedIn) {
+      return next('/login')
+   }
+
+   next()
 })
 
 export default router

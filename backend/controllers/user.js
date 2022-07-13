@@ -50,13 +50,13 @@ async function authenticateUser(req, res, next) {
          return next(err)
       }
       if (!user) {
-         return res.send({message: info.message})
+         return res.status(401).send({message: info.message})
       }
       req.logIn(user, function (err) {
          if (err) {
             return next(err)
          }
-         return res.send(req.user)
+         res.status(200).send(req.user)
       })
    })(req, res, next)
 }

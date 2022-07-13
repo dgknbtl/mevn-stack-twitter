@@ -3,6 +3,7 @@ import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseText from '@/components/base-text.vue'
 import BaseDropdown from '@/components/base-dropdown.vue'
+import {mapActions} from 'vuex'
 
 export default {
    name: 'SidebarProfile',
@@ -11,6 +12,17 @@ export default {
       BaseAvatar,
       BaseText,
       BaseDropdown,
+   },
+   methods: {
+      ...mapActions(['logout']),
+      async logoutUser() {
+         try {
+            await this.logout()
+            this.$router.push('/login')
+         } catch (error) {
+            console.log(error.response.data)
+         }
+      },
    },
 }
 </script>
@@ -26,8 +38,8 @@ BaseDropdown(position="top"  alignment="left")
          InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
 
    template(#dropdown-nav)
-      a(href="/" class="dropdown-item") Add an existing account
-      a(href="/" class="dropdown-item") Logout @dogukanbatal
+      div(class="dropdown-item") Add an existing account
+      div(class="dropdown-item" @click="logoutUser") Logout @dogukanbatal
 </template>
 
 <style lang="postcss" scoped>
@@ -61,5 +73,8 @@ BaseDropdown(position="top"  alignment="left")
          margin-right: 0;
       }
    }
+}
+.dropdown-item {
+   cursor: pointer;
 }
 </style>

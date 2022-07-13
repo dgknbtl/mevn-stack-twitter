@@ -2,13 +2,41 @@
 import InlineSvg from 'vue-inline-svg'
 import BaseInput from '@/components/base-input.vue'
 import BaseButton from '@/components/base-button.vue'
+import BaseText from '@/components/base-text.vue'
+import {mapActions} from 'vuex'
 
 export default {
    name: 'LoginView',
    components: {
+      InlineSvg,
       BaseInput,
       BaseButton,
-      InlineSvg,
+      BaseText,
+   },
+   data() {
+      return {
+         error: null,
+         loading: false,
+         email: '',
+         password: '',
+      }
+   },
+   methods: {
+      ...mapActions(['authenticate']),
+      async login(e) {
+         e.preventDefault()
+         try {
+            await this.authenticate({
+               email: this.email,
+               password: this.password,
+            })
+            this.$router.push('/')
+         } catch (error) {
+            this.error = error.response.data.message
+         }
+         this.email = ''
+         this.password = ''
+      },
    },
 }
 </script>
@@ -16,16 +44,18 @@ export default {
 <template lang="pug">
 div
    RouterLink(tag="a" class="form-logo" to="/"):  InlineSvg(:src="require('@/assets/icons/twitter.svg')")
-   .form-group
-      BaseInput(type="email" size="large" placeholder="E-mail" icon="message")
-   .form-group
-      BaseInput(type="password" size="large" placeholder="Password" icon="lock")
-   .form-group
-      BaseButton Login
-   .form-footer
-      RouterLink(tag="a" to="") Forgot password?
-      span •
-      RouterLink(tag="a" to="/register") Sign up for Twitter
+   BaseText(class="error-message" size="fs-small" weight="fw-medium" v-if="error") {{error}}
+   form(@submit="login")
+      .form-group
+         BaseInput(type="email" v-model="email" name="email" size="large" placeholder="E-mail" icon="message")
+      .form-group
+         BaseInput(type="password" v-model="password" name="password" size="large" placeholder="Password" icon="lock")
+      .form-group
+         BaseButton() Login
+      .form-footer
+         RouterLink(tag="a" to="") Forgot password?
+         span •
+         RouterLink(tag="a" to="/register") Sign up for Twitter
 </template>
 
 <style lang="postcss" scoped>
@@ -36,6 +66,13 @@ div
 }
 .btn {
    width: 100%;
+}
+.error-message {
+   display: block;
+   color: red;
+   margin: auto;
+   text-align: center;
+   margin-bottom: 14px;
 }
 .form-footer {
    display: flex;
