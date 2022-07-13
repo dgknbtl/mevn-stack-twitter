@@ -10,21 +10,15 @@ export default {
       color: {
          type: String,
          default: 'fill',
-         validator: function (value) {
-            if (['fill', 'outline'].indexOf(value) === -1)
-               throw new Error(
-                  `"${value}" is invalid prop: custom validator check failed`
-               )
+         validator(value) {
+            return ['fill', 'outline'].includes(value)
          },
       },
       size: {
          type: String,
          default: 'medium',
          validator: function (value) {
-            if (['large', 'medium', 'small'].indexOf(value) === -1)
-               throw new Error(
-                  `"${value}" is invalid prop: custom validator check failed`
-               )
+            return ['large', 'medium', 'small'].includes(value)
          },
       },
       type: {
@@ -38,10 +32,14 @@ export default {
          type: String,
          default: 'Something...',
       },
+
+      modelValue: String,
    },
+   emits: ['update:modelValue'],
    data() {
       return {
          isFocus: false,
+         content: this.value,
       }
    },
    methods: {
@@ -58,7 +56,7 @@ export default {
 <template lang="pug">
 .control-container
    div.control-wrapper( @click="setFocus")
-      input(:class="[color, size]" :type="type" class="control" :placeholder="placeholder" ref="controlInput")
+      input(@input="$emit('update:modelValue', $event.target.value)"  :value="modelValue" :class="[color, size]" :type="type" class="control" :placeholder="placeholder" ref="controlInput")
       .control-icon(v-if="icon"): InlineSvg(:src="require(`@/assets/icons/${icon}.svg`)" width="16" fill="black")
 </template>
 

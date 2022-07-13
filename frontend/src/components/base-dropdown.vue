@@ -15,21 +15,15 @@ export default {
       position: {
          type: String,
          default: 'bottom',
-         validator: function (value) {
-            if (['top', 'bottom'].indexOf(value) === -1)
-               throw new Error(
-                  `"${value}" is invalid prop: custom validator check failed`
-               )
+         validator(value) {
+            return ['top', 'bottom'].includes(value)
          },
       },
       alignment: {
          type: String,
          default: 'left',
-         validator: function (value) {
-            if (['left', 'right'].indexOf(value) === -1)
-               throw new Error(
-                  `"${value}" is invalid prop: custom validator check failed`
-               )
+         validator(value) {
+            return ['left', 'right'].includes(value)
          },
       },
    },

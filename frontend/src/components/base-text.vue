@@ -6,25 +6,23 @@ export default {
          default: 'span',
       },
       size: {
-         default: 'medium',
-         validator: function (value) {
-            return ['fs-large', 'fs-medium', 'fs-small'].indexOf(value) !== -1
+         default: 'fs-medium',
+         validator(value) {
+            return ['fs-large', 'fs-medium', 'fs-small'].includes(value)
          },
       },
       weight: {
-         default: 'normal',
-         validator: function (value) {
-            return (
-               [
-                  'fw-light',
-                  'fw-regular',
-                  'fw-medium',
-                  'fw-semibold',
-                  'fw-bold',
-                  'fw-extrabold',
-                  'fw-black',
-               ].indexOf(value) !== -1
-            )
+         default: 'fw-regular',
+         validator(value) {
+            return [
+               'fw-light',
+               'fw-regular',
+               'fw-medium',
+               'fw-semibold',
+               'fw-bold',
+               'fw-extrabold',
+               'fw-black',
+            ].includes(value)
          },
       },
    },
