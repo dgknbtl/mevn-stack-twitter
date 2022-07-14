@@ -30,12 +30,21 @@ export default {
       async registerUser(e) {
          e.preventDefault()
          try {
-            if (!(this.name && this.email && this.password && this.confirmPassword)) {
+            if (
+               !(
+                  this.name &&
+                  this.handle &&
+                  this.email &&
+                  this.password &&
+                  this.confirmPassword
+               )
+            ) {
                this.errorMessage = 'All fields is required.'
             }
 
             const response = await this.register({
                name: this.name,
+               handle: this.handle,
                email: this.email,
                password: this.password,
                confirmPassword: this.confirmPassword,
