@@ -32,6 +32,9 @@ export default createStore({
          await axios.get('/users/logout')
          commit(Mutations.SET_USER, null)
       },
+      async register(ctx, payload) {
+         return await axios.post('/users/register', payload)
+      },
    },
    modules: {},
 })

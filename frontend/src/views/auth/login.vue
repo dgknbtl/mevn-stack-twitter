@@ -44,7 +44,7 @@ export default {
 <template lang="pug">
 div
    RouterLink(tag="a" class="form-logo" to="/"):  InlineSvg(:src="require('@/assets/icons/twitter.svg')")
-   BaseText(class="error-message" size="fs-small" weight="fw-medium" v-if="error") {{error}}
+   BaseText(class="error-message text-red" size="fs-small" weight="fw-medium" v-if="error") {{error}}
    form(@submit="login")
       .form-group
          BaseInput(type="email" v-model="email" name="email" size="large" placeholder="E-mail" icon="message")
@@ -52,10 +52,10 @@ div
          BaseInput(type="password" v-model="password" name="password" size="large" placeholder="Password" icon="lock")
       .form-group
          BaseButton() Login
-      .form-footer
-         RouterLink(tag="a" to="") Forgot password?
-         span •
-         RouterLink(tag="a" to="/register") Sign up for Twitter
+   .form-footer
+      RouterLink(tag="a" to="") Forgot password?
+      span •
+      RouterLink(tag="a" to="/register") Sign up for Twitter
 </template>
 
 <style lang="postcss" scoped>

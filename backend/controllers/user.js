@@ -26,18 +26,18 @@ async function createUser(req, res, next) {
       }
 
       if (messages.length) {
-         return res.send({messages})
+         return res.status(400).send(messages)
       }
 
       const user = await UserService.findBy('email', email)
       if (!user.length) {
          await UserService.insert(req.body)
          return res
-            .send({message: 'You are registered successfully and can now log in.'})
             .status(200)
+            .send({message: 'You are registered successfully and can now log in.'})
       }
       messages.push({body: 'This email is already in use.'})
-      return res.send({messages})
+      return res.status(400).send(messages)
    } catch (err) {
       return res.status(500).send(err.message)
    }
