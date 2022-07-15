@@ -6,7 +6,7 @@ router.get('/', (req, res) => res.send('Users'))
 
 // check logged in
 router.get('/login', loggedIn, (req, res) => {
-   res.status(200).send({message: `Hello ${req.user.name}, you are already logged in.`})
+   res.status(200).send(req.user)
 })
 
 // authenticate

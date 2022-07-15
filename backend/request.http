@@ -16,6 +16,12 @@ content-type: application/json
 { "email": "hi@dogu.dev", "password":"123456"}
 
 ###
+GET http://localhost:3000/ HTTP/1.1
+### 
+GET http://localhost:3000/dashboard HTTP/1.1
+
+
+###
 # logout a user
 GET http://localhost:3000/users/logout HTTP/1.1
 

@@ -9,27 +9,42 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const passportConfig = require('./config/passport')
 const cors = require('cors')
-require('./mongo-connection')
+const MongoStore = require('connect-mongo')(session)
+const {mongoose} = require('./mongo-connection')
 
-app.set('view engine', 'pug')
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cors())
+app.use((req, res, next) => {
+   res.header('Access-Control-Allow-Origin', '*')
+   next()
+})
 
 // passport config
 passportConfig(passport)
 
 // express session
+app.use(cookieParser())
 app.use(
    session({
-      secret: 'secret',
+      secret: config.sessionSecret,
+      cookie: {
+         maxAge: 14 * 24 * 60 * 60 * 1000,
+      },
       resave: true,
       saveUninitialized: true,
+      store: new MongoStore({mongooseConnection: mongoose.connection, stringify: false}),
    })
 )
+
+// app.use(
+//    session({
+//       secret: 'secret',
+//       resave: true,
+//       saveUninitialized: true,
+//    })
+// )
 
 // passport middleware
 app.use(passport.initialize())
@@ -44,18 +59,22 @@ app.use((req, res, next) => {
    next()
 })
 
-app.use(function (req, res, next) {
-   res.header('Access-Control-Allow-Origin', '*')
-   res.header(
-      'Access-Control-Allow-Methods',
-      'GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE'
-   )
-   res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-   )
-   next()
-})
+app.set('view engine', 'pug')
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(
+   cors({
+      origin: function (origin, callback) {
+         if (corsWhitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+         } else {
+            callback(new Error('Not allowed by CORS - ' + origin))
+         }
+      },
+      origin: 'http://localhost:8080',
+      credentials: true,
+   })
+)
 
 app.use(methodOverride('_method'))
 app.use('/', indexRouter)
