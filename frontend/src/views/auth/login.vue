@@ -49,7 +49,7 @@ div
       .form-group
          BaseInput(type="email" v-model="email" name="email" size="large" placeholder="E-mail" icon="message")
       .form-group
-         BaseInput(type="password" v-model="password" name="password" size="large" placeholder="Password" icon="lock")
+         BaseInput(type="password" v-model="password" @keydown.space.prevent name="password" size="large" placeholder="Password" icon="lock")
       .form-group
          BaseButton() Login
    .form-footer
