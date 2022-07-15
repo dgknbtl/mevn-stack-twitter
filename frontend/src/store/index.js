@@ -21,6 +21,9 @@ export default createStore({
          state.user = user
       },
    },
+   getters: {
+      getHandle: (state) => state.user.handle,
+   },
    actions: {
       async initialize({dispatch}) {
          console.log(JSON.parse(localStorage.getItem('isLoggedIn')))

@@ -4,6 +4,7 @@ import BaseText from '@/components/base-text.vue'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseHeading from '@/components/base-heading.vue'
 import BaseButton from '@/components/base-button.vue'
+import {mapState} from 'vuex'
 
 export default {
    name: 'ProfileHeader',
@@ -14,34 +15,44 @@ export default {
       BaseHeading,
       BaseButton,
    },
+   computed: {
+      ...mapState(['user']),
+      createdAt() {
+         var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+         const {createdAt} = this.user
+         const date = new Date(createdAt)
+         const formattedDate = date.toLocaleDateString('en-US', options)
+         return formattedDate
+      },
+   },
 }
 </script>
 
 <template lang="pug">
 .profileHeader
-   RouterLink(tag="a" to="/"): BaseHeading(title="Doğukan Batal" subTitle="700 Tweets" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
+   RouterLink(tag="a" to="/"): BaseHeading(:title="user.name" :subTitle="user.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
       div(class="edit-profile"): BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/create/tweet") Edit Profile
       div.user-name
-         BaseText(tag="div" size="fs-large" weight="fw-bold") Doğukan Batal
-         BaseText(tag="div" size="fs-medium" class="handle") @dogukanbatal
-      BaseText(tag="div" size="fs-medium" class="bio") Frontend Developer, UI Designer
+         BaseText(tag="div" size="fs-large" weight="fw-bold") {{user.name}}
+         BaseText(tag="div" size="fs-medium" class="handle") @{{user.handle}}
+      BaseText(tag="div" size="fs-medium" class="bio" v-if="user.bio") {{user.bio}}
       div.user-info
-         .info-item
+         .info-item(v-if="user.website")
             InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")
-            BaseText(tag="a" href="#") https://dogu.dev
+            BaseText(tag="a" href="#") {{user.website}}
          .info-item
             InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
-            BaseText(tag="span") Joined January 2014
+            BaseText(tag="span") Joined {{createdAt}}
       div.user-stats
          BaseText(tag="a" size="fs-medium") 
-            strong 83 
-            span Following
+            strong {{user.following.length}} 
+            span  Following
          BaseText(tag="a" size="fs-medium") 
-            strong 145 
-            span Followers
+            strong {{user.followers.length}}
+            span  Followers
 </template>
 
 <style lang="postcss" scoped>

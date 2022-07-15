@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Tweet',
             autopopulate: {
-               maxDepth: 1,
+               maxDepth: 2,
             },
          },
       ],

@@ -62,9 +62,10 @@ const routes = [
          import(/* webpackChunkName: "lists" */ '../views/sub-pages/lists.vue'),
    },
    {
-      path: '/:username',
+      path: '/:handle',
       name: 'profile',
       meta: {layout: 'DefaultLayout', requiresAuth: true},
+      props: true,
       component: () =>
          import(/* webpackChunkName: "profile" */ '../views/profile/index.vue'),
 
@@ -72,6 +73,7 @@ const routes = [
          {
             path: '',
             name: 'profile-tweets',
+            props: true,
             component: () =>
                import(
                   /* webpackChunkName: "profile-tweets" */ '../views/profile/tweets.vue'
@@ -80,6 +82,7 @@ const routes = [
          {
             path: 'replies',
             name: 'profile-replies',
+            props: true,
             component: () =>
                import(
                   /* webpackChunkName: "profile-replies" */ '../views/profile/replies.vue'
@@ -88,6 +91,7 @@ const routes = [
          {
             path: 'media',
             name: 'profile-media',
+            props: true,
             component: () =>
                import(
                   /* webpackChunkName: "profile-media" */ '../views/profile/media.vue'
@@ -96,6 +100,7 @@ const routes = [
          {
             path: 'likes',
             name: 'profile-likes',
+            props: true,
             component: () =>
                import(
                   /* webpackChunkName: "profile-likes" */ '../views/profile/likes.vue'

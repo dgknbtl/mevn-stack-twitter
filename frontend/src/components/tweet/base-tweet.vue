@@ -13,61 +13,71 @@ export default {
       BaseDropdown,
    },
    props: {
-      tweetData: {
+      tweet: {
          type: Object,
          required: true,
       },
    },
-   data() {},
+   computed: {
+      createdAt() {
+         var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+         const {createdAt} = this.tweet
+         const date = new Date(createdAt)
+         const formattedDate = date.toLocaleDateString('en-US', options)
+         return formattedDate
+      },
+   },
 }
 </script>
 
 <template lang="pug">
-div.tweet
-   .tweet-avatar
-      BaseAvatar(size="large" :src="tweetData.avatar")
-   .tweet-content
-      .tweet-header
-         div            
-            RouterLink(:to="{ path: `/${tweetData.handle}` }" tag="a")
-               BaseText(class="tweet-author" weight="fw-bold" tag="a") {{tweetData.author}}
-            BaseText(class="tweet-handle") {{tweetData.handle}}
-            BaseText  •
-            RouterLink(:to="{ path: `/${tweetData.handle}/status/AGFGFB` }" tag="a")
-               BaseText(class="tweet-time") {{tweetData.creaatedAt}}
-         
-         
-         
-         BaseDropdown(position="bottom" alignment="right")
-            template(#dropdown-toggle) 
-               .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
-            template(#dropdown-nav)
-               a(href="#" class="dropdown-item") Unfollow @username
-               a(href="#" class="dropdown-item") Add/remove @username from lists
-               a(href="#" class="dropdown-item") Mute @username 
-               a(href="#" class="dropdown-item") Block @username 
-               a(href="#" class="dropdown-item") Embed Tweet 
-               a(href="#" class="dropdown-item") Report Tweet 
-
-
-
-      .tweet-content
-         BaseText(tag="p") {{tweetData.content}}
-         figure.tweet-image(v-if="tweetData.media")
-            img(:src="tweetData.media")
-         .tweet-actions
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
-               BaseText(size="fs-small") {{tweetData.comment}}
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
-               BaseText(size="fs-small") {{tweetData.retweet}}
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/like.svg')" width="18")
-               BaseText(size="fs-small") {{tweetData.likes}}
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
+div
+   RouterLink(:to="`/tweets/${tweet._id}`" tag="a")
+      div.tweet
+         .tweet-avatar
+            BaseAvatar(size="large")
+         .tweet-content
+            .tweet-header
+               div            
+                  RouterLink(:to="`/${tweet.author.handle}`" tag="a")
+                     BaseText(class="tweet-author" weight="fw-bold" tag="a") {{tweet.author.name}}
+                  BaseText(class="tweet-handle") @{{tweet.author.handle}}
+                  BaseText  •
+                  RouterLink(to="/" tag="a")
+                     BaseText(class="tweet-time")  {{createdAt}}
                
+               
+               
+               BaseDropdown(position="bottom" alignment="right")
+                  template(#dropdown-toggle) 
+                     .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
+                  template(#dropdown-nav)
+                     a(href="#" class="dropdown-item") Unfollow @{{tweet.author.handle}}
+                     a(href="#" class="dropdown-item") Add/remove @{{tweet.author.handle}} from lists
+                     a(href="#" class="dropdown-item") Mute @{{tweet.author.handle}} 
+                     a(href="#" class="dropdown-item") Block @{{tweet.author.handle}} 
+                     a(href="#" class="dropdown-item") Embed Tweet 
+                     a(href="#" class="dropdown-item") Report Tweet 
+
+
+
+            .tweet-content
+               BaseText(tag="p") {{tweet.content}}
+               figure.tweet-image(v-if="tweet.attachment")
+                  img()
+               .tweet-actions
+                  .tweet-action
+                     .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
+                     BaseText(size="fs-small" v-if="tweet.replies.length") {{tweet.replies.length}}
+                  .tweet-action
+                     .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
+                     BaseText(size="fs-small" v-if="tweet.retweets.length") {{tweet.retweets.length}}
+                  .tweet-action
+                     .action-icon: InlineSvg(:src="require('@/assets/icons/like.svg')" width="18")
+                     BaseText(size="fs-small" v-if="tweet.likes.length") {{tweet.likes.length}}
+                  .tweet-action
+                     .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
+                     
 
 </template>
 

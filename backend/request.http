@@ -29,7 +29,7 @@ GET http://localhost:3000/users/login HTTP/1.1
 ###
 
 # follow a user
-GET http://localhost:3000/users/62cd5ff064c58db028b1d160/follow HTTP/1.1
+GET http://localhost:3000/users/62d19fa8cedf1f8122207de1/follow HTTP/1.1
 
 ###
 
@@ -54,7 +54,7 @@ GET http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5 HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "I was here yesterday too."}
+{"content": "This is another tweet."}
 
 ###
 
