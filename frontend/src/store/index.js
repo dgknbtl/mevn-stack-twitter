@@ -22,7 +22,12 @@ export default createStore({
       },
    },
    getters: {
-      getHandle: (state) => state.user.handle,
+      getHandle(state) {
+         if (!state.user) {
+            return
+         }
+         return state.user.handle
+      },
    },
    actions: {
       async initialize({dispatch}) {

@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template lang="pug">
-BaseDropdown(position="top"  alignment="left")
+BaseDropdown(position="top"  alignment="left" v-if="user")
    template(#dropdown-toggle) 
       .more
          .more-avatar: BaseAvatar
