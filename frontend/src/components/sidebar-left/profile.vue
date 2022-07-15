@@ -3,7 +3,7 @@ import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseText from '@/components/base-text.vue'
 import BaseDropdown from '@/components/base-dropdown.vue'
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
 export default {
    name: 'SidebarProfile',
@@ -12,6 +12,9 @@ export default {
       BaseAvatar,
       BaseText,
       BaseDropdown,
+   },
+   computed: {
+      ...mapState(['user']),
    },
    methods: {
       ...mapActions(['logout']),
@@ -33,13 +36,13 @@ BaseDropdown(position="top"  alignment="left")
       .more
          .more-avatar: BaseAvatar
          div.more-text
-            BaseText(class="more-user" weight="fw-bold") Doğukan Batal
-            .more-handle @dogukanbatal
+            BaseText(class="more-user" weight="fw-bold") {{user.name}}
+            .more-handle @{{user.handle}}
          InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
 
    template(#dropdown-nav)
       div(class="dropdown-item") Add an existing account
-      div(class="dropdown-item" @click="logoutUser") Logout @dogukanbatal
+      div(class="dropdown-item" @click="logoutUser") Logout @{{user.handle}}
 </template>
 
 <style lang="postcss" scoped>

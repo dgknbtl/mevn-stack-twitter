@@ -1,33 +1,25 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/home/index.vue'
-import store from '../store/index'
-
-// function guardMyroute(to, from, next) {
-//    if (store.state.isLoggedIn) {
-//       next() // allow to enter route
-//    } else {
-//       next('/login') // go to '/login';
-//    }
-// }
 
 const routes = [
    {
       path: '/',
       name: 'home',
       component: HomeView,
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
    },
 
    {
       path: '/login',
       name: 'login',
-      meta: {layout: 'Auth'},
+      meta: {layout: 'AuthLayout'},
       component: () =>
          import(/* webpackChunkName: "explore" */ '../views/auth/login.vue'),
    },
    {
       path: '/register',
       name: 'register',
-      meta: {layout: 'Auth'},
+      meta: {layout: 'AuthLayout'},
       component: () =>
          import(/* webpackChunkName: "explore" */ '../views/auth/register.vue'),
    },
@@ -35,14 +27,14 @@ const routes = [
    {
       path: '/explore',
       name: 'explore',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(/* webpackChunkName: "explore" */ '../views/sub-pages/explore.vue'),
    },
    {
       path: '/notifications',
       name: 'notifications',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(
             /* webpackChunkName: "notifications" */ '../views/sub-pages/notifications.vue'
@@ -51,28 +43,28 @@ const routes = [
    {
       path: '/messages',
       name: 'messages',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(/* webpackChunkName: "messages" */ '../views/sub-pages/messages.vue'),
    },
    {
       path: '/bookmarks',
       name: 'bookmarks',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(/* webpackChunkName: "bookmarks" */ '../views/sub-pages/bookmarks.vue'),
    },
    {
       path: '/lists',
       name: 'lists',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(/* webpackChunkName: "lists" */ '../views/sub-pages/lists.vue'),
    },
    {
       path: '/:username',
       name: 'profile',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(/* webpackChunkName: "profile" */ '../views/profile/index.vue'),
 
@@ -114,7 +106,7 @@ const routes = [
    {
       path: '/more',
       name: 'more',
-      meta: {layout: 'Default'},
+      meta: {layout: 'DefaultLayout', requiresAuth: true},
       component: () =>
          import(/* webpackChunkName: "more" */ '../views/sub-pages/more.vue'),
    },
@@ -126,16 +118,25 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-   // redirect to login page if not logged in and trying to access a restricted page
-   const publicPages = ['/login', '/register']
-   const authRequired = !publicPages.includes(to.path)
-   const loggedIn = store.state.isLoggedIn
-
-   if (authRequired && !loggedIn) {
-      return next('/login')
+   if (to.matched.some((record) => record.meta.requiresAuth)) {
+      if (!JSON.parse(localStorage.getItem('isLoggedIn'))) {
+         next({name: 'login'})
+      } else {
+         next()
+      }
+   } else {
+      next()
    }
 
-   next()
+   // const publicPages = ['/login', '/register']
+   // const authRequired = !publicPages.includes(to.path)
+   // const loggedIn = store.state.isLoggedIn
+   // console.log('h', store.state.isLoggedIn)
+   // if (authRequired && !loggedIn) {
+   //    return next('/login')
+   // }mapState
+
+   // next()
 })
 
 export default router
