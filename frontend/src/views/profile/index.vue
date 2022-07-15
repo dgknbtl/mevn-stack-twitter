@@ -15,7 +15,7 @@ export default {
 div
    ProfileHeader
    ProfileNav
-   <router-view />
+   RouterView
 </template>
 
 <style lang="postcss" scoped></style>

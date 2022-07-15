@@ -1,18 +1,33 @@
 <script>
 import BaseTweet from '@/components/tweet/base-tweet.vue'
+import BaseText from '@/components/base-text.vue'
 
 export default {
    name: 'LikesView',
    components: {
       BaseTweet,
+      BaseText,
    },
-   data() {},
+   computed: {
+      likes() {
+         return this.$store.state.user.likes
+      },
+   },
 }
 </script>
 
 <template lang="pug">
-//- div(v-for="(tweet,index) in exampleData" key="index")
-//-    BaseTweet(:tweetData="tweet")
+BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!likes") You don’t have any likes yet
+
+div(v-for="(like,index) in likes" key="index" v-else)
+   BaseTweet(:tweet="like")
 </template>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.text {
+   padding: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+</style>
