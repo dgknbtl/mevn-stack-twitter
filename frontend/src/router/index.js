@@ -127,16 +127,6 @@ router.beforeEach((to, from, next) => {
    } else {
       next()
    }
-
-   // const publicPages = ['/login', '/register']
-   // const authRequired = !publicPages.includes(to.path)
-   // const loggedIn = store.state.isLoggedIn
-   // console.log('h', store.state.isLoggedIn)
-   // if (authRequired && !loggedIn) {
-   //    return next('/login')
-   // }mapState
-
-   // next()
 })
 
 export default router

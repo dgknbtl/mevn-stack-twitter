@@ -15,7 +15,6 @@ const initPlugin = (store) => {
 export default createStore({
    state: {
       user: null,
-      // isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn')),
    },
    mutations: {
       [Mutations.SET_USER](state, user) {
@@ -34,21 +33,16 @@ export default createStore({
             const user = await axios.get('/users/login')
             if (!user) return
             commit(Mutations.SET_USER, user.data)
-            console.log(user)
+            return user
          } catch (e) {
             console.log(e.response.data.message)
          }
       },
       async authenticate({commit}, payload) {
-         try {
-            const user = await axios.post('/users/login', payload)
-            if (!user) return
-            commit(Mutations.SET_USER, user.data)
-            // console.log(user.data)
-            localStorage.setItem('isLoggedIn', JSON.stringify(true))
-         } catch (e) {
-            // console.log(e.response.data.message)
-         }
+         const user = await axios.post('/users/login', payload)
+         if (!user) return
+         commit(Mutations.SET_USER, user.data)
+         localStorage.setItem('isLoggedIn', JSON.stringify(true))
       },
       async logout({commit}) {
          await axios.get('/users/logout')
