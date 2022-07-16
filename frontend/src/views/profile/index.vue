@@ -38,10 +38,10 @@ export default {
 </script>
 
 <template lang="pug">
-div(v-if="currentUser")
+div
    ProfileHeader(:currentUser="currentUser" :error="error")
    BaseText(size="fs-large" weight="fw-bold" class="text" v-if="error") This account doesn’t exist
-   div(v-if="!error")
+   div(v-if="currentUser")
       ProfileNav(:currentUserHandle="currentUser.handle")
       RouterView( :tweets="currentUser.tweets" :replies="currentUser.replies" :likes="currentUser.likes"  :media="currentUser.media")
 </template>

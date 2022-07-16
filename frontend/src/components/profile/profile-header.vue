@@ -46,14 +46,13 @@ export default {
       checkIsFollowed() {
          if (this.loggedUser.following.some((u) => u._id == this.currentUser._id)) {
             this.isFollowed = true
-            console.log('takip ediyor')
          } else {
             this.isFollowed = false
-            console.log('takip etmiyor')
          }
       },
    },
    async mounted() {
+      if (!this.currentUser) return
       await this.checkIsFollowed()
    },
 }
@@ -61,35 +60,36 @@ export default {
 
 <template lang="pug">
 .profileHeader
-   RouterLink(tag="a" to="/"): BaseHeading(:title="error ? 'Profile' : currentUser.name" :subTitle="error ? '' : currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
+   RouterLink(tag="a" to="/"): BaseHeading(:title="!currentUser ? 'Profile' : currentUser.name" :subTitle="!currentUser ? '' : currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" :src="require('@/assets/images/twitter-egg.jpg')")
-
-      div(class="btn-group" v-if="!error")
+      
+      div(class="btn-group" v-if="currentUser")
          div(v-if="currentUser.handle !== this.$store.state.user.handle")
             BaseButton(tag="button" size="btn-medium" :color="[isFollowed ? 'btn-dark' : 'btn-outline']"  @click="isFollowed ? unfollowUser(currentUser._id) : followUser(currentUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
          
          BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-else) Edit Profile
          
       div.user-name
-         BaseText(tag="div" size="fs-large" weight="fw-bold") {{error ? '@' + this.$route.params.handle : currentUser.name}}
-         BaseText(tag="div" size="fs-medium" class="handle" v-if="!error") @{{currentUser.handle}}
-      BaseText(tag="div" size="fs-medium" class="bio" v-if="!error") {{currentUser.bio}}
-      div.user-info(v-if="!error")
-         .info-item(v-if="currentUser.website")
-            InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")
-            BaseText(tag="a" href="#") {{currentUser.website}}
-         .info-item
-            InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
-            BaseText(tag="span") Joined {{createdAt}}
-      div.user-stats(v-if="!error")
-         BaseText(tag="a" size="fs-medium") 
-            strong {{currentUser.following.length}} 
-            span  Following
-         BaseText(tag="a" size="fs-medium") 
-            strong {{currentUser.followers.length}}
-            span  Followers
+         BaseText(tag="div" size="fs-large" weight="fw-bold") {{!currentUser ? '@' + this.$route.params.handle : currentUser.name}}
+         BaseText(tag="div" size="fs-medium" class="handle" v-if="currentUser") @{{currentUser.handle}}
+         
+         div.user-info(v-if="currentUser")
+            BaseText(tag="div" size="fs-medium" class="bio") {{currentUser.bio}}
+            .info-item(v-if="currentUser.website")
+               InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")
+               BaseText(tag="a" href="#") {{currentUser.website}}
+            .info-item
+               InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
+               BaseText(tag="span") Joined {{createdAt}}
+         div.user-stats(v-if="currentUser")
+            BaseText(tag="a" size="fs-medium") 
+               strong {{currentUser.following.length}} 
+               span  Following
+            BaseText(tag="a" size="fs-medium") 
+               strong {{currentUser.followers.length}}
+               span  Followers
 </template>
 
 <style lang="postcss" scoped>

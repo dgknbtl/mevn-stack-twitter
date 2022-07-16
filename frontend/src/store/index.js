@@ -14,7 +14,7 @@ const initPlugin = (store) => {
 
 export default createStore({
    state: {
-      user: null,
+      user: [],
    },
    mutations: {
       [Mutations.SET_USER](state, user) {
