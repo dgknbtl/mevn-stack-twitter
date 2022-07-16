@@ -38,12 +38,10 @@ export default {
       async followUser(id) {
          const res = await this.follow(id)
          this.isFollowed = true
-         console.log(res)
       },
       async unfollowUser(id) {
          const res = await this.unfollow(id)
          this.isFollowed = false
-         console.log(res)
       },
       checkIsFollowed() {
          if (this.loggedUser.following.some((u) => u._id == this.currentUser._id)) {
@@ -53,21 +51,10 @@ export default {
             this.isFollowed = false
             console.log('takip etmiyor')
          }
-
-         // if (this.loggedUser.following.some((u) => u._id !== this.currentUser._id)) {
-
-         // }
       },
    },
    async mounted() {
       await this.checkIsFollowed()
-      // if (this.loggedUser.following.some((u) => u._id != this.currentUser._id)) {
-      //    this.isFollowed = !this.isFollowed
-      // }
-      // if (this.loggedUser.following.some((u) => u._id !== this.currentUser._id)) {
-      //    // this.isFollowed = true
-      //    console.log('takip etmiyor')
-      // }
    },
 }
 </script>
