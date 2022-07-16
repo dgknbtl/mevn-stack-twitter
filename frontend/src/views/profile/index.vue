@@ -1,6 +1,7 @@
 <script>
 import ProfileHeader from '@/components/profile/profile-header.vue'
 import ProfileNav from '@/components/profile/profile-nav.vue'
+import BaseText from '@/components/base-text.vue'
 import {mapActions, mapState} from 'vuex'
 
 export default {
@@ -8,6 +9,7 @@ export default {
    components: {
       ProfileHeader,
       ProfileNav,
+      BaseText,
    },
    data() {
       return {
@@ -45,9 +47,18 @@ export default {
 
 <template lang="pug">
 div
-   ProfileHeader(:currentUser="currentUser")
-   ProfileNav(:currentUserHandle="currentUser.handle")
-   RouterView(:tweets="currentUser.tweets" :replies="currentUser.replies" :likes="currentUser.likes"  :media="currentUser.media")
+   ProfileHeader(:currentUser="currentUser" :error="error")
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="error") This account doesn’t exist
+   div(v-if="!error")
+      ProfileNav(:currentUserHandle="currentUser.handle")
+      RouterView( :tweets="currentUser.tweets" :replies="currentUser.replies" :likes="currentUser.likes"  :media="currentUser.media")
 </template>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.text {
+   padding: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+</style>

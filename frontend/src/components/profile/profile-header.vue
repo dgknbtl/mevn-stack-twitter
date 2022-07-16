@@ -14,7 +14,7 @@ export default {
       BaseHeading,
       BaseButton,
    },
-   props: ['currentUser'],
+   props: ['currentUser', 'error'],
    computed: {
       createdAt() {
          var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
@@ -29,24 +29,25 @@ export default {
 
 <template lang="pug">
 .profileHeader
-   RouterLink(tag="a" to="/"): BaseHeading(:title="currentUser.name" :subTitle="currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
+   RouterLink(tag="a" to="/"): BaseHeading(:title="error ? 'Profile' : currentUser.name" :subTitle="error ? '' : currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
-      div(class="btn-group")
-         BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings") Edit Profile
+
+      div(class="btn-group" v-if="!error")
+         BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-if="this.$route.params.handle !== this.currentUserHandle") Edit Profile
       div.user-name
-         BaseText(tag="div" size="fs-large" weight="fw-bold") {{currentUser.name}}
-         BaseText(tag="div" size="fs-medium" class="handle") @{{currentUser.handle}}
-      BaseText(tag="div" size="fs-medium" class="bio" v-if="currentUser.bio") {{currentUser.bio}}
-      div.user-info
+         BaseText(tag="div" size="fs-large" weight="fw-bold") {{error ? '@' + this.$route.params.handle : currentUser.name}}
+         BaseText(tag="div" size="fs-medium" class="handle" v-if="!error") @{{currentUser.handle}}
+      BaseText(tag="div" size="fs-medium" class="bio" v-if="currentUser.bio || !error") {{currentUser.bio}}
+      div.user-info(v-if="!error")
          .info-item(v-if="currentUser.website")
             InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")
             BaseText(tag="a" href="#") {{currentUser.website}}
          .info-item
             InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
             BaseText(tag="span") Joined {{createdAt}}
-      div.user-stats
+      div.user-stats(v-if="!error")
          BaseText(tag="a" size="fs-medium") 
             strong {{currentUser.following.length}} 
             span  Following

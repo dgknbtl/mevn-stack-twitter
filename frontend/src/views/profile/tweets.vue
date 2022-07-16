@@ -18,6 +18,7 @@ export default {
 
 <template lang="pug">
 BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!tweets.length") You don’t have any tweets yet
+
 div(v-for="(tweet,index) in tweets" key="index" v-else)
    BaseTweet(:tweet="tweet")
 </template>
