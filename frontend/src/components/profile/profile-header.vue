@@ -36,11 +36,11 @@ export default {
    methods: {
       ...mapActions(['follow', 'unfollow']),
       async followUser(id) {
-         const res = await this.follow(id)
+         await this.follow(id)
          this.isFollowed = true
       },
       async unfollowUser(id) {
-         const res = await this.unfollow(id)
+         await this.unfollow(id)
          this.isFollowed = false
       },
       checkIsFollowed() {
