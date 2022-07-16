@@ -8,9 +8,9 @@ export default {
       BaseTweet,
       BaseText,
    },
-   computed: {
-      tweets() {
-         return this.$store.state.user.tweets
+   props: {
+      tweets: {
+         type: Object,
       },
    },
 }

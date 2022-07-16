@@ -7,6 +7,7 @@ module.exports = {
    logout,
    follow,
    unFollow,
+   getUser,
 }
 
 // create a new user
@@ -97,4 +98,12 @@ async function unFollow(req, res) {
    } catch (error) {
       res.status(404).send(`The user not found!, ${error}`)
    }
+}
+
+async function getUser(req, res) {
+   const user = await UserService.findOne('handle', req.params.handle)
+
+   if (!user) return res.status(400).send({message: 'The user was not found!'})
+
+   return res.status(200).send(user)
 }

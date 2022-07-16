@@ -4,7 +4,6 @@ import BaseText from '@/components/base-text.vue'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseHeading from '@/components/base-heading.vue'
 import BaseButton from '@/components/base-button.vue'
-import {mapState} from 'vuex'
 
 export default {
    name: 'ProfileHeader',
@@ -15,11 +14,11 @@ export default {
       BaseHeading,
       BaseButton,
    },
+   props: ['currentUser'],
    computed: {
-      ...mapState(['user']),
       createdAt() {
          var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
-         const {createdAt} = this.user
+         const {createdAt} = this.currentUser
          const date = new Date(createdAt)
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
@@ -30,28 +29,29 @@ export default {
 
 <template lang="pug">
 .profileHeader
-   RouterLink(tag="a" to="/"): BaseHeading(:title="user.name" :subTitle="user.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
+   RouterLink(tag="a" to="/"): BaseHeading(:title="currentUser.name" :subTitle="currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
-      div(class="edit-profile"): BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/create/tweet") Edit Profile
+      div(class="btn-group")
+         BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings") Edit Profile
       div.user-name
-         BaseText(tag="div" size="fs-large" weight="fw-bold") {{user.name}}
-         BaseText(tag="div" size="fs-medium" class="handle") @{{user.handle}}
-      BaseText(tag="div" size="fs-medium" class="bio" v-if="user.bio") {{user.bio}}
+         BaseText(tag="div" size="fs-large" weight="fw-bold") {{currentUser.name}}
+         BaseText(tag="div" size="fs-medium" class="handle") @{{currentUser.handle}}
+      BaseText(tag="div" size="fs-medium" class="bio" v-if="currentUser.bio") {{currentUser.bio}}
       div.user-info
-         .info-item(v-if="user.website")
+         .info-item(v-if="currentUser.website")
             InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")
-            BaseText(tag="a" href="#") {{user.website}}
+            BaseText(tag="a" href="#") {{currentUser.website}}
          .info-item
             InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
             BaseText(tag="span") Joined {{createdAt}}
       div.user-stats
          BaseText(tag="a" size="fs-medium") 
-            strong {{user.following.length}} 
+            strong {{currentUser.following.length}} 
             span  Following
          BaseText(tag="a" size="fs-medium") 
-            strong {{user.followers.length}}
+            strong {{currentUser.followers.length}}
             span  Followers
 </template>
 
@@ -117,7 +117,7 @@ export default {
       }
    }
 
-   .edit-profile {
+   .btn-group {
       position: absolute;
       top: var(--gap-1);
       right: var(--gap-1);

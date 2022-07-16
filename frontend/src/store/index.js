@@ -36,6 +36,7 @@ export default createStore({
             await dispatch('fetchSession')
          }
       },
+
       async fetchSession({commit}) {
          try {
             const user = await axios.get('/users/login')
@@ -46,19 +47,26 @@ export default createStore({
             console.log(e.response.data.message)
          }
       },
+
       async authenticate({commit}, payload) {
          const user = await axios.post('/users/login', payload)
          if (!user) return
          commit(Mutations.SET_USER, user.data)
          localStorage.setItem('isLoggedIn', JSON.stringify(true))
       },
+
       async logout({commit}) {
          await axios.get('/users/logout')
          commit(Mutations.SET_USER, null)
          localStorage.setItem('isLoggedIn', JSON.stringify(false))
       },
+
       async register(ctx, payload) {
          return await axios.post('/users/register', payload)
+      },
+
+      async fetchUser(ctx, handle) {
+         return await axios.get(`/users/${handle}`)
       },
    },
    modules: {},

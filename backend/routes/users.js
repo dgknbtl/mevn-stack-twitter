@@ -24,4 +24,7 @@ router.get('/:userId/follow', UserController.follow)
 // unfollow a user
 router.get('/:userId/unfollow', UserController.unFollow)
 
+// get a user
+router.get('/:handle', UserController.getUser)
+
 module.exports = router

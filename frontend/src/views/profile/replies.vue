@@ -8,16 +8,16 @@ export default {
       BaseTweet,
       BaseText,
    },
-   computed: {
-      replies() {
-         return this.$store.state.user.replies
+   props: {
+      replies: {
+         type: Object,
       },
    },
 }
 </script>
 
 <template lang="pug">
-BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!replies") You don’t have any replies yet
+BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!replies.length") You don’t have any replies yet
 
 div(v-for="(replie,index) in replies" key="index" v-else)
    BaseTweet(:tweet="replie")

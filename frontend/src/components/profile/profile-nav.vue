@@ -1,29 +1,26 @@
 <script>
 import BaseText from '@/components/base-text.vue'
-import {mapState} from 'vuex'
 
 export default {
    name: 'ProfileNav',
    components: {
       BaseText,
    },
-   computed: {
-      ...mapState(['user']),
-   },
+   props: ['currentUserHandle'],
 }
 </script>
 
 <template lang="pug">
-<nav class="profileNav">
-   router-link(class="profileNav-link"  :to="`/${user.handle}`" exact)
+nav(class="profileNav")
+   router-link(class="profileNav-link"  :to="`/${currentUserHandle}`" exact)
       BaseText(tag="span" size="fs-medium" weight="fw-medium") Tweets
-   router-link(class="profileNav-link" :to="`/${user.handle}/replies`")
+   router-link(class="profileNav-link" :to="`/${currentUserHandle}/replies`")
       BaseText(tag="span" size="fs-medium" weight="fw-medium") Tweets &amp; Replies 
-   router-link(class="profileNav-link" :to="`/${user.handle}/media`")
+   router-link(class="profileNav-link" :to="`/${currentUserHandle}/media`")
       BaseText(tag="span" size="fs-medium" weight="fw-medium")  Media 
-   router-link(class="profileNav-link" :to="`/${user.handle}/likes`")
+   router-link(class="profileNav-link" :to="`/${currentUserHandle}/likes`")
       BaseText(tag="span" size="fs-medium" weight="fw-medium")  Likes 
-</nav>
+
 </template>
 
 <style lang="postcss" scoped>

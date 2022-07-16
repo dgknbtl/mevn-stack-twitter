@@ -74,6 +74,15 @@ const UserSchema = new mongoose.Schema(
             },
          },
       ],
+      replies: [
+         {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Tweet',
+            autopopulate: {
+               maxDepth: 2,
+            },
+         },
+      ],
    },
    {timestamps: true}
 )
