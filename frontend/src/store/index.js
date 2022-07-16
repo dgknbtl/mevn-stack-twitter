@@ -31,7 +31,7 @@ export default createStore({
    },
    actions: {
       async initialize({dispatch}) {
-         console.log(JSON.parse(localStorage.getItem('isLoggedIn')))
+         // console.log(JSON.parse(localStorage.getItem('isLoggedIn')))
          if (JSON.parse(localStorage.getItem('isLoggedIn'))) {
             await dispatch('fetchSession')
          }
@@ -65,8 +65,19 @@ export default createStore({
          return await axios.post('/users/register', payload)
       },
 
+      // fetch a user
       async fetchUser(ctx, handle) {
          return await axios.get(`/users/${handle}`)
+      },
+
+      // follow a user
+      async follow(ctx, id) {
+         return await axios.get(`/users/${id}/follow`)
+      },
+
+      // unfollow a user
+      async unfollow(ctx, id) {
+         return await axios.get(`/users/${id}/unfollow`)
       },
    },
    modules: {},

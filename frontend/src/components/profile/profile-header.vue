@@ -4,6 +4,7 @@ import BaseText from '@/components/base-text.vue'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseHeading from '@/components/base-heading.vue'
 import BaseButton from '@/components/base-button.vue'
+import {mapState, mapActions} from 'vuex'
 
 export default {
    name: 'ProfileHeader',
@@ -14,8 +15,16 @@ export default {
       BaseHeading,
       BaseButton,
    },
+   data() {
+      return {
+         isFollowed: null,
+      }
+   },
    props: ['currentUser', 'error'],
    computed: {
+      ...mapState({
+         loggedUser: 'user',
+      }),
       createdAt() {
          var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
          const {createdAt} = this.currentUser
@@ -23,6 +32,42 @@ export default {
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
       },
+   },
+   methods: {
+      ...mapActions(['follow', 'unfollow']),
+      async followUser(id) {
+         const res = await this.follow(id)
+         this.isFollowed = true
+         console.log(res)
+      },
+      async unfollowUser(id) {
+         const res = await this.unfollow(id)
+         this.isFollowed = false
+         console.log(res)
+      },
+      checkIsFollowed() {
+         if (this.loggedUser.following.some((u) => u._id == this.currentUser._id)) {
+            this.isFollowed = true
+            console.log('takip ediyor')
+         } else {
+            this.isFollowed = false
+            console.log('takip etmiyor')
+         }
+
+         // if (this.loggedUser.following.some((u) => u._id !== this.currentUser._id)) {
+
+         // }
+      },
+   },
+   async mounted() {
+      await this.checkIsFollowed()
+      // if (this.loggedUser.following.some((u) => u._id != this.currentUser._id)) {
+      //    this.isFollowed = !this.isFollowed
+      // }
+      // if (this.loggedUser.following.some((u) => u._id !== this.currentUser._id)) {
+      //    // this.isFollowed = true
+      //    console.log('takip etmiyor')
+      // }
    },
 }
 </script>
@@ -36,7 +81,7 @@ export default {
 
       div(class="btn-group" v-if="!error")
          div(v-if="currentUser.handle !== this.$store.state.user.handle")
-            BaseButton(tag="a" size="btn-medium" color="btn-outline" :href="`/users/${currentUser._id}/follow`") Follow
+            BaseButton(tag="button" size="btn-medium" :color="[isFollowed ? 'btn-dark' : 'btn-outline']"  @click="isFollowed ? unfollowUser(currentUser._id) : followUser(currentUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
          
          BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-else) Edit Profile
          
