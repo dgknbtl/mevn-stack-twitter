@@ -2,7 +2,7 @@
 import ProfileHeader from '@/components/profile/profile-header.vue'
 import ProfileNav from '@/components/profile/profile-nav.vue'
 import BaseText from '@/components/base-text.vue'
-import {mapActions, mapState} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
    name: 'ProfileView',
@@ -16,9 +16,6 @@ export default {
          currentUser: null,
          error: null,
       }
-   },
-   computed: {
-      ...mapState(['user']),
    },
    methods: {
       ...mapActions(['fetchUser']),
@@ -34,19 +31,14 @@ export default {
          this.currentUserHandle = handle
       },
    },
-   beforeMount() {
-      this.currentUser = this.user
-   },
-   async mounted() {
-      if (this.$route.params.handle !== this.currentUserHandle) {
-         await this.getUser(this.$route.params.handle)
-      }
+   async created() {
+      await this.getUser(this.$route.params.handle)
    },
 }
 </script>
 
 <template lang="pug">
-div
+div(v-if="currentUser")
    ProfileHeader(:currentUser="currentUser" :error="error")
    BaseText(size="fs-large" weight="fw-bold" class="text" v-if="error") This account doesn’t exist
    div(v-if="!error")

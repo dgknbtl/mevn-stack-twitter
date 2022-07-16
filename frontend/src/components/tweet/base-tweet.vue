@@ -37,8 +37,7 @@ div.tweet
    .tweet-content
       .tweet-header
          div            
-            RouterLink(:to="`/${tweet.author.handle}`" tag="a")
-               BaseText(class="tweet-author" weight="fw-bold" tag="a") {{tweet.author.name}}
+            BaseText(:href="`/${tweet.author.handle}`" class="tweet-author" weight="fw-bold" tag="a") {{tweet.author.name}}
             BaseText(class="tweet-handle") @{{tweet.author.handle}}
             BaseText  •
             RouterLink(to="/" tag="a")

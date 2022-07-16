@@ -26,6 +26,7 @@ figure.avatar
    border-radius: 999px;
    img {
       border-radius: inherit;
+      object-fit: cover;
    }
 }
 .small {

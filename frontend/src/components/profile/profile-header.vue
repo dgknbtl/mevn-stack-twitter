@@ -32,14 +32,18 @@ export default {
    RouterLink(tag="a" to="/"): BaseHeading(:title="error ? 'Profile' : currentUser.name" :subTitle="error ? '' : currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
-      BaseAvatar(size="xlarge" class="user-avatar" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
+      BaseAvatar(size="xlarge" class="user-avatar" :src="require('@/assets/images/twitter-egg.jpg')")
 
       div(class="btn-group" v-if="!error")
-         BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-if="this.$route.params.handle !== this.currentUserHandle") Edit Profile
+         div(v-if="currentUser.handle !== this.$store.state.user.handle")
+            BaseButton(tag="a" size="btn-medium" color="btn-outline" :href="`/users/${currentUser._id}/follow`") Follow
+         
+         BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-else) Edit Profile
+         
       div.user-name
          BaseText(tag="div" size="fs-large" weight="fw-bold") {{error ? '@' + this.$route.params.handle : currentUser.name}}
          BaseText(tag="div" size="fs-medium" class="handle" v-if="!error") @{{currentUser.handle}}
-      BaseText(tag="div" size="fs-medium" class="bio" v-if="currentUser.bio || !error") {{currentUser.bio}}
+      BaseText(tag="div" size="fs-medium" class="bio" v-if="!error") {{currentUser.bio}}
       div.user-info(v-if="!error")
          .info-item(v-if="currentUser.website")
             InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")

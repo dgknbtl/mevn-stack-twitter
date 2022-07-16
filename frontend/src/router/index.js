@@ -68,7 +68,6 @@ const routes = [
       props: true,
       component: () =>
          import(/* webpackChunkName: "profile" */ '../views/profile/index.vue'),
-
       children: [
          {
             path: '',

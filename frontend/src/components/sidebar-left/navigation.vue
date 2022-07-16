@@ -52,8 +52,8 @@ div
          InlineSvg(:src="require('@/assets/icons/list.svg')" width="26" v-else)
          BaseText(tag="span" size="fs-large") Lists
 
-      RouterLink(tag="a" class="sidebarNav-link" :to="`/${getHandle}`")
-         InlineSvg(:src="require('@/assets/icons/profile-fill.svg')" class="a" width="26" v-if="$route.name === 'profile-tweets' || $route.name === 'profile-replies' || $route.name === 'profile-likes' || $route.name === 'profile-media'   ")
+      BaseText(tag="a" class="sidebarNav-link"  :href="`/${getHandle}`")
+         InlineSvg(:src="require('@/assets/icons/profile-fill.svg')" class="a" width="26" v-if="$route.params.handle === getHandle && $route.name === 'profile-tweets' || $route.name === 'profile-replies' || $route.name === 'profile-likes' || $route.name === 'profile-media'   ")
          InlineSvg(:src="require('@/assets/icons/profile.svg')" width="26" v-else)
          BaseText(tag="span" size="fs-large") Profile
          
