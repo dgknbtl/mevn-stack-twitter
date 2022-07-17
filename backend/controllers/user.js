@@ -77,8 +77,7 @@ async function follow(req, res) {
       if (req.user.following.some((u) => u.id == userToFollow._id))
          return res.send({message: `You are already following ${userToFollow.name}`})
 
-      await UserService.follow(req.user, userToFollow)
-      res.send({message: `You followed ${userToFollow.name}`})
+      res.send(await UserService.follow(req.user, userToFollow))
    } catch (error) {
       res.status(404).send(`The user not found!, ${error}`)
    }
@@ -93,8 +92,7 @@ async function unFollow(req, res) {
       // if (req.user.following.some((u) => u.id == userToUnFollow._id))
       //    return res.send({message: `You are already following ${userToUnFollow.name}`})
 
-      await UserService.unfollow(req.user, userToUnFollow)
-      res.send({message: `You unfollowed ${userToUnFollow.name}`})
+      res.send(await UserService.unfollow(req.user, userToUnFollow))
    } catch (error) {
       res.status(404).send(`The user not found!, ${error}`)
    }

@@ -2,7 +2,7 @@
 import ProfileHeader from '@/components/profile/profile-header.vue'
 import ProfileNav from '@/components/profile/profile-nav.vue'
 import BaseText from '@/components/base-text.vue'
-import {mapActions} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 export default {
    name: 'ProfileView',
@@ -13,22 +13,23 @@ export default {
    },
    data() {
       return {
-         currentUser: null,
          error: null,
       }
+   },
+   computed: {
+      ...mapState(['searchedUser']),
    },
    methods: {
       ...mapActions(['fetchUser']),
       async getUser(handle) {
          try {
-            const user = await this.fetchUser(handle)
-            this.currentUser = user.data
+            await this.fetchUser(handle)
          } catch (e) {
             this.error = e.response.data.message
          }
       },
       getHandle(handle) {
-         this.currentUserHandle = handle
+         this.searchedUserHandle = handle
       },
    },
    async created() {
@@ -39,11 +40,12 @@ export default {
 
 <template lang="pug">
 div
-   ProfileHeader(:currentUser="currentUser" :error="error")
-   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="error") This account doesn’t exist
-   div(v-if="currentUser")
-      ProfileNav(:currentUserHandle="currentUser.handle")
-      RouterView( :tweets="currentUser.tweets" :replies="currentUser.replies" :likes="currentUser.likes"  :media="currentUser.media")
+   ProfileHeader(:searchedUser="searchedUser" :error="error" v-if="searchedUser")
+   BaseText(size="fs-large" weight="fw-bold" class="text"  v-if="error") This account doesn’t exist
+
+   div(v-if="searchedUser")
+      ProfileNav(:searchedUserHandle="searchedUser.handle")
+      RouterView( :tweets="searchedUser.tweets" :replies="searchedUser.replies" :likes="searchedUser.likes"  :media="searchedUser.media")
 </template>
 
 <style lang="postcss" scoped>

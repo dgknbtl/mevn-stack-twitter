@@ -6,6 +6,7 @@ axios.defaults.withCredentials = true
 
 const Mutations = {
    SET_USER: 'SET_USER',
+   SET_SEARCHED_USER: 'SET_SEARCHED_USER',
 }
 
 const initPlugin = (store) => {
@@ -14,19 +15,23 @@ const initPlugin = (store) => {
 
 export default createStore({
    state: {
-      user: [],
+      loggedUser: null,
+      searchedUser: null,
    },
    mutations: {
       [Mutations.SET_USER](state, user) {
-         state.user = user
+         state.loggedUser = user
+      },
+      [Mutations.SET_SEARCHED_USER](state, user) {
+         state.searchedUser = user
       },
    },
    getters: {
       getHandle(state) {
-         if (!state.user) {
+         if (!state.loggedUser) {
             return
          }
-         return state.user.handle
+         return state.loggedUser.handle
       },
    },
    actions: {
@@ -66,8 +71,10 @@ export default createStore({
       },
 
       // fetch a user
-      async fetchUser(ctx, handle) {
-         return await axios.get(`/users/${handle}`)
+      async fetchUser({commit}, handle) {
+         const user = await axios.get(`/users/${handle}`)
+         if (!user) return
+         commit(Mutations.SET_SEARCHED_USER, user.data)
       },
 
       // follow a user

@@ -14,7 +14,7 @@ export default {
       BaseDropdown,
    },
    computed: {
-      ...mapState(['user']),
+      ...mapState(['loggedUser']),
    },
    methods: {
       ...mapActions(['logout']),
@@ -31,18 +31,18 @@ export default {
 </script>
 
 <template lang="pug">
-BaseDropdown(position="top"  alignment="left" v-if="user")
+BaseDropdown(position="top"  alignment="left" v-if="loggedUser")
    template(#dropdown-toggle) 
       .more
          .more-avatar: BaseAvatar
          div.more-text
-            BaseText(class="more-user" weight="fw-bold") {{user.name}}
-            .more-handle @{{user.handle}}
+            BaseText(class="more-user" weight="fw-bold") {{loggedUser.name}}
+            .more-handle @{{loggedUser.handle}}
          InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
 
    template(#dropdown-nav)
       div(class="dropdown-item") Add an existing account
-      div(class="dropdown-item" @click="logoutUser") Logout @{{user.handle}}
+      div(class="dropdown-item" @click="logoutUser") Logout @{{loggedUser.handle}}
 </template>
 
 <style lang="postcss" scoped>

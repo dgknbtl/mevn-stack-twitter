@@ -20,21 +20,28 @@ export default {
          isFollowed: null,
       }
    },
-   props: ['currentUser', 'error'],
+   props: {
+      searchedUser: {},
+      error: {
+         type: Boolean,
+      },
+   },
    computed: {
-      ...mapState({
-         loggedUser: 'user',
-      }),
+      ...mapState(['loggedUser']),
       createdAt() {
          var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
-         const {createdAt} = this.currentUser
+         const {createdAt} = this.searchedUser
          const date = new Date(createdAt)
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
       },
    },
+   created() {
+      if (!this.searchedUser) return
+      this.isUserFollowed()
+   },
    methods: {
-      ...mapActions(['follow', 'unfollow']),
+      ...mapActions(['follow', 'unfollow', 'fetchUser']),
       async followUser(id) {
          await this.follow(id)
          this.isFollowed = true
@@ -43,52 +50,52 @@ export default {
          await this.unfollow(id)
          this.isFollowed = false
       },
-      checkIsFollowed() {
-         if (this.loggedUser.following.some((u) => u._id == this.currentUser._id)) {
+      isUserFollowed() {
+         if (this.loggedUser.following.some((u) => u._id == this.searchedUser._id)) {
             this.isFollowed = true
          } else {
             this.isFollowed = false
          }
       },
    },
-   async mounted() {
-      if (!this.currentUser) return
-      await this.checkIsFollowed()
+   async updated() {
+      if (!this.searchedUser) return
+      await this.fetchUser(this.searchedUser.handle)
    },
 }
 </script>
 
 <template lang="pug">
 .profileHeader
-   RouterLink(tag="a" to="/"): BaseHeading(:title="!currentUser ? 'Profile' : currentUser.name" :subTitle="!currentUser ? '' : currentUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
+   RouterLink(tag="a" to="/"): BaseHeading(:title="!searchedUser ? 'Profile' : searchedUser.name" :subTitle="!searchedUser ? '' : searchedUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" :src="require('@/assets/images/twitter-egg.jpg')")
       
-      div(class="btn-group" v-if="currentUser")
-         div(v-if="currentUser.handle !== this.$store.state.user.handle")
-            BaseButton(tag="button" size="btn-medium" :color="[isFollowed ? 'btn-dark' : 'btn-outline']"  @click="isFollowed ? unfollowUser(currentUser._id) : followUser(currentUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
+      div(class="btn-group" v-if="searchedUser")
+         div(v-if="searchedUser.handle !== this.$store.state.loggedUser.handle")
+            BaseButton(tag="button" size="btn-medium" :color="[isFollowed ? 'btn-dark' : 'btn-outline']"  @click="isFollowed ? unfollowUser(searchedUser._id) : followUser(searchedUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
          
          BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-else) Edit Profile
          
       div.user-name
-         BaseText(tag="div" size="fs-large" weight="fw-bold") {{!currentUser ? '@' + this.$route.params.handle : currentUser.name}}
-         BaseText(tag="div" size="fs-medium" class="handle" v-if="currentUser") @{{currentUser.handle}}
+         BaseText(tag="div" size="fs-large" weight="fw-bold") {{!searchedUser ? '@' + this.$route.params.handle : searchedUser.name}}
+         BaseText(tag="div" size="fs-medium" class="handle" v-if="searchedUser") @{{searchedUser.handle}}
          
-         div.user-info(v-if="currentUser")
-            BaseText(tag="div" size="fs-medium" class="bio") {{currentUser.bio}}
-            .info-item(v-if="currentUser.website")
+         div.user-info(v-if="searchedUser")
+            BaseText(tag="div" size="fs-medium" class="bio") {{searchedUser.bio}}
+            .info-item(v-if="searchedUser.website")
                InlineSvg(:src="require(`@/assets/icons/link.svg`)" width="18" fill="black")
-               BaseText(tag="a" href="#") {{currentUser.website}}
+               BaseText(tag="a" href="#") {{searchedUser.website}}
             .info-item
                InlineSvg(:src="require(`@/assets/icons/calendar.svg`)" width="18" fill="black")
                BaseText(tag="span") Joined {{createdAt}}
-         div.user-stats(v-if="currentUser")
+         div.user-stats(v-if="searchedUser")
             BaseText(tag="a" size="fs-medium") 
-               strong {{currentUser.following.length}} 
+               strong {{searchedUser.following.length}} 
                span  Following
             BaseText(tag="a" size="fs-medium") 
-               strong {{currentUser.followers.length}}
+               strong {{searchedUser.followers.length}}
                span  Followers
 </template>
 
