@@ -67,7 +67,7 @@ export default {
 
 <template lang="pug">
 .profileHeader
-   RouterLink(tag="a" to="/"): BaseHeading(:title="!searchedUser ? 'Profile' : searchedUser.name" :subTitle="!searchedUser ? '' : searchedUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left" @icon-action="someEvent" class="heading")
+   RouterLink(tag="a" to="/"): BaseHeading(:title="!searchedUser ? 'Profile' : searchedUser.name" :subTitle="!searchedUser ? '' : searchedUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left"  class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
       BaseAvatar(size="xlarge" class="user-avatar" :src="require('@/assets/images/twitter-egg.jpg')")

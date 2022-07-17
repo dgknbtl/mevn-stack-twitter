@@ -3,6 +3,7 @@ const TweetService = require('./tweet-service')
 const UserModel = require('../models/user')
 
 class UserService extends MongooseService {
+   // new tweet
    async newTweet(user, tweetContent) {
       const tweet = await TweetService.insert({
          author: user,
@@ -13,6 +14,7 @@ class UserService extends MongooseService {
       return tweet
    }
 
+   // remove a tweet
    async removeTweet(user, tweetId) {
       try {
          await TweetService.removeOne('_id', tweetId)
@@ -24,6 +26,7 @@ class UserService extends MongooseService {
       }
    }
 
+   // like a tweet
    async likeTweet(user, tweetId) {
       const tweet = await TweetService.find(tweetId)
 
@@ -34,6 +37,21 @@ class UserService extends MongooseService {
       await tweet.save()
    }
 
+   // unlike a tweet
+   async unlikeTweet(user, tweetId) {
+      const tweet = await TweetService.find(tweetId)
+
+      const filteredUserLikes = await user.likes.filter((t) => t.id !== tweet.id)
+      const filteredTweetLikes = await tweet.likes.filter((u) => u.id !== user.id)
+
+      user.likes = filteredUserLikes
+      tweet.likes = filteredTweetLikes
+
+      await user.save()
+      await tweet.save()
+   }
+
+   // retweet
    async reTweet(user, tweetId, content) {
       const retweet = await TweetService.insert({
          author: user,
@@ -52,6 +70,7 @@ class UserService extends MongooseService {
       await user.save()
    }
 
+   // follow a user
    async follow(user, userToFollow) {
       user.following.push(userToFollow._id)
       userToFollow.followers.push(user._id)
@@ -60,6 +79,7 @@ class UserService extends MongooseService {
       await userToFollow.save()
    }
 
+   // unfollow a user
    async unfollow(user, userToUnFollow) {
       const filteredFollowing = await user.following.filter(
          (u) => u.id !== userToUnFollow.id

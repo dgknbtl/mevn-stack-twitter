@@ -17,10 +17,11 @@ export default {
 </script>
 
 <template lang="pug">
-BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!likes.length") @{{this.$route.params.handle}} hasn’t liked any Tweets
+div
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!likes.length") @{{this.$route.params.handle}} hasn’t liked any Tweets
 
-div(v-for="(like,index) in likes" key="index" v-else)
-   BaseTweet(:tweet="like")
+   div(v-for="(like,index) in likes" key="index" v-else)
+      BaseTweet(:tweet="like")
 </template>
 
 <style lang="postcss" scoped>

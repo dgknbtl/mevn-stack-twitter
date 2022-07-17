@@ -4,6 +4,7 @@ module.exports = {
    createTweet,
    removeTweet,
    likeTweet,
+   unlikeTweet,
    reTweet,
    getTweet,
    getAllTweets,
@@ -49,6 +50,20 @@ async function likeTweet(req, res) {
       await UserService.likeTweet(req.user, tweet._id)
 
       res.send({message: 'You liked the tweet.'})
+   } catch (error) {
+      res.status(404).send(`Tweet is not found!, ${error}`)
+   }
+}
+
+// like a tweet
+async function unlikeTweet(req, res) {
+   try {
+      const tweet = await TweetService.find(req.params.tweetId)
+
+      if (!tweet) return res.send({message: 'Tweet is not found'})
+
+      await UserService.unlikeTweet(req.user, tweet._id)
+      res.send({message: 'You unliked the tweet.'})
    } catch (error) {
       res.status(404).send(`Tweet is not found!, ${error}`)
    }

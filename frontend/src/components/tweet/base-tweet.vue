@@ -3,6 +3,7 @@ import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseText from '@/components/base-text.vue'
 import BaseDropdown from '@/components/base-dropdown.vue'
+import {mapActions, mapState} from 'vuex'
 
 export default {
    name: 'BaseTweet',
@@ -12,6 +13,11 @@ export default {
       BaseText,
       BaseDropdown,
    },
+   data() {
+      return {
+         isLiked: null,
+      }
+   },
    props: {
       tweet: {
          type: Object,
@@ -19,12 +25,37 @@ export default {
       },
    },
    computed: {
+      ...mapState(['loggedUser']),
       createdAt() {
          var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
          const {createdAt} = this.tweet
          const date = new Date(createdAt)
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
+      },
+   },
+   created() {
+      if (!this.tweet) return
+      this.isTweetLiked(this.tweet._id)
+   },
+   methods: {
+      ...mapActions(['like', 'unlike', 'fetchUser']),
+      async likeTweet(id) {
+         await this.like(id)
+         this.isLiked = true
+         await this.fetchUser(this.loggedUser.handle)
+      },
+      async unlikeTweet(id) {
+         await this.unlike(id)
+         this.isLiked = false
+         await this.fetchUser(this.loggedUser.handle)
+      },
+      isTweetLiked(id) {
+         if (this.loggedUser.likes.some((t) => t._id == id)) {
+            this.isLiked = true
+         } else {
+            this.isLiked = false
+         }
       },
    },
 }
@@ -34,7 +65,7 @@ export default {
 div.tweet
    .tweet-avatar
       BaseAvatar(size="large")
-   .tweet-content
+   div.tweet-inner
       .tweet-header
          div            
             BaseText(:href="`/${tweet.author.handle}`" class="tweet-author" weight="fw-bold" tag="a") {{tweet.author.name}}
@@ -66,12 +97,17 @@ div.tweet
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
                BaseText(size="fs-small" v-if="tweet.replies.length") {{tweet.replies.length}}
+            
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
                BaseText(size="fs-small" v-if="tweet.retweets.length") {{tweet.retweets.length}}
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/like.svg')" width="18")
+            
+            .tweet-action(@click="!isLiked ? likeTweet(tweet._id) : unlikeTweet(tweet._id)" :class="[isLiked ? 'liked' : '']")
+               .action-icon 
+                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!isLiked")
+                  InlineSvg(:src="require('@/assets/icons/like-fill.svg')" width="18" v-else)
                BaseText(size="fs-small" v-if="tweet.likes.length") {{tweet.likes.length}}
+            
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
                
@@ -90,6 +126,9 @@ div.tweet
    }
    &-avatar {
       margin-right: 12px;
+   }
+   &-inner {
+      flex: 1;
    }
    &-header {
       position: relative;
@@ -147,6 +186,7 @@ div.tweet
          display: flex;
          align-items: center;
          margin-left: -5px;
+         min-width: 42px;
          .action-icon {
             width: 30px;
             height: 30px;
@@ -203,6 +243,17 @@ div.tweet
                .action-icon {
                   background-color: rgba(var(--c-red), 0.1);
                }
+               svg {
+                  fill: rgb(var(--c-red));
+               }
+            }
+         }
+
+         &.liked {
+            span {
+               color: rgb(var(--c-red)) !important;
+            }
+            .action-icon {
                svg {
                   fill: rgb(var(--c-red));
                }

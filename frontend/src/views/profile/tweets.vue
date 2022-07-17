@@ -17,10 +17,11 @@ export default {
 </script>
 
 <template lang="pug">
-BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!tweets.length") {{this.$route.params.handle == this.$store.state.loggedUser.handle ? 'You don’t have any tweets yet' : "Hasn't tweeted yet"}}
+div
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!tweets.length") {{this.$route.params.handle == this.$store.state.loggedUser.handle ? 'You don’t have any tweets yet' : "Hasn't tweeted yet"}}
 
-div(v-for="(tweet,index) in tweets" key="index" v-else)
-   BaseTweet(:tweet="tweet")
+   div(v-for="(tweet,index) in tweets" key="index" v-else)
+      BaseTweet(:tweet="tweet")
 </template>
 
 <style lang="postcss" scoped>

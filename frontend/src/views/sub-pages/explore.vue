@@ -12,7 +12,7 @@ export default {
 
 <template lang="pug">
 div
-   BaseHeading(title="Latest Tweets" icon="star" @icon-action="someEvent")
+   BaseHeading(title="Latest Tweets" icon="star")
 </template>
 
 <style lang="postcss" scoped></style>

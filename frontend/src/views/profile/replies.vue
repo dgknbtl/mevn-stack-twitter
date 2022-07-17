@@ -17,10 +17,11 @@ export default {
 </script>
 
 <template lang="pug">
-BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!replies.length") @{{this.$route.params.handle}} hasn’t replied any Tweets
+div
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!replies.length") @{{this.$route.params.handle}} hasn’t replied any Tweets
 
-div(v-for="(replie,index) in replies" key="index" v-else)
-   BaseTweet(:tweet="replie")
+   div(v-for="(replie,index) in replies" key="index" v-else)
+      BaseTweet(:tweet="replie")
 </template>
 
 <style lang="postcss" scoped>

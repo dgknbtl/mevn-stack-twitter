@@ -7,6 +7,7 @@ axios.defaults.withCredentials = true
 const Mutations = {
    SET_USER: 'SET_USER',
    SET_SEARCHED_USER: 'SET_SEARCHED_USER',
+   SET_LOGGED_USER_LIKES: 'SET_LOGGED_USER_LIKES',
 }
 
 const initPlugin = (store) => {
@@ -75,6 +76,7 @@ export default createStore({
          const user = await axios.get(`/users/${handle}`)
          if (!user) return
          commit(Mutations.SET_SEARCHED_USER, user.data)
+         return user
       },
 
       // follow a user
@@ -85,6 +87,16 @@ export default createStore({
       // unfollow a user
       async unfollow(ctx, id) {
          return await axios.get(`/users/${id}/unfollow`)
+      },
+
+      // like a tweet
+      async like(ctx, id) {
+         return await axios.patch(`/tweets/${id}/like`)
+      },
+
+      // unlike a tweet
+      async unlike(ctx, id) {
+         return await axios.patch(`/tweets/${id}/unlike`)
       },
    },
    modules: {},
