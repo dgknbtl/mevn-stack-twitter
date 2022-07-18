@@ -44,10 +44,12 @@ export default {
       ...mapActions(['follow', 'unfollow', 'fetchUser']),
       async followUser(id) {
          await this.follow(id)
+         await this.fetchUser(this.searchedUser.handle)
          this.isFollowed = true
       },
       async unfollowUser(id) {
          await this.unfollow(id)
+         await this.fetchUser(this.searchedUser.handle)
          this.isFollowed = false
       },
       isUserFollowed() {
@@ -57,10 +59,6 @@ export default {
             this.isFollowed = false
          }
       },
-   },
-   async updated() {
-      if (!this.searchedUser) return
-      await this.fetchUser(this.searchedUser.handle)
    },
 }
 </script>
@@ -74,7 +72,7 @@ export default {
       
       div(class="btn-group" v-if="searchedUser")
          div(v-if="searchedUser.handle !== this.$store.state.loggedUser.handle")
-            BaseButton(tag="button" size="btn-medium" :color="[isFollowed ? 'btn-dark' : 'btn-outline']"  @click="isFollowed ? unfollowUser(searchedUser._id) : followUser(searchedUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
+            BaseButton(tag="button" size="btn-medium" :color="isFollowed ? 'btn-dark' : 'btn-outline'"  @click="isFollowed ? unfollowUser(searchedUser._id) : followUser(searchedUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
          
          BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-else) Edit Profile
          
