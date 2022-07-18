@@ -23,11 +23,8 @@ export default {
       iconPosition: {
          type: String,
          default: 'right',
-         validator: function (value) {
-            if (['left', 'right'].indexOf(value) === -1)
-               throw new Error(
-                  `"${value}" is invalid prop: custom validator check failed`
-               )
+         validator(value) {
+            return ['left', 'right'].includes(value)
          },
       },
    },

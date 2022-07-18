@@ -10,27 +10,25 @@ export default {
       tag: {
          default: 'button',
          validator: function (value) {
-            return ['button', 'a'].indexOf(value) !== -1
+            return ['button', 'a'].includes(value)
          },
       },
       size: {
          default: 'btn-large',
          validator: function (value) {
-            return ['btn-small', 'btn-medium', 'btn-large'].indexOf(value) !== -1
+            return ['btn-small', 'btn-medium', 'btn-large'].includes(value)
          },
       },
       color: {
          default: 'btn-primary',
          validator: function (value) {
-            return (
-               [
-                  'btn-primary',
-                  'btn-gray',
-                  'btn-light',
-                  'btn-dark',
-                  'btn-outline',
-               ].indexOf(value) !== -1
-            )
+            return [
+               'btn-primary',
+               'btn-gray',
+               'btn-light',
+               'btn-dark',
+               'btn-outline',
+            ].includes(value)
          },
       },
    },
