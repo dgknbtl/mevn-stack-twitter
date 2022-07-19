@@ -75,9 +75,16 @@ export default createStore({
       async fetchUser({commit}, handle) {
          const user = await axios.get(`/users/${handle}`)
          if (!user) return
-         commit(Mutations.SET_SEARCHED_USER, user.data)
+         commit('SET_SEARCHED_USER', user.data)
          return user
       },
+
+      // update a searched user
+      // async updateSearchedUserData({commit, dispatch}, handle) {
+      //    const user = await dispatch('fetchUser', handle)
+      //    if (!user) return
+      //    commit('SET_SEARCHED_USER', user.data)
+      // },
 
       // follow a user
       async follow(ctx, id) {

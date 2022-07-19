@@ -43,15 +43,15 @@ export default {
       async likeTweet(id) {
          await this.like(id)
          this.isLiked = true
-         await this.fetchUser(this.loggedUser.handle)
+         await this.fetchUser(this.$route.params.handle)
       },
       async unlikeTweet(id) {
          await this.unlike(id)
          this.isLiked = false
-         await this.fetchUser(this.loggedUser.handle)
+         await this.fetchUser(this.$route.params.handle)
       },
       isTweetLiked(id) {
-         if (this.loggedUser.likes.some((t) => t._id == id)) {
+         if (this.$store.state.searchedUser.likes.some((t) => t._id == id)) {
             this.isLiked = true
          } else {
             this.isLiked = false
