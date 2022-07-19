@@ -25,7 +25,7 @@ export default {
       },
    },
    computed: {
-      ...mapState(['loggedUser']),
+      ...mapState(['loggedUser', 'searchedUser']),
       createdAt() {
          var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
          const {createdAt} = this.tweet
@@ -34,7 +34,7 @@ export default {
          return formattedDate
       },
    },
-   created() {
+   async created() {
       if (!this.tweet) return
       this.isTweetLiked(this.tweet._id)
    },
@@ -43,15 +43,20 @@ export default {
       async likeTweet(id) {
          await this.like(id)
          this.isLiked = true
-         await this.fetchUser(this.$route.params.handle)
+         await this.fetchUser(
+            this.$route.params.handle ? this.$route.params.handle : this.loggedUser.handle
+         )
       },
       async unlikeTweet(id) {
          await this.unlike(id)
          this.isLiked = false
-         await this.fetchUser(this.$route.params.handle)
+         await this.fetchUser(
+            this.$route.params.handle ? this.$route.params.handle : this.loggedUser.handle
+         )
       },
       isTweetLiked(id) {
-         if (this.$store.state.searchedUser.likes.some((t) => t._id == id)) {
+         if (!this.searchedUser) return
+         if (this.searchedUser.likes.some((t) => t._id == id)) {
             this.isLiked = true
          } else {
             this.isLiked = false

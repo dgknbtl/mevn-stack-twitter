@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 3,
             },
          },
       ],
@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             autopopulate: {
-               maxDepth: 2,
+               maxDepth: 3,
             },
          },
       ],

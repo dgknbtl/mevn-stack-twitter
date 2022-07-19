@@ -7,7 +7,6 @@ axios.defaults.withCredentials = true
 const Mutations = {
    SET_USER: 'SET_USER',
    SET_SEARCHED_USER: 'SET_SEARCHED_USER',
-   SET_LOGGED_USER_LIKES: 'SET_LOGGED_USER_LIKES',
 }
 
 const initPlugin = (store) => {
@@ -59,12 +58,14 @@ export default createStore({
          if (!user) return
          commit(Mutations.SET_USER, user.data)
          localStorage.setItem('isLoggedIn', JSON.stringify(true))
+         localStorage.setItem('loggedUserHandle', JSON.stringify(user.data.handle))
       },
 
       async logout({commit}) {
          await axios.get('/users/logout')
          commit(Mutations.SET_USER, null)
          localStorage.setItem('isLoggedIn', JSON.stringify(false))
+         localStorage.setItem('loggedUserHandle', JSON.stringify(null))
       },
 
       async register(ctx, payload) {
@@ -79,12 +80,11 @@ export default createStore({
          return user
       },
 
-      // update a searched user
-      // async updateSearchedUserData({commit, dispatch}, handle) {
-      //    const user = await dispatch('fetchUser', handle)
-      //    if (!user) return
-      //    commit('SET_SEARCHED_USER', user.data)
-      // },
+      async fetchAllTweets() {
+         const tweets = await axios.get('/tweets')
+         if (!tweets) return
+         return tweets
+      },
 
       // follow a user
       async follow(ctx, id) {

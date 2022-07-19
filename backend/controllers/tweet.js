@@ -106,9 +106,6 @@ async function getTweet(req, res) {
 
 // get all tweets
 async function getAllTweets(req, res) {
-   const {name, tweets} = req.user
-
    if (!req.user) return res.status(401).send({message: 'Please log in!'})
-
-   res.send({name, tweets})
+   return res.status(200).send(await TweetService.load())
 }

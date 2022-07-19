@@ -7,6 +7,10 @@ class MongooseService {
       return this.model.insertMany(body)
    }
 
+   load() {
+      return this.model.find()
+   }
+
    async insert(body) {
       return await this.model.create(body)
    }
