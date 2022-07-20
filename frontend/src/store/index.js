@@ -7,6 +7,7 @@ axios.defaults.withCredentials = true
 const Mutations = {
    SET_USER: 'SET_USER',
    SET_SEARCHED_USER: 'SET_SEARCHED_USER',
+   SET_ALL_TWEETS: 'SET_ALL_TWEETS',
 }
 
 const initPlugin = (store) => {
@@ -17,6 +18,7 @@ export default createStore({
    state: {
       loggedUser: null,
       searchedUser: null,
+      allTweets: null,
    },
    mutations: {
       [Mutations.SET_USER](state, user) {
@@ -25,6 +27,14 @@ export default createStore({
       [Mutations.SET_SEARCHED_USER](state, user) {
          state.searchedUser = user
       },
+      [Mutations.SET_ALL_TWEETS](state, tweets) {
+         state.allTweets = tweets
+      },
+      // [Mutations.UPDATE_TWEET](state, tweet) {
+      //    // problem -> takip edilenler searcheduser'da yok
+      //    const item = state.searchedUser.tweets.find((t) => t._id === tweet._id)
+      //    Object.assign(item, tweet)
+      // },
    },
    getters: {
       getHandle(state) {
@@ -59,6 +69,7 @@ export default createStore({
          commit(Mutations.SET_USER, user.data)
          localStorage.setItem('isLoggedIn', JSON.stringify(true))
          localStorage.setItem('loggedUserHandle', JSON.stringify(user.data.handle))
+         localStorage.setItem('loggedUserId', JSON.stringify(user.data._id))
       },
 
       async logout({commit}) {
@@ -66,24 +77,11 @@ export default createStore({
          commit(Mutations.SET_USER, null)
          localStorage.setItem('isLoggedIn', JSON.stringify(false))
          localStorage.setItem('loggedUserHandle', JSON.stringify(null))
+         localStorage.setItem('loggedUserId', JSON.stringify(null))
       },
 
       async register(ctx, payload) {
          return await axios.post('/users/register', payload)
-      },
-
-      // fetch a user
-      async fetchUser({commit}, handle) {
-         const user = await axios.get(`/users/${handle}`)
-         if (!user) return
-         commit('SET_SEARCHED_USER', user.data)
-         return user
-      },
-
-      async fetchAllTweets() {
-         const tweets = await axios.get('/tweets')
-         if (!tweets) return
-         return tweets
       },
 
       // follow a user
@@ -98,12 +96,42 @@ export default createStore({
 
       // like a tweet
       async like(ctx, id) {
-         return await axios.patch(`/tweets/${id}/like`)
+         await axios.patch(`/tweets/${id}/like`)
+         console.log('like', id)
       },
 
       // unlike a tweet
       async unlike(ctx, id) {
-         return await axios.patch(`/tweets/${id}/unlike`)
+         await axios.patch(`/tweets/${id}/unlike`)
+         console.log('unlike', id)
+      },
+
+      // fetch a user
+      async fetchUser({commit}, handle) {
+         const user = await axios.get(`/users/${handle}`)
+         if (!user) return
+         commit('SET_SEARCHED_USER', user.data)
+         console.log(user)
+      },
+
+      // fetch a tweet
+      async fetchTweet(ctx, id) {
+         const tweet = await axios.get(`/tweets/${id}`)
+         if (!tweet) return
+         return tweet
+      },
+
+      async fetchAllTweets({commit}) {
+         const tweets = await axios.get('/tweets')
+         if (!tweets) return
+         commit(Mutations.SET_ALL_TWEETS, tweets.data)
+      },
+
+      // create a new tweet
+      async createTweet({state, dispatch}, tweetContent) {
+         const tweet = await axios.post('/tweets/new', {content: tweetContent})
+         await dispatch('fetchUser', state.loggedUser.handle)
+         return tweet
       },
    },
    modules: {},

@@ -32,8 +32,12 @@ export default {
          this.searchedUserHandle = handle
       },
    },
-   async created() {
-      await this.getUser(this.$route.params.handle)
+   async mounted() {
+      await this.getUser(
+         this.$route.params.handle
+            ? this.$route.params.handle
+            : this.$store.state.loggedUser.handle
+      )
    },
 }
 </script>

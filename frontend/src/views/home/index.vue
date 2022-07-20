@@ -19,9 +19,16 @@ export default {
       }
    },
    computed: {
-      ...mapState(['searchedUser', 'loggedUser']),
-      loggedUserTweets() {
-         return this.loggedUser.tweets
+      ...mapState({
+         searchedUser: (state) => state.searchedUser,
+      }),
+      allTweets() {
+         if (!this.searchedUser) return
+         let tweets
+         for (const user of this.searchedUser?.following) {
+            tweets = user.tweets
+         }
+         return [...tweets, ...this.searchedUser.tweets]
       },
    },
    methods: {
@@ -44,19 +51,24 @@ export default {
 
 <template lang="pug">
 div
-   BaseHeading(title="Latest Tweets" icon="star" @icon-action="someEvent")
-   
+   BaseHeading(title="Latest Tweets" icon="star")
+
    NewTweet
    
-   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!searchedUser?.following.length")  You don't follow anyone.
-   
-   div(v-for="(user,index) in searchedUser.following" :key="index" v-else)
-      div(v-for="(tweet,index) in user?.tweets" key="index" v-if="!tweet")
-         BaseTweet(:tweet="tweet")
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!allTweets")  You don't follow anyone.
 
-  
-   div(v-for="(tweet,index) in searchedUser?.tweets" key="index"  v-if="!tweet")  
-      BaseTweet(:tweet="tweet")
+   div(v-for="(tweet,index) in allTweets" v-else) 
+      BaseTweet(  
+         :id="tweet._id"         
+         :author="tweet.author"
+         :createdAt="tweet.createdAt"
+         :content="tweet.content"
+         :attachment="tweet.attachment"
+         :replies="tweet.replies.length"
+         :retweets="tweet.retweets.length"
+         :likes="tweet.likes.length"
+         :isLiked="this.$store.state.loggedUser?.likes.some((t) => t._id == tweet._id)"
+         v-if="this.$store.state.loggedUser?.following.some((u) => u._id == tweet.author._id) || tweet.author._id == this.$store.state.loggedUser?._id ")
 </template>
 
 <style lang="postcss" scoped>

@@ -3,7 +3,7 @@ import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseText from '@/components/base-text.vue'
 import BaseDropdown from '@/components/base-dropdown.vue'
-import {mapActions, mapState} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
    name: 'BaseTweet',
@@ -15,52 +15,54 @@ export default {
    },
    data() {
       return {
-         isLiked: null,
+         isLikedCheck: this.isLiked,
+         likeCount: this.likes,
       }
    },
    props: {
-      tweet: {
-         type: Object,
-         required: true,
+      id: {
+         type: String,
       },
-   },
-   computed: {
-      ...mapState(['loggedUser', 'searchedUser']),
-      createdAt() {
-         var options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
-         const {createdAt} = this.tweet
-         const date = new Date(createdAt)
-         const formattedDate = date.toLocaleDateString('en-US', options)
-         return formattedDate
+      author: {
+         type: [Object, Array],
       },
-   },
-   async created() {
-      if (!this.tweet) return
-      this.isTweetLiked(this.tweet._id)
+      createdAt: {
+         type: String,
+      },
+      content: {
+         type: String,
+      },
+      replies: {
+         type: Number,
+      },
+      retweets: {
+         type: Number,
+      },
+      likes: {
+         type: Number,
+      },
+      isLiked: {},
    },
    methods: {
-      ...mapActions(['like', 'unlike', 'fetchUser']),
+      ...mapActions(['like', 'unlike', 'fetchTweet', 'fetchUser']),
       async likeTweet(id) {
          await this.like(id)
-         this.isLiked = true
-         await this.fetchUser(
-            this.$route.params.handle ? this.$route.params.handle : this.loggedUser.handle
-         )
+         this.isLikedCheck = true
+         await this.updateTweetLikes()
       },
       async unlikeTweet(id) {
          await this.unlike(id)
-         this.isLiked = false
-         await this.fetchUser(
-            this.$route.params.handle ? this.$route.params.handle : this.loggedUser.handle
-         )
+         this.isLikedCheck = false
+         await this.updateTweetLikes()
       },
-      isTweetLiked(id) {
-         if (!this.searchedUser) return
-         if (this.searchedUser.likes.some((t) => t._id == id)) {
-            this.isLiked = true
-         } else {
-            this.isLiked = false
-         }
+      async updateTweetLikes() {
+         const tweet = await this.fetchTweet(this.id)
+         this.likeCount = tweet.data.likes.length
+         await this.fetchUser(
+            this.$route.params.handle
+               ? this.$route.params.handle
+               : this.$store.state.loggedUser.handle
+         )
       },
    },
 }
@@ -73,8 +75,8 @@ div.tweet
    div.tweet-inner
       .tweet-header
          div            
-            BaseText(:href="`/${tweet.author.handle}`" class="tweet-author" weight="fw-bold" tag="a") {{tweet.author.name}}
-            BaseText(class="tweet-handle") @{{tweet.author.handle}}
+            BaseText(:href="`/${author.handle}`" class="tweet-author" weight="fw-bold" tag="a") {{author.name}}
+            BaseText(class="tweet-handle") @{{author.handle}}
             BaseText  •
             RouterLink(to="/" tag="a")
                BaseText(class="tweet-time")  {{createdAt}}
@@ -85,33 +87,33 @@ div.tweet
             template(#dropdown-toggle) 
                .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
             template(#dropdown-nav)
-               a(href="#" class="dropdown-item") Unfollow @{{tweet.author.handle}}
-               a(href="#" class="dropdown-item") Add/remove @{{tweet.author.handle}} from lists
-               a(href="#" class="dropdown-item") Mute @{{tweet.author.handle}} 
-               a(href="#" class="dropdown-item") Block @{{tweet.author.handle}} 
+               a(href="#" class="dropdown-item") Unfollow @{{author.handle}}
+               a(href="#" class="dropdown-item") Add/remove @{{author.handle}} from lists
+               a(href="#" class="dropdown-item") Mute @{{author.handle}} 
+               a(href="#" class="dropdown-item") Block @{{author.handle}} 
                a(href="#" class="dropdown-item") Embed Tweet 
                a(href="#" class="dropdown-item") Report Tweet 
 
 
 
       .tweet-content
-         BaseText(tag="p") {{tweet.content}}
-         figure.tweet-image(v-if="tweet.attachment")
+         BaseText(tag="p") {{content}}
+         figure.tweet-image(v-if="attachment")
             img()
          .tweet-actions
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
-               BaseText(size="fs-small" v-if="tweet.replies.length") {{tweet.replies.length}}
+               BaseText(size="fs-small" v-if="replies") {{replies}}
             
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
-               BaseText(size="fs-small" v-if="tweet.retweets.length") {{tweet.retweets.length}}
+               BaseText(size="fs-small" v-if="retweets") {{retweets}}
             
-            .tweet-action(@click="!isLiked ? likeTweet(tweet._id) : unlikeTweet(tweet._id)" :class="[isLiked ? 'liked' : '']")
+            .tweet-action(@click="!isLikedCheck ? likeTweet(id) : unlikeTweet(id)" :class="[likeCount > 0 ? 'liked' : '']")
                .action-icon 
-                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!isLiked")
+                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!likeCount > 0")
                   InlineSvg(:src="require('@/assets/icons/like-fill.svg')" width="18" v-else)
-               BaseText(size="fs-small" v-if="tweet.likes.length") {{tweet.likes.length}}
+               BaseText(size="fs-small" v-if="likeCount") {{likeCount}}
             
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")

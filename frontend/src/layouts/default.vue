@@ -19,7 +19,8 @@ BaseContainer
       .layout-left
          SidebarLeft
       .layout-middle
-         RouterView
+         keep-alive
+            RouterView
       .layout-right
         SidebarRight
 </template>

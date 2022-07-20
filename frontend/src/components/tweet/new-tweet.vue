@@ -2,6 +2,7 @@
 import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseButton from '@/components/base-button.vue'
+import {mapActions} from 'vuex'
 
 export default {
    name: 'NewTweet',
@@ -14,9 +15,19 @@ export default {
       this.resize()
    },
    methods: {
+      ...mapActions(['createTweet']),
       resize() {
          const {textarea} = this.$refs
          textarea.style.height = textarea.scrollHeight - 10 + 'px'
+      },
+      async newTweet(e) {
+         e.preventDefault()
+         try {
+            await this.createTweet(this.tweetContent)
+         } catch (error) {
+            console.log(error)
+         }
+         this.tweetContent = ''
       },
    },
    components: {
@@ -32,7 +43,7 @@ div.tweet
    form.tweet-box
       .tweet-avatar
          a(href="/profile"): BaseAvatar(size="large" src="https://pbs.twimg.com/profile_images/1544667412120879104/Z4vKdOuy_400x400.jpg")
-      .tweet-content
+      form.tweet-content(@submit="newTweet")
          textarea(v-model="tweetContent" class="tweet-control" name="tweet-content" maxlength="140" minlength="1" placeholder="What's happening?" resize="none"   ref="textarea" rows="1"  @focus="resize"   @keyup="resize")
          .tweet-footer
             .tweet-actions
