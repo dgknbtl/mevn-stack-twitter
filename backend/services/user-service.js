@@ -35,6 +35,8 @@ class UserService extends MongooseService {
 
       await user.save()
       await tweet.save()
+
+      return tweet
    }
 
    // unlike a tweet
@@ -49,6 +51,8 @@ class UserService extends MongooseService {
 
       await user.save()
       await tweet.save()
+
+      return tweet
    }
 
    // retweet

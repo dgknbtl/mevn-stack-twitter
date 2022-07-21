@@ -21,8 +21,8 @@ async function createTweet(req, res) {
 
    if (messages.length) return res.send({messages})
 
-   await UserService.newTweet(req.user, content)
-   res.send({message: 'Tweet was created successfully.'})
+   const tweet = await UserService.newTweet(req.user, content)
+   return res.send(tweet)
 }
 
 // remove a tweet
@@ -47,9 +47,8 @@ async function likeTweet(req, res) {
       if (req.user.likes.some((t) => t.id == tweet._id))
          return res.send('Tweet already liked')
 
-      await UserService.likeTweet(req.user, tweet._id)
-
-      res.send({message: 'You liked the tweet.'})
+      const likeTweet = await UserService.likeTweet(req.user, tweet._id)
+      return res.send(likeTweet)
    } catch (error) {
       res.status(404).send(`Tweet is not found!, ${error}`)
    }
@@ -62,8 +61,8 @@ async function unlikeTweet(req, res) {
 
       if (!tweet) return res.send({message: 'Tweet is not found'})
 
-      await UserService.unlikeTweet(req.user, tweet._id)
-      res.send({message: 'You unliked the tweet.'})
+      const unlikeTweet = await UserService.unlikeTweet(req.user, tweet._id)
+      return res.send(unlikeTweet)
    } catch (error) {
       res.status(404).send(`Tweet is not found!, ${error}`)
    }

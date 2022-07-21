@@ -7,6 +7,8 @@ axios.defaults.withCredentials = true
 const Mutations = {
    SET_USER: 'SET_USER',
    SET_SEARCHED_USER: 'SET_SEARCHED_USER',
+   NEW_TWEET: 'NEW_TWEET',
+   REMOVE_TWEET: 'REMOVE_TWEET',
 }
 
 const initPlugin = (store) => {
@@ -25,6 +27,14 @@ export default createStore({
       },
       [Mutations.SET_SEARCHED_USER](state, user) {
          state.searchedUser = user
+      },
+      [Mutations.NEW_TWEET](state, tweet) {
+         if (state.loggedUser._id != state.searchedUser._id) return
+         state.searchedUser.tweets.push(tweet)
+      },
+      [Mutations.REMOVE_TWEET](state, id) {
+         const index = state.searchedUser.tweets.findIndex((t) => t._id == id)
+         state.searchedUser.tweets.splice(index, 1)
       },
    },
    getters: {
@@ -117,10 +127,16 @@ export default createStore({
       },
 
       // create a new tweet
-      async createTweet({state, dispatch}, tweetContent) {
+      async createTweet({commit}, tweetContent) {
          const tweet = await axios.post('/tweets/new', {content: tweetContent})
-         await dispatch('fetchUser', state.loggedUser.handle)
-         return tweet
+         if (!tweet) return
+         commit(Mutations.NEW_TWEET, tweet.data)
+      },
+
+      // remove a tweet
+      async removeTweet({commit}, id) {
+         await axios.delete(`/tweets/${id}`)
+         commit(Mutations.REMOVE_TWEET, id)
       },
    },
    modules: {},

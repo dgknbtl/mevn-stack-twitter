@@ -51,7 +51,7 @@ export default {
 .dropdown(:class="[position,alignment]")
    .dropdown-toggle(@click="toggleDropdown"): slot(name="dropdown-toggle")
    .dropdown-menu(v-if="isDropdownShow")
-      .dropdown-nav
+      .dropdown-nav(@click="toggleDropdown")
          slot(name="dropdown-nav")
 </template>
 

@@ -56,6 +56,9 @@ export default {
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
       },
+      checkIsMe() {
+         return this.$store.state.loggedUser?.tweets.some((t) => t._id == this.id)
+      },
       checkIsLiked() {
          return this.$store.state.loggedUser?.likes.some((t) => t._id == this.id)
       },
@@ -65,7 +68,7 @@ export default {
       this.isLiked = this.checkIsLiked ? (this.isLiked = true) : (this.isLiked = false)
    },
    methods: {
-      ...mapActions(['like', 'unlike', 'fetchTweet', 'fetchUser']),
+      ...mapActions(['like', 'unlike', 'fetchTweet', 'fetchUser', 'removeTweet']),
       async likeTweet(id) {
          await this.like(id)
          this.isLiked = true
@@ -84,6 +87,9 @@ export default {
                ? this.$route.params.handle
                : this.$store.state.loggedUser.handle
          )
+      },
+      async deleteTweet(id) {
+         await this.removeTweet(id)
       },
    },
 }
@@ -108,10 +114,12 @@ div.tweet
             template(#dropdown-toggle) 
                .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
             template(#dropdown-nav)
-               a(href="#" class="dropdown-item") Unfollow @{{author.handle}}
+               a(href="#" class="dropdown-item delete-item" v-if="checkIsMe" @click="deleteTweet(id)") Delete Tweet
+               div(v-else)
+                  a(href="#" class="dropdown-item") Unfollow @{{author.handle}}
+                  a(href="#" class="dropdown-item") Mute @{{author.handle}} 
+                  a(href="#" class="dropdown-item") Block @{{author.handle}} 
                a(href="#" class="dropdown-item") Add/remove @{{author.handle}} from lists
-               a(href="#" class="dropdown-item") Mute @{{author.handle}} 
-               a(href="#" class="dropdown-item") Block @{{author.handle}} 
                a(href="#" class="dropdown-item") Embed Tweet 
                a(href="#" class="dropdown-item") Report Tweet 
 
@@ -287,6 +295,9 @@ div.tweet
             }
          }
       }
+   }
+   .delete-item {
+      color: rgb(var(--c-red));
    }
 }
 </style>
