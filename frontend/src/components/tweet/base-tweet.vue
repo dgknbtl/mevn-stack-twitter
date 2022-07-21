@@ -15,7 +15,7 @@ export default {
    },
    data() {
       return {
-         isLikedCheck: this.isLiked,
+         isLiked: null,
          likeCount: this.likes,
       }
    },
@@ -41,18 +41,39 @@ export default {
       likes: {
          type: Number,
       },
-      isLiked: {},
+   },
+   computed: {
+      formatCreatedAt() {
+         let options = {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            minute: '2-digit',
+            hour: '2-digit',
+         }
+         const date = new Date(this.createdAt)
+         const formattedDate = date.toLocaleDateString('en-US', options)
+         return formattedDate
+      },
+      checkIsLiked() {
+         return this.$store.state.loggedUser?.likes.some((t) => t._id == this.id)
+      },
+   },
+   created() {
+      if (!this.author) return
+      this.isLiked = this.checkIsLiked ? (this.isLiked = true) : (this.isLiked = false)
    },
    methods: {
       ...mapActions(['like', 'unlike', 'fetchTweet', 'fetchUser']),
       async likeTweet(id) {
          await this.like(id)
-         this.isLikedCheck = true
+         this.isLiked = true
          await this.updateTweetLikes()
       },
       async unlikeTweet(id) {
          await this.unlike(id)
-         this.isLikedCheck = false
+         this.isLiked = false
          await this.updateTweetLikes()
       },
       async updateTweetLikes() {
@@ -79,7 +100,7 @@ div.tweet
             BaseText(class="tweet-handle") @{{author.handle}}
             BaseText  •
             RouterLink(to="/" tag="a")
-               BaseText(class="tweet-time")  {{createdAt}}
+               BaseText(class="tweet-time")  {{formatCreatedAt}}
          
          
          
@@ -109,15 +130,14 @@ div.tweet
                .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
                BaseText(size="fs-small" v-if="retweets") {{retweets}}
             
-            .tweet-action(@click="!isLikedCheck ? likeTweet(id) : unlikeTweet(id)" :class="[likeCount > 0 ? 'liked' : '']")
+            .tweet-action(@click="!isLiked ? likeTweet(id) : unlikeTweet(id)" :class="isLiked ? 'liked' : ''")
                .action-icon 
-                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!likeCount > 0")
+                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!isLiked")
                   InlineSvg(:src="require('@/assets/icons/like-fill.svg')" width="18" v-else)
                BaseText(size="fs-small" v-if="likeCount") {{likeCount}}
             
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
-               
 
 </template>
 

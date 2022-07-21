@@ -4,6 +4,7 @@ import BaseText from '@/components/base-text'
 import NewTweet from '@/components/tweet/new-tweet'
 import BaseTweet from '@/components/tweet/base-tweet'
 import {mapState, mapActions} from 'vuex'
+import {sortByDate} from '../../helper/functions'
 
 export default {
    name: 'HomeView',
@@ -28,7 +29,9 @@ export default {
          for (const user of this.searchedUser?.following) {
             tweets = user.tweets
          }
-         return [...tweets, ...this.searchedUser.tweets]
+         return tweets
+            ? [...tweets, ...this.searchedUser.tweets].sort(sortByDate)
+            : [...this.searchedUser.tweets].sort(sortByDate)
       },
    },
    methods: {

@@ -8,6 +8,11 @@ export default {
       BaseTweet,
       BaseText,
    },
+   computed: {
+      sortedTweets() {
+         return [...this.likes].reverse()
+      },
+   },
    props: {
       likes: {
          type: Object,
@@ -20,7 +25,7 @@ export default {
 div
    BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!likes.length") @{{this.$route.params.handle}} hasn’t liked any Tweets
 
-   div(v-for="(tweet,index) in likes" key="index" v-else)
+   div(v-for="(tweet,index) in sortedTweets" key="index" v-else)
       BaseTweet(  
          :id="tweet._id"         
          :author="tweet.author"

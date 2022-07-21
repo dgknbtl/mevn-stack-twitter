@@ -48,8 +48,8 @@ div
    BaseText(size="fs-large" weight="fw-bold" class="text"  v-if="error") This account doesn’t exist
 
    div(v-if="searchedUser")
-      ProfileNav(:searchedUserHandle="searchedUser.handle")
-      RouterView( :tweets="searchedUser.tweets" :replies="searchedUser.replies" :likes="searchedUser.likes"  :media="searchedUser.media")
+      ProfileNav(:searchedUserHandle="searchedUser?.handle")
+      RouterView( :tweets="searchedUser.tweets" :replies="searchedUser?.replies" :likes="searchedUser?.likes"  :media="searchedUser?.media")
 </template>
 
 <style lang="postcss" scoped>

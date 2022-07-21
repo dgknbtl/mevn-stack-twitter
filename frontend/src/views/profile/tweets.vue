@@ -1,12 +1,19 @@
 <script>
 import BaseTweet from '@/components/tweet/base-tweet.vue'
 import BaseText from '@/components/base-text.vue'
+import {sortByDate} from '../../helper/functions'
 
 export default {
    name: 'TweetsView',
    components: {
       BaseTweet,
       BaseText,
+   },
+   computed: {
+      sortedTweets() {
+         if (!this.tweets) return
+         return [...this.tweets].sort(sortByDate)
+      },
    },
    props: {
       tweets: {
@@ -18,9 +25,9 @@ export default {
 
 <template lang="pug">
 div
-   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!tweets.length") {{this.$route.params.handle == this.$store.state.loggedUser.handle ? 'You don’t have any tweets yet' : "Hasn't tweeted yet"}}
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!sortedTweets.length") {{this.$route.params.handle == this.$store.state.loggedUser.handle ? 'You don’t have any tweets yet' : "Hasn't tweeted yet"}}
 
-   div(v-for="(tweet,index) in tweets" key="index" v-else)
+   div(v-for="(tweet,index) in sortedTweets" key="index")
       BaseTweet(  
          :id="tweet._id"         
          :author="tweet.author"
@@ -29,9 +36,7 @@ div
          :attachment="tweet.attachment"
          :replies="tweet.replies.length"
          :retweets="tweet.retweets.length"
-         :likes="tweet.likes.length"
-         :isLiked="this.$store.state.loggedUser?.likes.some((t) => t._id == tweet._id)"
-         v-if="this.$store.state.loggedUser?.following.some((u) => u._id == tweet.author._id) || tweet.author._id == this.$store.state.loggedUser?._id ")
+         :likes="tweet.likes.length")
       
 </template>
 

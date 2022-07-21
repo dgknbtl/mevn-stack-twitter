@@ -7,7 +7,6 @@ axios.defaults.withCredentials = true
 const Mutations = {
    SET_USER: 'SET_USER',
    SET_SEARCHED_USER: 'SET_SEARCHED_USER',
-   SET_ALL_TWEETS: 'SET_ALL_TWEETS',
 }
 
 const initPlugin = (store) => {
@@ -27,14 +26,6 @@ export default createStore({
       [Mutations.SET_SEARCHED_USER](state, user) {
          state.searchedUser = user
       },
-      [Mutations.SET_ALL_TWEETS](state, tweets) {
-         state.allTweets = tweets
-      },
-      // [Mutations.UPDATE_TWEET](state, tweet) {
-      //    // problem -> takip edilenler searcheduser'da yok
-      //    const item = state.searchedUser.tweets.find((t) => t._id === tweet._id)
-      //    Object.assign(item, tweet)
-      // },
    },
    getters: {
       getHandle(state) {
@@ -95,23 +86,21 @@ export default createStore({
       },
 
       // like a tweet
-      async like(ctx, id) {
+      async like({dispatch}, id) {
          await axios.patch(`/tweets/${id}/like`)
-         console.log('like', id)
+         await dispatch('fetchSession')
       },
 
       // unlike a tweet
-      async unlike(ctx, id) {
+      async unlike({dispatch}, id) {
          await axios.patch(`/tweets/${id}/unlike`)
-         console.log('unlike', id)
+         await dispatch('fetchSession')
       },
-
       // fetch a user
       async fetchUser({commit}, handle) {
          const user = await axios.get(`/users/${handle}`)
          if (!user) return
          commit('SET_SEARCHED_USER', user.data)
-         console.log(user)
       },
 
       // fetch a tweet
@@ -121,10 +110,10 @@ export default createStore({
          return tweet
       },
 
-      async fetchAllTweets({commit}) {
+      async fetchAllTweets() {
          const tweets = await axios.get('/tweets')
          if (!tweets) return
-         commit(Mutations.SET_ALL_TWEETS, tweets.data)
+         // commit(Mutations.SET_ALL_TWEETS, tweets.data)
       },
 
       // create a new tweet
