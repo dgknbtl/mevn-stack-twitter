@@ -19,7 +19,6 @@ export default createStore({
    state: {
       loggedUser: null,
       searchedUser: null,
-      allTweets: null,
    },
    mutations: {
       [Mutations.SET_USER](state, user) {
@@ -127,10 +126,11 @@ export default createStore({
       },
 
       // create a new tweet
-      async createTweet({commit}, tweetContent) {
+      async createTweet({commit, dispatch}, tweetContent) {
          const tweet = await axios.post('/tweets/new', {content: tweetContent})
          if (!tweet) return
          commit(Mutations.NEW_TWEET, tweet.data)
+         await dispatch('fetchTweet', tweet.data._id)
       },
 
       // remove a tweet

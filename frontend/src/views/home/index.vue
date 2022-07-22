@@ -25,13 +25,14 @@ export default {
       }),
       allTweets() {
          if (!this.searchedUser) return
-         let tweets
-         for (const user of this.searchedUser?.following) {
-            tweets = user.tweets
+         const user = this.searchedUser?.following.map((user) => user)
+         let tweets = []
+         for (let x in user) {
+            tweets.push(...user[x].tweets)
          }
          return tweets
-            ? [...tweets, ...this.searchedUser.tweets].sort(sortByDate)
-            : [...this.searchedUser.tweets].sort(sortByDate)
+            ? [...tweets, ...this.searchedUser?.tweets].sort(sortByDate)
+            : [...this.searchedUser?.tweets].sort(sortByDate)
       },
    },
    methods: {
@@ -58,7 +59,7 @@ div
 
    NewTweet
    
-   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!allTweets")  You don't follow anyone.
+   BaseText(size="fs-large" weight="fw-bold" class="text" v-if="!allTweets?.length")  You don't follow anyone.
 
    div(v-for="(tweet,index) in allTweets" v-else) 
       BaseTweet(  
