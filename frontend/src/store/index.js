@@ -9,6 +9,7 @@ const Mutations = {
    SET_SEARCHED_USER: 'SET_SEARCHED_USER',
    NEW_TWEET: 'NEW_TWEET',
    REMOVE_TWEET: 'REMOVE_TWEET',
+   UPDATE_TWEET_MODAL_STATE: 'UPDATE_TWEET_MODAL_STATE',
 }
 
 const initPlugin = (store) => {
@@ -19,6 +20,7 @@ export default createStore({
    state: {
       loggedUser: null,
       searchedUser: null,
+      isTweetModalOpen: false,
    },
    mutations: {
       [Mutations.SET_USER](state, user) {
@@ -34,6 +36,9 @@ export default createStore({
       [Mutations.REMOVE_TWEET](state, id) {
          const index = state.searchedUser.tweets.findIndex((t) => t._id == id)
          state.searchedUser.tweets.splice(index, 1)
+      },
+      [Mutations.UPDATE_TWEET_MODAL_STATE](state, val) {
+         state.isTweetModalOpen = val
       },
    },
    getters: {

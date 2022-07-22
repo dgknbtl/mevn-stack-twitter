@@ -2,6 +2,8 @@
 import BaseContainer from '@/components/base-container.vue'
 import SidebarLeft from '@/components/sidebar-left/index.vue'
 import SidebarRight from '@/components/sidebar-right/index.vue'
+import BaseModal from '@/components/base-modal.vue'
+import NewTweet from '@/components/tweet/new-tweet.vue'
 
 export default {
    name: 'DefaultLayout',
@@ -9,6 +11,8 @@ export default {
       BaseContainer,
       SidebarLeft,
       SidebarRight,
+      BaseModal,
+      NewTweet,
    },
 }
 </script>
@@ -23,6 +27,9 @@ BaseContainer
             RouterView
       .layout-right
         SidebarRight
+
+   BaseModal(title="" :button="false" :isModalOpen="this.$store.state.isTweetModalOpen")
+      NewTweet(class="new-tweet")
 </template>
 
 <style lang="postcss" scoped>
@@ -68,5 +75,12 @@ BaseContainer
          display: none;
       }
    }
+}
+
+.new-tweet {
+   margin-left: -14px;
+   margin-right: -14px;
+   margin-bottom: -14px;
+   border-bottom: 0 !important;
 }
 </style>

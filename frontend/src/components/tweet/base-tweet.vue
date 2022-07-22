@@ -73,8 +73,6 @@ export default {
          await this.updateTweetLikes()
       },
       async updateTweetLikes() {
-         // const tweet = await this.fetchTweet(this.id)
-         // this.likeCount = tweet.data.likes.length
          await this.fetchUser(
             this.$route.params.handle
                ? this.$route.params.handle

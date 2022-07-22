@@ -28,6 +28,7 @@ export default {
             console.log(error)
          }
          this.tweetContent = ''
+         this.$store.commit('UPDATE_TWEET_MODAL_STATE', false)
       },
    },
    components: {
@@ -82,7 +83,7 @@ div.tweet
       padding-top: 10px;
       padding-bottom: 10px;
       overflow: hidden;
-      min-height: 45px;
+      min-height: 80px;
       &:focus {
          outline: none;
       }
