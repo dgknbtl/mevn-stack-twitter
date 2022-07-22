@@ -13,12 +13,7 @@ export default {
       BaseText,
       BaseDropdown,
    },
-   data() {
-      return {
-         isLiked: null,
-         likeCount: this.likes,
-      }
-   },
+   data() {},
    props: {
       id: {
          type: String,
@@ -56,7 +51,7 @@ export default {
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
       },
-      checkIsMe() {
+      checkIsMy() {
          return this.$store.state.loggedUser?.tweets.some((t) => t._id == this.id)
       },
       checkIsLiked() {
@@ -65,23 +60,21 @@ export default {
    },
    created() {
       if (!this.author) return
-      this.isLiked = this.checkIsLiked ? (this.isLiked = true) : (this.isLiked = false)
+      return this.checkIsLiked ? true : false
    },
    methods: {
       ...mapActions(['like', 'unlike', 'fetchTweet', 'fetchUser', 'removeTweet']),
       async likeTweet(id) {
          await this.like(id)
-         this.isLiked = true
          await this.updateTweetLikes()
       },
       async unlikeTweet(id) {
          await this.unlike(id)
-         this.isLiked = false
          await this.updateTweetLikes()
       },
       async updateTweetLikes() {
-         const tweet = await this.fetchTweet(this.id)
-         this.likeCount = tweet.data.likes.length
+         // const tweet = await this.fetchTweet(this.id)
+         // this.likeCount = tweet.data.likes.length
          await this.fetchUser(
             this.$route.params.handle
                ? this.$route.params.handle
@@ -114,9 +107,8 @@ div.tweet
             template(#dropdown-toggle) 
                .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
             template(#dropdown-nav)
-               a(href="#" class="dropdown-item delete-item" v-if="checkIsMe" @click="deleteTweet(id)") Delete Tweet
+               a(href="#" class="dropdown-item delete-item" v-if="checkIsMy" @click="deleteTweet(id)") Delete Tweet
                div(v-else)
-                  a(href="#" class="dropdown-item") Unfollow @{{author.handle}}
                   a(href="#" class="dropdown-item") Mute @{{author.handle}} 
                   a(href="#" class="dropdown-item") Block @{{author.handle}} 
                a(href="#" class="dropdown-item") Add/remove @{{author.handle}} from lists
@@ -138,11 +130,11 @@ div.tweet
                .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
                BaseText(size="fs-small" v-if="retweets") {{retweets}}
             
-            .tweet-action(@click="!isLiked ? likeTweet(id) : unlikeTweet(id)" :class="isLiked ? 'liked' : ''")
+            .tweet-action(@click="!checkIsLiked ? likeTweet(id) : unlikeTweet(id)" :class="checkIsLiked ? 'liked' : ''")
                .action-icon 
-                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!isLiked")
+                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!checkIsLiked")
                   InlineSvg(:src="require('@/assets/icons/like-fill.svg')" width="18" v-else)
-               BaseText(size="fs-small" v-if="likeCount") {{likeCount}}
+               BaseText(size="fs-small" v-if="likes") {{likes}}
             
             .tweet-action
                .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
