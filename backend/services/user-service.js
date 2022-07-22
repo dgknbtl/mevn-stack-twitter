@@ -56,10 +56,10 @@ class UserService extends MongooseService {
    }
 
    // retweet
-   async reTweet(user, tweetId, content) {
+   async reTweet(user, tweetId, content = '') {
       const retweet = await TweetService.insert({
          author: user,
-         content: content,
+         content,
       })
 
       const originalTweet = await TweetService.find(tweetId)
@@ -72,6 +72,7 @@ class UserService extends MongooseService {
       await retweet.save()
       await originalTweet.save()
       await user.save()
+      return retweet
    }
 
    // follow a user

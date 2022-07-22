@@ -29,14 +29,17 @@ div
 
    div(v-for="(tweet,index) in sortedTweets" key="index")
       BaseTweet(  
-         :id="tweet._id"         
-         :author="tweet.author"
-         :createdAt="tweet.createdAt"
-         :content="tweet.content"
-         :attachment="tweet.attachment"
-         :replies="tweet.replies.length"
-         :retweets="tweet.retweets.length"
-         :likes="tweet.likes.length")
+         :id="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet._id :tweet._id"         
+         :author="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.author :tweet.author"
+         :createdAt="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.createdAt :tweet.createdAt"
+         :content="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.content : tweet.content"
+         :attachment="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.attachment: tweet.attachment"
+         :replies="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.replies.length :tweet.replies.length"
+         :retweets="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.retweets.length :tweet.retweets.length"
+         :likes="tweet.originalTweet && !tweet.content.length ? tweet.originalTweet.likes.length :tweet.likes.length"      
+         :originalTweet='tweet.originalTweet && !tweet.content.length ? null : tweet.originalTweet'
+         :isSimpleRetweet="tweet.originalTweet && !tweet.content.length")
+      
       
 </template>
 

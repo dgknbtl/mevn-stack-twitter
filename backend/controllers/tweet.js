@@ -78,19 +78,16 @@ async function reTweet(req, res) {
 
       if (!tweet) return res.send({message: 'Tweet is not found'})
 
-      if (content.length > 140)
-         messages.push({body: 'Tweet message should not be more than 140 characters.'})
-
       if (req.user.retweets.some((t) => t.id == tweet._id))
          return res.send({message: 'Tweet has already been retweeted.'})
 
       if (messages.length) return res.send({messages})
 
-      await UserService.reTweet(req.user, tweet._id, content)
+      const retweet = await UserService.reTweet(req.user, tweet._id, content)
 
-      res.send({message: 'You retweeted.'})
+      return res.status(200).send(retweet)
    } catch (error) {
-      res.status(404).send(`Tweet is not found!, ${error}`)
+      res.status(404).send(`Error!, ${error}`)
    }
 }
 

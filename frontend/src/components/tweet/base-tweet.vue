@@ -3,6 +3,7 @@ import InlineSvg from 'vue-inline-svg'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseText from '@/components/base-text.vue'
 import BaseDropdown from '@/components/base-dropdown.vue'
+import BaseTweet from '@/components/tweet/base-tweet.vue'
 import {mapActions} from 'vuex'
 
 export default {
@@ -12,6 +13,7 @@ export default {
       BaseAvatar,
       BaseText,
       BaseDropdown,
+      BaseTweet,
    },
    data() {},
    props: {
@@ -36,6 +38,12 @@ export default {
       likes: {
          type: Number,
       },
+      originalTweet: {
+         type: [Object, Array],
+      },
+      isQuoteRetweet: {},
+      isSimpleRetweet: {},
+      retweetAuthor: {},
    },
    computed: {
       formatCreatedAt() {
@@ -87,67 +95,86 @@ export default {
 </script>
 
 <template lang="pug">
-div.tweet
-   .tweet-avatar
-      BaseAvatar(size="large")
-   div.tweet-inner
-      .tweet-header
-         div            
-            BaseText(:href="`/${author.handle}`" class="tweet-author" weight="fw-bold" tag="a") {{author.name}}
-            BaseText(class="tweet-handle") @{{author.handle}}
-            BaseText  •
-            RouterLink(to="/" tag="a")
-               BaseText(class="tweet-time")  {{formatCreatedAt}}
-         
-         
-         
-         BaseDropdown(position="bottom" alignment="right")
-            template(#dropdown-toggle) 
-               .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
-            template(#dropdown-nav)
-               a(href="#" class="dropdown-item delete-item" v-if="checkIsMy" @click="deleteTweet(id)") Delete Tweet
-               div(v-else)
-                  a(href="#" class="dropdown-item") Mute @{{author.handle}} 
-                  a(href="#" class="dropdown-item") Block @{{author.handle}} 
-               a(href="#" class="dropdown-item") Add/remove @{{author.handle}} from lists
-               a(href="#" class="dropdown-item") Embed Tweet 
-               a(href="#" class="dropdown-item") Report Tweet 
+div.tweet-box
+   div(v-if="isSimpleRetweet" class="retweet-author")
+      InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="14")
+      BaseText(size="fs-small" weight="fw-semibold") {{retweetAuthor.name}} retweeted
+   .tweet
+      .tweet-avatar
+         BaseAvatar(size="large")
+      div.tweet-inner
+         .tweet-header
+            div            
+               BaseText(:href="`/${author.handle}`" class="tweet-author" weight="fw-bold" tag="a") {{author.name}}
+               BaseText(class="tweet-handle") @{{author.handle}}
+               BaseText  •
+               RouterLink(to="/" tag="a")
+                  BaseText(class="tweet-time")  {{formatCreatedAt}}
+            
+            
+            
+            BaseDropdown(position="bottom" alignment="right")
+               template(#dropdown-toggle) 
+                  .tweet-more: InlineSvg(:src="require('@/assets/icons/dot.svg')" width="18")
+               template(#dropdown-nav)
+                  a(href="#" class="dropdown-item delete-item" v-if="checkIsMy" @click="deleteTweet(id)") Delete Tweet
+                  div(v-else)
+                     a(href="#" class="dropdown-item") Mute @{{author.handle}} 
+                     a(href="#" class="dropdown-item") Block @{{author.handle}} 
+                  a(href="#" class="dropdown-item") Add/remove @{{author.handle}} from lists
+                  a(href="#" class="dropdown-item") Embed Tweet 
+                  a(href="#" class="dropdown-item") Report Tweet 
 
 
 
-      .tweet-content
-         BaseText(tag="p") {{content}}
-         figure.tweet-image(v-if="attachment")
-            img()
-         .tweet-actions
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
-               BaseText(size="fs-small" v-if="replies") {{replies}}
-            
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
-               BaseText(size="fs-small" v-if="retweets") {{retweets}}
-            
-            .tweet-action(@click="!checkIsLiked ? likeTweet(id) : unlikeTweet(id)" :class="checkIsLiked ? 'liked' : ''")
-               .action-icon 
-                  InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!checkIsLiked")
-                  InlineSvg(:src="require('@/assets/icons/like-fill.svg')" width="18" v-else)
-               BaseText(size="fs-small" v-if="likes") {{likes}}
-            
-            .tweet-action
-               .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
+         .tweet-content
+            BaseText(tag="p") {{content}}
+            figure.tweet-image(v-if="attachment")
+               img()
+            BaseTweet( 
+               v-if='originalTweet',
+               :id="originalTweet._id"         
+               :author="originalTweet.author"
+               :createdAt="originalTweet.createdAt"
+               :content="originalTweet.content"
+               :attachment="originalTweet.attachment"
+               :replies="originalTweet.replies.length"
+               :retweets="originalTweet.retweets.length"
+               :likes="originalTweet.likes.length"
+               :isQuoteRetweet="content && !!originalTweet")
+
+            div(v-if='originalTweet === null && author.retweets.length' class="tweet-unavaible") Tweet is unavaible.
+            .tweet-actions(v-if="!isQuoteRetweet")
+               .tweet-action
+                  .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
+                  BaseText(size="fs-small" v-if="replies") {{replies}}
+               
+               .tweet-action
+                  .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
+                  BaseText(size="fs-small" v-if="retweets") {{retweets}}
+               
+               .tweet-action(@click="!checkIsLiked ? likeTweet(id) : unlikeTweet(id)" :class="checkIsLiked ? 'liked' : ''")
+                  .action-icon 
+                     InlineSvg(:src="require('@/assets/icons/like.svg')" width="18" v-if="!checkIsLiked")
+                     InlineSvg(:src="require('@/assets/icons/like-fill.svg')" width="18" v-else)
+                  BaseText(size="fs-small" v-if="likes") {{likes}}
+               
+               .tweet-action
+                  .action-icon: InlineSvg(:src="require('@/assets/icons/share.svg')" width="18")
 
 </template>
 
 <style lang="postcss" scoped>
 .tweet {
-   padding: var(--gap-1);
    display: flex;
    align-items: stretch;
-   border-bottom: 1px solid rgb(var(--c-light-2));
-   &:hover {
-      cursor: pointer;
-      background-color: rgba(var(--c-light-2), 0.7);
+   &-box {
+      padding: var(--gap-1);
+      border-bottom: 1px solid rgb(var(--c-light-2));
+      &:hover {
+         cursor: pointer;
+         background-color: rgba(var(--c-light-2), 0.7);
+      }
    }
    &-avatar {
       margin-right: 12px;
@@ -288,6 +315,26 @@ div.tweet
    }
    .delete-item {
       color: rgb(var(--c-red));
+   }
+   &-unavaible {
+      padding: var(--gap-1);
+      border-radius: 9px;
+      border: 1px solid rgb(var(--c-light), 0.5);
+      background-color: rgb(var(--c-light), 0.2);
+      margin-top: 10px;
+      color: rgb(var(--c-gray));
+   }
+}
+
+.retweet-author {
+   padding: 4px var(--gap-1);
+   color: rgb(var(--c-gray));
+   display: flex;
+   align-items: center;
+   margin-left: 38px;
+   svg {
+      margin-right: 8px;
+      fill: rgb(var(--c-gray));
    }
 }
 </style>

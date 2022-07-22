@@ -5,8 +5,9 @@ const TweetSchema = new mongoose.Schema(
       createdAt: Date,
       content: {
          type: String,
-         minlength: 1,
-         required: true,
+         required() {
+            return !this.originalTweet
+         },
       },
       author: {
          type: mongoose.Schema.Types.ObjectId,
@@ -16,15 +17,14 @@ const TweetSchema = new mongoose.Schema(
             maxDepth: 1,
          },
       },
-      originalTweet: [
-         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Tweet',
-            autopopulate: {
-               maxDepth: 1,
-            },
+      originalTweet: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Tweet',
+         autopopulate: {
+            maxDepth: 1,
          },
-      ],
+      },
+
       replies: [
          {
             type: mongoose.Schema.Types.ObjectId,
