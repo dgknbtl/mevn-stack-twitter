@@ -29,14 +29,14 @@ div
 
    div(v-for="(tweet,index) in sortedTweets" key="index")
       BaseTweet(  
-         :id="tweet.originalTweet && !tweet.content ? tweet.originalTweet._id :tweet._id"         
-         :author="tweet.originalTweet && !tweet.content ? tweet.originalTweet.author :tweet.author"
-         :createdAt="tweet.originalTweet && !tweet.content ? tweet.originalTweet.createdAt :tweet.createdAt"
+         :id="tweet.originalTweet && !tweet.content ? tweet.originalTweet._id : tweet._id"         
+         :author="tweet.originalTweet && !tweet.content ? tweet.originalTweet.author : tweet.author"
+         :createdAt="tweet.originalTweet && !tweet.content ? tweet.originalTweet.createdAt : tweet.createdAt"
          :content="tweet.originalTweet && !tweet.content ? tweet.originalTweet.content : tweet.content"
          :attachment="tweet.originalTweet && !tweet.content ? tweet.originalTweet.attachment: tweet.attachment"
-         :replies="tweet.originalTweet && !tweet.content ? tweet.originalTweet.replies.length :tweet.replies.length"
-         :retweets="tweet.originalTweet && !tweet.content ? tweet.originalTweet.retweets.length :tweet.retweets.length"
-         :likes="tweet.originalTweet && !tweet.content ? tweet.originalTweet.likes.length :tweet.likes.length"      
+         :replies="tweet.originalTweet && !tweet.content ? tweet.originalTweet.replies.length : tweet.replies.length"
+         :retweets="tweet.originalTweet && !tweet.content ? tweet.originalTweet.retweets.length : tweet.retweets.length"
+         :likes="tweet.originalTweet && !tweet.content ? tweet.originalTweet.likes.length : tweet.likes.length"      
          :originalTweet='tweet.originalTweet && !tweet.content ? null : tweet.originalTweet'
          :isSimpleRetweet="tweet.originalTweet && !tweet.content"
          :retweetAuthor="tweet.originalTweet && !tweet.content && tweet.author")

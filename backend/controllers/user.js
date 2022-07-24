@@ -1,5 +1,6 @@
 const {UserService} = require('../services')
 const passport = require('passport')
+const httpStatus = require('http-status')
 
 module.exports = {
    createUser,
@@ -27,20 +28,18 @@ async function createUser(req, res, next) {
       }
 
       if (messages.length) {
-         return res.status(400).send(messages)
+         return res.status(httpStatus.BAD_REQUEST).send(messages)
       }
 
       const user = await UserService.findBy('email', email)
       if (!user.length) {
          await UserService.insert(req.body)
-         return res
-            .status(200)
-            .send({message: 'You are registered successfully and can now log in.'})
+         return res.status(httpStatus.CREATED).send(user)
       }
       messages.push({body: 'This email is already in use.'})
-      return res.status(400).send(messages)
+      return res.status(httpStatus.BAD_REQUEST).send(messages)
    } catch (err) {
-      return res.status(500).send(err.message)
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }
 }
 
@@ -51,13 +50,13 @@ async function authenticateUser(req, res, next) {
          return next(err)
       }
       if (!user) {
-         return res.status(401).send({message: info.message})
+         return res.status(httpStatus.BAD_REQUEST).send({message: info.message})
       }
       req.logIn(user, function (err) {
          if (err) {
             return next(err)
          }
-         res.status(200).send(req.user)
+         res.status(httpStatus.OK).send(req.user)
       })
    })(req, res, next)
 }
@@ -65,7 +64,7 @@ async function authenticateUser(req, res, next) {
 // logout the user
 async function logout(req, res) {
    req.logout()
-   res.status(200).send({message: `You are logged out.`})
+   res.status(httpStatus.OK).send({message: `You are logged out.`})
 }
 
 // follow a user
@@ -73,13 +72,14 @@ async function follow(req, res) {
    try {
       const userToFollow = await UserService.find(req.params.userId)
 
-      if (!userToFollow || !req.user) return res.send({message: 'The user not found.'})
+      if (!userToFollow || !req.user)
+         return res.status(httpStatus.NOT_FOUND).send({message: 'The user not found.'})
       if (req.user.following.some((u) => u.id == userToFollow._id))
          return res.send({message: `You are already following ${userToFollow.name}`})
 
-      res.send(await UserService.follow(req.user, userToFollow))
+      res.status(httpStatus.OK).send(await UserService.follow(req.user, userToFollow))
    } catch (error) {
-      res.status(404).send(`The user not found!, ${error}`)
+      res.status(httpStatus.NOT_FOUND).send(`The user not found!, ${error}`)
    }
 }
 
@@ -91,17 +91,17 @@ async function unFollow(req, res) {
       if (!userToUnFollow || !req.user) return res.send({message: 'The user not found.'})
       // if (req.user.following.some((u) => u.id == userToUnFollow._id))
       //    return res.send({message: `You are already following ${userToUnFollow.name}`})
-
-      res.send(await UserService.unfollow(req.user, userToUnFollow))
+      res.status(httpStatus.OK).send(await UserService.unfollow(req.user, userToUnFollow))
    } catch (error) {
-      res.status(404).send(`The user not found!, ${error}`)
+      res.status(httpStatus.NOT_FOUND).send(`The user not found!, ${error}`)
    }
 }
 
 async function getUser(req, res) {
    const user = await UserService.findOne('handle', req.params.handle)
 
-   if (!user) return res.status(400).send({message: 'The user was not found!'})
+   if (!user)
+      return res.status(httpStatus.NOT_FOUND).send({message: 'The user was not found!'})
 
-   return res.status(200).send(user)
+   return res.status(httpStatus.OK).send(user)
 }
