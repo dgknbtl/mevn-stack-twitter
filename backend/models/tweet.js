@@ -48,7 +48,7 @@ const TweetSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             autopopulate: {
-               maxDepth: 1,
+               maxDepth: 3,
             },
          },
       ],

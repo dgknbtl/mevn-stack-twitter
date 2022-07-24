@@ -143,7 +143,7 @@ div.tweet-box
                :likes="originalTweet.likes.length"
                :isQuoteRetweet="content && !!originalTweet")
 
-            div(v-if='originalTweet === null && author.retweets.length' class="tweet-unavaible") Tweet is unavaible.
+            div(v-if='originalTweet === null && author?.retweets?.length' class="tweet-unavaible") Tweet is unavaible.
             .tweet-actions(v-if="!isQuoteRetweet")
                .tweet-action
                   .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
