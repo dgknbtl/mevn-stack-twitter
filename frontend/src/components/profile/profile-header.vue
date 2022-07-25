@@ -4,6 +4,7 @@ import BaseText from '@/components/base-text.vue'
 import BaseAvatar from '@/components/base-avatar.vue'
 import BaseHeading from '@/components/base-heading.vue'
 import BaseButton from '@/components/base-button.vue'
+import BaseModal from '@/components/base-modal.vue'
 import {mapState, mapActions} from 'vuex'
 
 export default {
@@ -14,10 +15,12 @@ export default {
       BaseAvatar,
       BaseHeading,
       BaseButton,
+      BaseModal,
    },
    data() {
       return {
          isFollowed: null,
+         isEditProfileModalOpen: false,
       }
    },
    props: {
@@ -59,6 +62,7 @@ export default {
             this.isFollowed = false
          }
       },
+      editProfileSave() {},
    },
 }
 </script>
@@ -74,7 +78,7 @@ export default {
          div(v-if="searchedUser.handle !== this.$store.state.loggedUser.handle")
             BaseButton(tag="button" size="btn-medium" :color="isFollowed ? 'btn-dark' : 'btn-outline'"  @click="isFollowed ? unfollowUser(searchedUser._id) : followUser(searchedUser._id)") {{isFollowed ? 'Following' : 'Follow'}}
          
-         BaseButton(tag="a" size="btn-medium" color="btn-outline" href="/settings" v-else) Edit Profile
+         BaseButton(tag="a" size="btn-medium" color="btn-outline" @click="isEditProfileModalOpen = true" v-else) Edit Profile
          
       div.user-name
          BaseText(tag="div" size="fs-large" weight="fw-bold") {{!searchedUser ? '@' + this.$route.params.handle : searchedUser.name}}
@@ -95,6 +99,8 @@ export default {
             BaseText(tag="a" size="fs-medium") 
                strong {{searchedUser.followers.length}}
                span  Followers
+   
+   BaseModal(title="Edit Profile"  :button="true"  :isModalOpen="isEditProfileModalOpen" @modal-close="isEditProfileModalOpen=false" @button-event="editProfileSave")
 </template>
 
 <style lang="postcss" scoped>
