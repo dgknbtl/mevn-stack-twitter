@@ -16,6 +16,7 @@ export default {
    computed: {
       ...mapGetters(['getHandle']),
    },
+   methods: {},
 }
 </script>
 
@@ -79,9 +80,10 @@ div
 
          
       div
-         BaseButton(tag="button" @click="this.$store.commit('UPDATE_TWEET_MODAL_STATE', true)") 
+         BaseButton(tag="button" @click="this.$store.commit('UPDATE_TWEET_MODAL_STATE')") 
             span Tweet
             InlineSvg(:src="require('@/assets/icons/create-tweet.svg')" width="20")
+            
 </template>
 
 <style lang="postcss" scoped>

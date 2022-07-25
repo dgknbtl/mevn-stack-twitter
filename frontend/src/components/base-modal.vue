@@ -23,6 +23,10 @@ export default {
          type: Boolean,
          default: true,
       },
+      buttonText: {
+         default: 'Save',
+         type: String,
+      },
       isModalOpen: {
          type: Boolean,
          default: false,
@@ -36,9 +40,9 @@ export default {
    .modal-body 
       .modal-head(v-if="head")
          div.modal-head-left
-            .modal-close(@click="this.$store.commit('UPDATE_TWEET_MODAL_STATE',false)"): InlineSvg(:src="require('@/assets/icons/times.svg')" width="16" height="16")
+            .modal-close(@click="$emit('modal-close')"): InlineSvg(:src="require('@/assets/icons/times.svg')" width="16" height="16")
             .modal-title: BaseText( weight="fw-bold") {{title}}
-         .modal-button(v-if="button" @click="$emit('button-event')"): BaseButton(size="btn-small" color="btn-dark") Save
+         .modal-button(v-if="button" @click="$emit('button-event')"): BaseButton(size="btn-small" color="btn-dark") {{buttonText}}
       .modal-content
          slot
    .overlay
@@ -54,6 +58,7 @@ export default {
    display: flex;
    align-items: center;
    justify-content: center;
+   z-index: 9999;
    &-body {
       position: relative;
       max-width: 500px;

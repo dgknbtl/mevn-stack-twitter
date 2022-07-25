@@ -37,8 +37,8 @@ export default createStore({
          const index = state.searchedUser.tweets.findIndex((t) => t._id == id)
          state.searchedUser.tweets.splice(index, 1)
       },
-      [Mutations.UPDATE_TWEET_MODAL_STATE](state, val) {
-         state.isTweetModalOpen = val
+      [Mutations.UPDATE_TWEET_MODAL_STATE](state) {
+         state.isTweetModalOpen = !state.isTweetModalOpen
       },
    },
    getters: {

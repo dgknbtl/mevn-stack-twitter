@@ -14,6 +14,7 @@ export default {
       BaseModal,
       NewTweet,
    },
+   data() {},
 }
 </script>
 
@@ -28,13 +29,13 @@ BaseContainer
       .layout-right
         SidebarRight
 
-   BaseModal(title="" :button="false" :isModalOpen="this.$store.state.isTweetModalOpen")
-      NewTweet(class="new-tweet")
+   BaseModal(title="" :button="false" :isModalOpen="this.$store.state.isTweetModalOpen"  @modal-close="this.$store.commit('UPDATE_TWEET_MODAL_STATE')")
+      NewTweet(class="new-tweet") 
+      
 </template>
 
 <style lang="postcss" scoped>
 .layout {
-   position: relative;
    display: grid;
    grid-template-columns: 275px 1fr 348px;
    height: inherit;

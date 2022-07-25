@@ -58,6 +58,7 @@ export default {
 <style lang="postcss" scoped>
 .dropdown {
    position: relative;
+   z-index: 9990;
    &-toggle {
       cursor: pointer;
    }
@@ -69,7 +70,7 @@ export default {
       background-color: #fff;
       min-height: 100px;
       border-radius: 15px;
-      z-index: 90;
+      z-index: 9990;
       &::after {
          content: '';
          position: absolute;
