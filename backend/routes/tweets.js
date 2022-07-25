@@ -16,4 +16,6 @@ router.patch('/:tweetId/unlike', loggedIn, TweetController.unlikeTweet)
 
 router.patch('/:tweetId/retweet', loggedIn, TweetController.reTweet)
 
+router.patch('/:tweetId/unretweet', loggedIn, TweetController.unRetweet)
+
 module.exports = router

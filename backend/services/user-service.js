@@ -59,7 +59,7 @@ class UserService extends MongooseService {
    async reTweet(user, tweetId, content = '') {
       const retweet = await TweetService.insert({
          author: user,
-         content,
+         content: content,
       })
 
       const originalTweet = await TweetService.find(tweetId)
@@ -73,6 +73,25 @@ class UserService extends MongooseService {
       await originalTweet.save()
       await user.save()
       return retweet
+   }
+
+   // unretweet
+   async unRetweet(user, tweetId) {
+      const tweet = await TweetService.find(tweetId)
+
+      const filteredUserRetweets = await user.retweets.filter(
+         (t) => t.id !== tweet.originalTweet.id
+      )
+      const filteredUserTweets = await user.tweets.filter((t) => t.id !== tweet.id)
+      const filteredTweetRetweets = await tweet.retweets.filter((t) => u.id !== user.id)
+
+      user.retweets = filteredUserRetweets
+      user.tweets = filteredUserTweets
+
+      await user.save()
+      await tweet.save()
+
+      return await TweetService.removeOne('_id', tweet.id)
    }
 
    // follow a user

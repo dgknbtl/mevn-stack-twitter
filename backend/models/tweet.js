@@ -2,11 +2,10 @@ const mongoose = require('mongoose')
 
 const TweetSchema = new mongoose.Schema(
    {
-      createdAt: Date,
       content: {
          type: String,
-         required() {
-            return !this.originalTweet
+         required: function () {
+            console.log('aaaa')
          },
       },
       author: {

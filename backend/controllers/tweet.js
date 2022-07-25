@@ -7,6 +7,7 @@ module.exports = {
    likeTweet,
    unlikeTweet,
    reTweet,
+   unRetweet,
    getTweet,
    getAllTweets,
 }
@@ -24,7 +25,7 @@ async function createTweet(req, res) {
       if (messages.length) return res.status(httpStatus.BAD_REQUEST).send({messages})
 
       const tweet = await UserService.newTweet(req.user, content)
-      return res.send(tweet)
+      return res.status(httpStatus.CREATED).send(tweet)
    } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }
@@ -86,10 +87,8 @@ async function reTweet(req, res) {
 
       if (!tweet)
          return res.status(httpStatus.NOT_FOUND).send({message: 'Tweet is not found'})
-
       if (req.user.retweets.some((t) => t.id == tweet._id))
          return res.send({message: 'Tweet has already been retweeted.'})
-
       if (messages.length) return res.send({messages})
 
       const retweet = await UserService.reTweet(req.user, tweet._id, content)
@@ -98,6 +97,19 @@ async function reTweet(req, res) {
    } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }
+}
+
+// unretweet
+async function unRetweet(req, res) {
+   try {
+      await UserService.unRetweet(req.user, req.params.tweetId)
+   } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
+   }
+
+   // if (req.user.retweets.some((t) => t.id != tweet._id)) return res.send('yok')
+
+   // res.status(httpStatus.OK).send(retweet)
 }
 
 // get a tweet

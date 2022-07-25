@@ -2,7 +2,7 @@
 POST http://localhost:3000/users/register HTTP/1.1
 content-type: application/json
 
-{"name": "John Wick", "email": "john@wick.com", "password":"123456", "confirmPassword":"123456", "handle":"wicker" }
+{"name": "Dogukan Batal", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456", "handle":"wicker" }
 
 ###
 
@@ -10,7 +10,7 @@ content-type: application/json
 POST http://localhost:3000/users/login HTTP/1.1
 content-type: application/json
 
-{ "email": "john@wick.com", "password":"123456"}
+{ "email": "hi@dogu.dev", "password":"123456"}
 
 ###
 GET http://localhost:3000/ HTTP/1.1
@@ -54,7 +54,8 @@ GET http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5 HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "Test Tweet."}
+{"content": "Test"}
+
 
 ###
 
@@ -75,7 +76,23 @@ PATCH http://localhost:3000/tweets/62d19f67cedf1f8122207dd0/unlike HTTP/1.1
 ###
 
 # retweet
-PATCH http://localhost:3000/tweets/62db0f6e26b5704e52bafb92/retweet HTTP/1.1
+PATCH http://localhost:3000/tweets/62ded3681a452382fb55141e/retweet HTTP/1.1
 content-type: application/json
 
 
+
+
+
+
+
+
+###
+
+# unretweet
+PATCH http://localhost:3000/tweets/62ded9cc0613fb3a1cb82f58/unretweet HTTP/1.1
+
+
+
+
+// original tweet: 62ded3681a452382fb55141e
+// new retweet     62ded6c20613fb3a1cb82eec
