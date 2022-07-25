@@ -83,10 +83,11 @@ class UserService extends MongooseService {
          (t) => t.id !== tweet.originalTweet.id
       )
       const filteredUserTweets = await user.tweets.filter((t) => t.id !== tweet.id)
-      const filteredTweetRetweets = await tweet.retweets.filter((t) => u.id !== user.id)
+      const filteredTweetRetweets = await tweet.retweets.filter((t) => t.id !== tweet.id)
 
       user.retweets = filteredUserRetweets
       user.tweets = filteredUserTweets
+      tweet.retweets = filteredTweetRetweets
 
       await user.save()
       await tweet.save()

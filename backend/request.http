@@ -54,7 +54,7 @@ GET http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5 HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "Test"}
+{"content": "Test 4"}
 
 
 ###
@@ -76,8 +76,10 @@ PATCH http://localhost:3000/tweets/62d19f67cedf1f8122207dd0/unlike HTTP/1.1
 ###
 
 # retweet
-PATCH http://localhost:3000/tweets/62ded3681a452382fb55141e/retweet HTTP/1.1
+PATCH http://localhost:3000/tweets/62ded3651a452382fb551410/retweet HTTP/1.1
 content-type: application/json
+
+{"content": "test retweet"}
 
 
 

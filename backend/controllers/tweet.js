@@ -106,10 +106,6 @@ async function unRetweet(req, res) {
    } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }
-
-   // if (req.user.retweets.some((t) => t.id != tweet._id)) return res.send('yok')
-
-   // res.status(httpStatus.OK).send(retweet)
 }
 
 // get a tweet

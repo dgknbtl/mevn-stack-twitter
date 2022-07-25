@@ -4,9 +4,7 @@ const TweetSchema = new mongoose.Schema(
    {
       content: {
          type: String,
-         required: function () {
-            console.log('aaaa')
-         },
+         required: function () {},
       },
       author: {
          type: mongoose.Schema.Types.ObjectId,
