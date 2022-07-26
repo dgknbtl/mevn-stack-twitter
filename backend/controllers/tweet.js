@@ -86,7 +86,7 @@ async function reTweet(req, res) {
       const originalTweet = await TweetService.find(req.params.tweetId)
       const tweet = await UserService.reTweet(req.user, originalTweet, content)
 
-      // return res.status(httpStatus.CREATED).send(tweet)
+      return res.status(httpStatus.CREATED).send(tweet)
    } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }

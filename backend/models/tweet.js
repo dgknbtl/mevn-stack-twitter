@@ -45,9 +45,6 @@ const TweetSchema = new mongoose.Schema(
          {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Tweet',
-            // autopopulate: {
-            //    maxDepth: 3,
-            // },
          },
       ],
       quoteTweets: [

@@ -91,26 +91,6 @@ class UserService extends MongooseService {
       await TweetService.removeOne('_id', tweet.id)
    }
 
-   // unretweet
-   // async unRetweet(user, tweetId) {
-   //    const tweet = await TweetService.find(tweetId)
-
-   //    const filteredUserRetweets = await user.retweets.filter(
-   //       (t) => t.id !== tweet.originalTweet.id
-   //    )
-   //    const filteredUserTweets = await user.tweets.filter((t) => t.id !== tweet.id)
-   //    const filteredTweetRetweets = await tweet.retweets.filter((t) => t.id !== tweet.id)
-
-   //    user.retweets = filteredUserRetweets
-   //    user.tweets = filteredUserTweets
-   //    tweet.retweets = filteredTweetRetweets
-
-   //    await user.save()
-   //    await tweet.save()
-
-   //    return await TweetService.removeOne('_id', tweet.id)
-   // }
-
    // follow a user
    async follow(user, userToFollow) {
       user.following.push(userToFollow._id)

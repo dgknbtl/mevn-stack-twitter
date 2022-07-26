@@ -76,13 +76,10 @@ PATCH http://localhost:3000/tweets/62d19f67cedf1f8122207dd0/unlike HTTP/1.1
 ###
 
 # retweet
-PATCH http://localhost:3000/tweets/62dfbb870fcdf538efc2c169/retweet HTTP/1.1
+PATCH http://localhost:3000/tweets/62dfcd46f09e59c39ecc8230/retweet HTTP/1.1
 content-type: application/json
-
-{"content": "Retweet"}
-
 
 ###
 
 # unretweet
-PATCH http://localhost:3000/tweets/62dfbb920fcdf538efc2c1ae/unretweet HTTP/1.1
+PATCH http://localhost:3000/tweets/62dfcdc1f09e59c39ecc82af/unretweet HTTP/1.1
