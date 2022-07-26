@@ -70,6 +70,8 @@ class UserService extends MongooseService {
       await retweet.save()
       await originalTweet.save()
       await user.save()
+
+      return retweet
    }
 
    // unretweet

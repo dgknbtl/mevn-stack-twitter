@@ -10,6 +10,7 @@ const Mutations = {
    NEW_TWEET: 'NEW_TWEET',
    REMOVE_TWEET: 'REMOVE_TWEET',
    UPDATE_TWEET_MODAL_STATE: 'UPDATE_TWEET_MODAL_STATE',
+   // UNRETWEET: 'UNRETWEET',
 }
 
 const initPlugin = (store) => {
@@ -77,6 +78,7 @@ export default createStore({
          localStorage.setItem('loggedUserId', JSON.stringify(user.data._id))
       },
 
+      // logout
       async logout({commit}) {
          await axios.get('/users/logout')
          commit(Mutations.SET_USER, null)
@@ -85,6 +87,7 @@ export default createStore({
          localStorage.setItem('loggedUserId', JSON.stringify(null))
       },
 
+      // resigter
       async register(ctx, payload) {
          return await axios.post('/users/register', payload)
       },
@@ -110,6 +113,7 @@ export default createStore({
          await axios.patch(`/tweets/${id}/unlike`)
          await dispatch('fetchSession')
       },
+
       // fetch a user
       async fetchUser({commit}, handle) {
          const user = await axios.get(`/users/${handle}`)
@@ -124,6 +128,7 @@ export default createStore({
          return tweet
       },
 
+      // fetch all tweets
       async fetchAllTweets() {
          const tweets = await axios.get('/tweets')
          if (!tweets) return
@@ -141,6 +146,16 @@ export default createStore({
       // remove a tweet
       async removeTweet({commit}, id) {
          await axios.delete(`/tweets/${id}`)
+         commit(Mutations.REMOVE_TWEET, id)
+      },
+
+      async reTweet({commit}, id) {
+         const tweet = await axios.patch(`/tweets/${id}/retweet`)
+         commit(Mutations.NEW_TWEET, tweet.data)
+      },
+
+      async unRetweet({commit}, id) {
+         await axios.patch(`/tweets/${id}/unretweet`)
          commit(Mutations.REMOVE_TWEET, id)
       },
    },

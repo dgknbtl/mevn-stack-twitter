@@ -63,7 +63,7 @@ div
 
    div(v-for="(tweet,index) in allTweets" v-else) 
       BaseTweet(  
-         :id="tweet.originalTweet && !tweet.content ? tweet.originalTweet._id : tweet._id"         
+         :id="tweet._id"         
          :author="tweet.originalTweet && !tweet.content ? tweet.originalTweet.author : tweet.author"
          :createdAt="tweet.originalTweet && !tweet.content ? tweet.originalTweet.createdAt : tweet.createdAt"
          :content="tweet.originalTweet && !tweet.content ? tweet.originalTweet.content : tweet.content"

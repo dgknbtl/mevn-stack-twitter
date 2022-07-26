@@ -71,7 +71,15 @@ export default {
       return this.checkIsLiked ? true : false
    },
    methods: {
-      ...mapActions(['like', 'unlike', 'fetchTweet', 'fetchUser', 'removeTweet']),
+      ...mapActions([
+         'like',
+         'unlike',
+         'fetchTweet',
+         'fetchUser',
+         'removeTweet',
+         'reTweet',
+         'unRetweet',
+      ]),
       async likeTweet(id) {
          await this.like(id)
          await this.updateTweetLikes()
@@ -89,6 +97,14 @@ export default {
       },
       async deleteTweet(id) {
          await this.removeTweet(id)
+      },
+      async rt(id) {
+         // console.log('rt', id)
+         await this.reTweet(id)
+      },
+      async unRt(id) {
+         // console.log('unrt', id)
+         await this.unRetweet(id)
       },
    },
 }
@@ -149,7 +165,7 @@ div.tweet-box
                   .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
                   BaseText(size="fs-small" v-if="replies") {{replies}}
                
-               .tweet-action
+               .tweet-action(@click='!isSimpleRetweet ? rt(id) : unRt(id)' :class="isSimpleRetweet ? 'retweeted' : ''")
                   .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
                   BaseText(size="fs-small" v-if="retweets") {{retweets}}
                
@@ -308,6 +324,16 @@ div.tweet-box
             .action-icon {
                svg {
                   fill: rgb(var(--c-red));
+               }
+            }
+         }
+         &.retweeted {
+            span {
+               color: rgb(var(--c-green)) !important;
+            }
+            .action-icon {
+               svg {
+                  fill: rgb(var(--c-green));
                }
             }
          }
