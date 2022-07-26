@@ -29,7 +29,7 @@ BaseContainer
       .layout-right
         SidebarRight
 
-   BaseModal(title="" :button="false" :isModalOpen="this.$store.state.isTweetModalOpen"  @modal-close="this.$store.commit('UPDATE_TWEET_MODAL_STATE')")
+   BaseModal(title="" :button="false" :isModalOpen="this.$store.state.isTweetModalOpen"  @modal-close="this.$store.commit('UPDATE_TWEET_MODAL_STATE', false)")
       NewTweet(class="new-tweet") 
       
 </template>

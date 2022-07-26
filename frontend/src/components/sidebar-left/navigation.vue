@@ -80,7 +80,7 @@ div
 
          
       div
-         BaseButton(tag="button" @click="this.$store.commit('UPDATE_TWEET_MODAL_STATE')") 
+         BaseButton(tag="button" @click="this.$store.commit('UPDATE_TWEET_MODAL_STATE', true)") 
             span Tweet
             InlineSvg(:src="require('@/assets/icons/create-tweet.svg')" width="20")
             
