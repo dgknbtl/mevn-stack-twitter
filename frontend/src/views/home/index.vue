@@ -68,7 +68,7 @@ div
          :createdAt="tweet.originalTweet && !tweet.content ? tweet.originalTweet.createdAt : tweet.createdAt"
          :content="tweet.originalTweet && !tweet.content ? tweet.originalTweet.content : tweet.content"
          :attachment="tweet.originalTweet && !tweet.content ? tweet.originalTweet.attachment : tweet.attachment"
-         :replies="tweet.originalTweet && !tweet.content ? tweet.originalTweet.replies.length :tweet.replies.length"
+         :replies="tweet.originalTweet && !tweet.content ? tweet.originalTweet.replies.length : tweet.replies.length"
          :retweets="tweet.originalTweet && !tweet.content ? tweet.originalTweet.retweets.length : tweet.retweets.length"
          :likes="tweet.originalTweet && !tweet.content ? tweet.originalTweet.likes.length : tweet.likes.length"      
          :originalTweet='tweet.originalTweet && !tweet.content ? null : tweet.originalTweet'

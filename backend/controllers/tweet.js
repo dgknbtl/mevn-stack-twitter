@@ -83,17 +83,10 @@ async function reTweet(req, res) {
       let messages = []
       const {content} = req.body
 
-      const tweet = await TweetService.find(req.params.tweetId)
+      const originalTweet = await TweetService.find(req.params.tweetId)
+      const tweet = await UserService.reTweet(req.user, originalTweet, content)
 
-      if (!tweet)
-         return res.status(httpStatus.NOT_FOUND).send({message: 'Tweet is not found'})
-      if (req.user.retweets.some((t) => t.id == tweet._id))
-         return res.send({message: 'Tweet has already been retweeted.'})
-      if (messages.length) return res.send({messages})
-
-      const retweet = await UserService.reTweet(req.user, tweet._id, content)
-
-      return res.status(httpStatus.CREATED).send(retweet)
+      // return res.status(httpStatus.CREATED).send(tweet)
    } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }
@@ -102,7 +95,10 @@ async function reTweet(req, res) {
 // unretweet
 async function unRetweet(req, res) {
    try {
-      await UserService.unRetweet(req.user, req.params.tweetId)
+      const originalTweet = await TweetService.find(req.params.tweetId)
+      const tweet = await UserService.unRetweet(req.user, originalTweet)
+
+      return res.status(httpStatus.CREATED).send(tweet)
    } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error)
    }

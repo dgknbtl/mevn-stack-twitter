@@ -31,8 +31,8 @@ class MongooseService {
       return this.model.deleteOne({[property]: value})
    }
 
-   async update(id, body) {
-      return this.model.findOneAndUpdate(id, body)
+   async update(id, body, options = {lean: true, new: true}) {
+      return this.model.findOneAndUpdate(id, body, options).exec()
    }
 }
 

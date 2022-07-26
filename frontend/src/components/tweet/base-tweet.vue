@@ -141,7 +141,7 @@ div.tweet-box
                :replies="originalTweet.replies.length"
                :retweets="originalTweet.retweets.length"
                :likes="originalTweet.likes.length"
-               :isQuoteRetweet="content && !!originalTweet")
+               :isQuoteRetweet="content && originalTweet")
 
             //- div(v-if='originalTweet === null && author?.retweets?.length' class="tweet-unavaible") Tweet is unavaible.
             .tweet-actions(v-if="!isQuoteRetweet")

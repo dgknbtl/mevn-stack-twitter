@@ -65,15 +65,6 @@ const UserSchema = new mongoose.Schema(
             },
          },
       ],
-      retweets: [
-         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Tweet',
-            autopopulate: {
-               maxDepth: 2,
-            },
-         },
-      ],
       replies: [
          {
             type: mongoose.Schema.Types.ObjectId,

@@ -56,44 +56,60 @@ class UserService extends MongooseService {
    }
 
    // retweet
-   async reTweet(user, tweetId, content = '') {
+   async reTweet(user, originalTweet, content = '') {
       const retweet = await TweetService.insert({
          author: user,
-         content: content,
+         content,
       })
 
-      const originalTweet = await TweetService.find(tweetId)
       retweet.originalTweet = originalTweet
 
       user.tweets.push(retweet)
-      user.retweets.push(originalTweet)
       originalTweet.retweets.push(retweet)
 
       await retweet.save()
       await originalTweet.save()
       await user.save()
-      return retweet
    }
 
    // unretweet
-   async unRetweet(user, tweetId) {
-      const tweet = await TweetService.find(tweetId)
+   async unRetweet(user, tweet) {
+      const originalTweet = await TweetService.find(tweet.originalTweet.id)
+      const filteredUserTweets = user.tweets.filter((t) => t.id !== tweet.id)
 
-      const filteredUserRetweets = await user.retweets.filter(
-         (t) => t.id !== tweet.originalTweet.id
+      const filteredTweetRetweets = originalTweet.retweets.filter(
+         (t) => t._id != tweet.id
       )
-      const filteredUserTweets = await user.tweets.filter((t) => t.id !== tweet.id)
-      const filteredTweetRetweets = await tweet.retweets.filter((t) => t.id !== tweet.id)
 
-      user.retweets = filteredUserRetweets
       user.tweets = filteredUserTweets
-      tweet.retweets = filteredTweetRetweets
+      originalTweet.retweets = filteredTweetRetweets
 
-      await user.save()
       await tweet.save()
+      await originalTweet.save()
+      await user.save()
 
-      return await TweetService.removeOne('_id', tweet.id)
+      await TweetService.removeOne('_id', tweet.id)
    }
+
+   // unretweet
+   // async unRetweet(user, tweetId) {
+   //    const tweet = await TweetService.find(tweetId)
+
+   //    const filteredUserRetweets = await user.retweets.filter(
+   //       (t) => t.id !== tweet.originalTweet.id
+   //    )
+   //    const filteredUserTweets = await user.tweets.filter((t) => t.id !== tweet.id)
+   //    const filteredTweetRetweets = await tweet.retweets.filter((t) => t.id !== tweet.id)
+
+   //    user.retweets = filteredUserRetweets
+   //    user.tweets = filteredUserTweets
+   //    tweet.retweets = filteredTweetRetweets
+
+   //    await user.save()
+   //    await tweet.save()
+
+   //    return await TweetService.removeOne('_id', tweet.id)
+   // }
 
    // follow a user
    async follow(user, userToFollow) {

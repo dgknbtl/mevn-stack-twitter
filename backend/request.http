@@ -54,7 +54,7 @@ GET http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5 HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "Test 4"}
+{"content": "test 2"}
 
 
 ###
@@ -76,25 +76,13 @@ PATCH http://localhost:3000/tweets/62d19f67cedf1f8122207dd0/unlike HTTP/1.1
 ###
 
 # retweet
-PATCH http://localhost:3000/tweets/62ded3651a452382fb551410/retweet HTTP/1.1
+PATCH http://localhost:3000/tweets/62dfbb870fcdf538efc2c169/retweet HTTP/1.1
 content-type: application/json
 
-{"content": "test retweet"}
-
-
-
-
-
-
+{"content": "Retweet"}
 
 
 ###
 
 # unretweet
-PATCH http://localhost:3000/tweets/62ded9cc0613fb3a1cb82f58/unretweet HTTP/1.1
-
-
-
-
-// original tweet: 62ded3681a452382fb55141e
-// new retweet     62ded6c20613fb3a1cb82eec
+PATCH http://localhost:3000/tweets/62dfbb920fcdf538efc2c1ae/unretweet HTTP/1.1
