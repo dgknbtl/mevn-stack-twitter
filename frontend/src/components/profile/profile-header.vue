@@ -38,6 +38,13 @@ export default {
          const formattedDate = date.toLocaleDateString('en-US', options)
          return formattedDate
       },
+      imgPath() {
+         try {
+            return require(`@/assets/images/${this.searchedUser?.handle}.jpg`)
+         } catch (e) {
+            return require('@/assets/images/default-avatar.png')
+         }
+      },
    },
    created() {
       if (!this.searchedUser) return
@@ -72,7 +79,7 @@ export default {
    RouterLink(tag="a" to="/"): BaseHeading(:title="!searchedUser ? 'Profile' : searchedUser.name" :subTitle="!searchedUser ? '' : searchedUser.tweets.length + ' Tweets'" icon="arrow-left" iconPosition="left"  class="heading")
    figure.profileHeader-cover: img
    .profileHeader-content
-      BaseAvatar(size="xlarge" class="user-avatar" :src="require('@/assets/images/twitter-egg.jpg')")
+      BaseAvatar(size="xlarge" class="user-avatar" :src="imgPath")
       
       div(class="btn-group" v-if="searchedUser")
          div(v-if="searchedUser.handle !== this.$store.state.loggedUser.handle")

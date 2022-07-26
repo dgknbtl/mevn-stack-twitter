@@ -1,6 +1,11 @@
 <script>
 export default {
    name: 'BaseAvatar',
+   data() {
+      return {
+         imgSrc: this.src,
+      }
+   },
    props: {
       src: {
          type: String,

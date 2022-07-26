@@ -65,6 +65,16 @@ export default {
       checkIsLiked() {
          return this.$store.state.loggedUser?.likes.some((t) => t._id == this.id)
       },
+      checkIsMyRetweet() {
+         return this.isSimpleRetweet && this.author._id === this.retweetAuthor._id
+      },
+      imgPath() {
+         try {
+            return require(`@/assets/images/${this.author?.handle}.jpg`)
+         } catch (e) {
+            return require('@/assets/images/default-avatar.png')
+         }
+      },
    },
    created() {
       if (!this.author) return
@@ -117,7 +127,7 @@ div.tweet-box
       BaseText(size="fs-small" weight="fw-semibold") {{retweetAuthor.name}} retweeted
    .tweet
       .tweet-avatar
-         BaseAvatar(size="large")
+         BaseAvatar(size="large" :src="imgPath")
       div.tweet-inner
          .tweet-header
             div            
@@ -165,7 +175,7 @@ div.tweet-box
                   .action-icon: InlineSvg(:src="require('@/assets/icons/comment.svg')" width="18")
                   BaseText(size="fs-small" v-if="replies") {{replies}}
                
-               .tweet-action(@click='!isSimpleRetweet ? rt(id) : unRt(id)' :class="isSimpleRetweet ? 'retweeted' : ''")
+               .tweet-action(@click='!checkIsMyRetweet ? rt(id) : unRt(id)' :class="checkIsMyRetweet ? 'retweeted' : ''")
                   .action-icon: InlineSvg(:src="require('@/assets/icons/retweet.svg')" width="18")
                   BaseText(size="fs-small" v-if="retweets") {{retweets}}
                

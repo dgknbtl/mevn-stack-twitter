@@ -15,6 +15,13 @@ export default {
    },
    computed: {
       ...mapState(['loggedUser']),
+      imgPath() {
+         try {
+            return require(`@/assets/images/${this.loggedUser?.handle}.jpg`)
+         } catch (e) {
+            return require('@/assets/images/default-avatar.png')
+         }
+      },
    },
    methods: {
       ...mapActions(['logout']),
@@ -34,7 +41,7 @@ export default {
 BaseDropdown(position="top"  alignment="left" v-if="loggedUser")
    template(#dropdown-toggle) 
       .more
-         .more-avatar: BaseAvatar
+         .more-avatar: BaseAvatar(:src="imgPath")
          div.more-text
             BaseText(class="more-user" weight="fw-bold") {{loggedUser.name}}
             .more-handle @{{loggedUser.handle}}
