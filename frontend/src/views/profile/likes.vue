@@ -38,8 +38,7 @@ div
          :originalTweet='tweet.originalTweet && !tweet.content ? null : tweet.originalTweet'
          :isSimpleRetweet="tweet.originalTweet && !tweet.content"
          :retweetAuthor="tweet.originalTweet && !tweet.content && tweet.author"
-         :isLiked="this.$store.state.loggedUser?.likes.some((t) => t._id == tweet._id)"
-         v-if="this.$store.state.loggedUser?.following.some((u) => u._id == tweet.author._id) || tweet.author._id == this.$store.state.loggedUser?._id ")
+         :isLiked="this.$store.state.loggedUser?.likes.some((t) => t._id == tweet._id)")
 </template>
 
 <style lang="postcss" scoped>
