@@ -16,6 +16,8 @@ const cors = require('cors')
 const MongoStore = require('connect-mongo')(session)
 const {mongoose} = require('./mongo-connection')
 
+app.set('trust proxy', 1)
+
 app.use((req, res, next) => {
    res.header('Access-Control-Allow-Origin', '*')
    next()
@@ -30,10 +32,12 @@ app.use(
    session({
       secret: config.sessionSecret,
       cookie: {
+         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+         secure: process.env.NODE_ENV === 'production',
          maxAge: 14 * 24 * 60 * 60 * 1000,
       },
       resave: true,
-      saveUninitialized: true,
+      saveUninitialized: false,
       store: new MongoStore({mongooseConnection: mongoose.connection, stringify: false}),
    })
 )
@@ -63,7 +67,7 @@ app.use(
             callback(new Error('Not allowed by CORS - ' + origin))
          }
       },
-      origin: 'http://localhost:8080',
+      origin: process.env.FRONTEND_URL || 'http://localhost:8080',
       credentials: true,
    })
 )
