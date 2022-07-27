@@ -2,7 +2,7 @@
 POST http://localhost:3000/users/register HTTP/1.1
 content-type: application/json
 
-{"name": "Dogukan Batal", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456", "handle":"wicker" }
+{"name": "Dogukan Batal", "email": "hi@dogu.dev", "password":"123456", "confirmPassword":"123456", "handle":"dogudev" }
 
 ###
 
@@ -13,16 +13,12 @@ content-type: application/json
 { "email": "hi@dogu.dev", "password":"123456"}
 
 ###
-GET http://localhost:3000/ HTTP/1.1
-### 
-GET http://localhost:3000/dashboard HTTP/1.1
 
-
-###
 # logout a user
 GET http://localhost:3000/users/logout HTTP/1.1
 
 ###
+
 # check logged in 
 GET http://localhost:3000/users/login HTTP/1.1
 
@@ -35,7 +31,6 @@ GET http://localhost:3000/users/62d19fa8cedf1f8122207de1/follow HTTP/1.1
 
 # unfollow a user
 GET http://localhost:3000/users/62cd5ff064c58db028b1d160/unfollow HTTP/1.1
-
 
 
 ###############################################
@@ -54,8 +49,7 @@ GET http://localhost:3000/tweets/62cc944a4155c1c28a9df1a5 HTTP/1.1
 POST http://localhost:3000/tweets/new HTTP/1.1
 content-type: application/json
 
-{"content": "test 2"}
-
+{"content": "It is a test tweet."}
 
 ###
 
@@ -78,6 +72,8 @@ PATCH http://localhost:3000/tweets/62d19f67cedf1f8122207dd0/unlike HTTP/1.1
 # retweet
 PATCH http://localhost:3000/tweets/62dfcd50f09e59c39ecc8249/retweet HTTP/1.1
 content-type: application/json
+
+{"content":"It is a test retweet."}
 
 ###
 
