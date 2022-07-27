@@ -17,8 +17,10 @@
 
 ---
 ## Running with Docker Compose
+Install [Docker](https://docs.docker.com/get-docker/)
+
 ```
-docker-compose up
+docker-compose up --build
 ```
 ---
 ## Running the Project
