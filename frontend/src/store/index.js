@@ -10,7 +10,6 @@ const Mutations = {
    NEW_TWEET: 'NEW_TWEET',
    REMOVE_TWEET: 'REMOVE_TWEET',
    UPDATE_TWEET_MODAL_STATE: 'UPDATE_TWEET_MODAL_STATE',
-   // UNRETWEET: 'UNRETWEET',
 }
 
 const initPlugin = (store) => {

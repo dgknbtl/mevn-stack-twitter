@@ -1,5 +1,5 @@
 {
-   "name": "node-auth",
+   "name": "twitter-web-clone-backend",
    "version": "1.0.0",
    "description": "",
    "main": "index.js",
@@ -9,18 +9,22 @@
       "url": "https://dogu.dev"
    },
    "keywords": [
-      "authentication",
+      "twitter",
+      "clone",
+      "mevn stack",
       "node.js",
-      "passport",
-      "auth node"
+      "vue",
+      "express",
+      "mongodb",
+      "passport.js"
    ],
    "repository": {
       "type": "git",
-      "url": "https://github.com/dogukanbatal/auth-with-nodejs"
+      "url": "https://github.com/dogukanbatal/mevn-stack-twitter-clone"
    },
    "scripts": {
-      "start": "node index.js",
-      "dev": "nodemon index.js",
+      "start": "node .bin/www",
+      "watch": "nodemon .bin/www",
       "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
    },
    "license": "MIT",

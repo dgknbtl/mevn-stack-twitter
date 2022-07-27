@@ -73,6 +73,4 @@ app.use('/', indexRouter)
 app.use('/users', userRouter)
 app.use('/tweets', tweetRouter)
 
-app.listen(config.port, () => {
-   console.log(`Express now listening on port ${config.port}`)
-})
+module.exports = app
