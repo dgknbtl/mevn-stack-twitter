@@ -1,8 +1,6 @@
 # MEVN Stack Twitter Clone
 
 #### A twitter clone made with MongoDB, Express, Vue.js, Node.js.  
-You can see the demo from [here](https://mevn-stack-twitter-frontend.vercel.app/)
-
 ---
 ## Tech & Tools
 - Node.js
