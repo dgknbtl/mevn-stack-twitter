@@ -1,6 +1,7 @@
 const {UserService} = require('../services')
 const passport = require('passport')
 const httpStatus = require('http-status')
+const {omitPassword} = require('../utils')
 
 module.exports = {
    createUser,
@@ -52,11 +53,15 @@ async function authenticateUser(req, res, next) {
       if (!user) {
          return res.status(httpStatus.BAD_REQUEST).send({message: info.message})
       }
+
+      const userData = omitPassword(user)
+
       req.logIn(user, function (err) {
          if (err) {
             return next(err)
          }
-         res.status(httpStatus.OK).send(req.user)
+
+         res.status(httpStatus.OK).send(userData)
       })
    })(req, res, next)
 }
@@ -99,9 +104,10 @@ async function unFollow(req, res) {
 
 async function getUser(req, res) {
    const user = await UserService.findOne('handle', req.params.handle)
+   const userData = omitPassword(user)
 
    if (!user)
       return res.status(httpStatus.NOT_FOUND).send({message: 'The user was not found!'})
 
-   return res.status(httpStatus.OK).send(user)
+   return res.status(httpStatus.OK).send(userData)
 }

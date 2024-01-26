@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache --virtual .gyp python3 make g++
 
 RUN npm install
 

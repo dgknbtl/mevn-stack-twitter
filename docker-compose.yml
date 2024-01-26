@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   frontend:
     build: frontend
@@ -7,12 +7,16 @@ services:
   backend:
     build: backend
     environment:
+      NODE_ENV: development
       MONGODB_CONNECTION_STRING: "mongodb://mongodb/twitter-web-clone"
     ports:
       - "3000:3000"
+    command: npm run watch
+    volumes:
+      - ./backend:/app
   mongodb:
     image: mongo:5.0
-    ports: 
+    ports:
       - "37017:27017"
     # volumes:
     #   - ./data:/data/db
