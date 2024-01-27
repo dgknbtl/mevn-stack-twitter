@@ -4,6 +4,7 @@ import BaseInput from '@/components/base-input.vue'
 import BaseButton from '@/components/base-button.vue'
 import BaseText from '@/components/base-text.vue'
 import {mapActions} from 'vuex'
+import {delay} from '@/helper/functions'
 
 export default {
    name: 'RegisterView',
@@ -17,7 +18,7 @@ export default {
       return {
          errorMessage: null,
          infoMessage: null,
-         loading: false,
+         isLoading: false,
          name: '',
          handle: '',
          email: '',
@@ -27,9 +28,9 @@ export default {
    },
    methods: {
       ...mapActions(['register']),
-      async registerUser(e) {
-         e.preventDefault()
+      async registerUser() {
          try {
+            this.isLoading = true
             if (
                !(
                   this.name &&
@@ -49,15 +50,18 @@ export default {
                password: this.password,
                confirmPassword: this.confirmPassword,
             })
-            this.infoMessage = response.data.message
-            setTimeout(async () => {
-               await this.$router.push('/login')
-            }, 1200)
+
+            this.infoMessage = response.data.infoMessage
+
+            await delay(250)
+            await this.$router.push('/login')
          } catch (error) {
             this.errorMessage = error.response.data
+         } finally {
+            this.password = ''
+            this.confirmPassword = ''
+            this.isLoading = false
          }
-         this.password = ''
-         this.confirmPassword = ''
       },
    },
 }
@@ -69,7 +73,7 @@ div
    BaseText(class="error-message text-green" size="fs-small" weight="fw-medium" v-if="infoMessage") {{infoMessage}}
    BaseText(class="error-message text-red" size="fs-small" weight="fw-medium" v-if="errorMessage") 
       div(v-for="err in errorMessage") {{err.body}}
-   form(@submit="registerUser")
+   form(@submit.prevent="registerUser")
       .form-group
          BaseInput(type="text" v-model="name" name="name" size="large" placeholder="Full Name" icon="user")
       .form-group
@@ -81,7 +85,7 @@ div
       .form-group
          BaseInput(type="password" v-model="confirmPassword" @keydown.space.prevent name="confirmPassword" size="large" placeholder="Confirm Password" icon="lock")
       .form-group
-         BaseButton Register
+         BaseButton(:isLoading="isLoading") Register
    .form-footer
       RouterLink(tag="a" to="/login") Sign in to Twitter
 </template>
