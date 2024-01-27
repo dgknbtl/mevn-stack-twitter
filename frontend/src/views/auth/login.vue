@@ -4,6 +4,7 @@ import BaseInput from '@/components/base-input.vue'
 import BaseButton from '@/components/base-button.vue'
 import BaseText from '@/components/base-text.vue'
 import {mapActions} from 'vuex'
+import {delay} from '@/helper/functions'
 
 export default {
    name: 'LoginView',
@@ -16,26 +17,32 @@ export default {
    data() {
       return {
          error: null,
-         loading: false,
+         isLoading: false,
          email: '',
          password: '',
       }
    },
    methods: {
       ...mapActions(['authenticate']),
-      async login(e) {
-         e.preventDefault()
+      async login() {
          try {
+            this.isLoading = true
+
             await this.authenticate({
                email: this.email,
                password: this.password,
             })
+
+            await delay(250)
+
             this.$router.push('/')
          } catch (error) {
             this.error = error.response.data.message
+         } finally {
+            this.email = ''
+            this.password = ''
+            this.isLoading = false
          }
-         this.email = ''
-         this.password = ''
       },
    },
 }
@@ -45,13 +52,14 @@ export default {
 div
    RouterLink(tag="a" class="form-logo" to="/"):  InlineSvg(:src="require('@/assets/icons/twitter.svg')")
    BaseText(class="error-message text-red" size="fs-small" weight="fw-medium" v-if="error") {{error}}
-   form(@submit="login")
+   form(@submit.prevent="login")
       .form-group
          BaseInput(type="email" v-model="email" name="email" size="large" placeholder="E-mail" icon="message")
       .form-group
          BaseInput(type="password" v-model="password" @keydown.space.prevent name="password" size="large" placeholder="Password" icon="lock")
       .form-group
-         BaseButton() Login
+         BaseButton(:isLoading="isLoading") Login
+          
    .form-footer
       RouterLink(tag="a" to="") Forgot password?
       span •

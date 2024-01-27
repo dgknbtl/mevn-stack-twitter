@@ -31,13 +31,18 @@ export default {
             ].includes(value)
          },
       },
+      isLoading: {
+         type: Boolean,
+         default: false,
+      },
    },
 }
 </script>
 
 <template lang="pug">
 component(:is="tag" :class="[size, color]" class="btn")
-   BaseText(tag="span" weight="fw-bold"): slot
+  span(v-if="isLoading" class="circle-loader")
+  BaseText(tag="span" weight="fw-bold" v-else): slot
 </template>
 
 <style lang="postcss" scoped>
